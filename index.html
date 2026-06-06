@@ -246,6 +246,24 @@
     '¿Cómo descargo mi certificado de alumno regular?',
     'No puedo ver las notas de un curso',
     'Restablecer mi contraseña de acceso',
+    '¿Cuándo abre la inscripción de asignaturas?',
+    '¿Dónde encuentro el syllabus de mi ramo?',
+  ];
+
+  const HELP_CATEGORIES = [
+    { id:'h1', icon:'rocket',  titulo:'Primeros pasos',        desc:'Configura tu cuenta y conoce la plataforma',   articulos:8,  color:'#0e4fb8' },
+    { id:'h2', icon:'book',    titulo:'Académico',             desc:'Cursos, notas, foros y entregas',              articulos:14, color:'#1f9d6b' },
+    { id:'h3', icon:'doc',     titulo:'Trámites y certificados',desc:'Solicitudes administrativas en línea',        articulos:11, color:'#d98300' },
+    { id:'h4', icon:'wallet',  titulo:'Finanzas y becas',      desc:'Pagos, aranceles y beneficios',                articulos:9,  color:'#7b3ff2' },
+    { id:'h5', icon:'support', titulo:'Soporte técnico',       desc:'Acceso, contraseñas y fallas',                 articulos:12, color:'#e0454b' },
+    { id:'h6', icon:'campus',  titulo:'Vida en el campus',     desc:'Salas, biblioteca y bienestar',                articulos:7,  color:'#0e7490' },
+  ];
+
+  const SERVICE_STATUS = [
+    { servicio:'Aula Virtual (cursos)',    estado:'operativo' },
+    { servicio:'Trámites y certificados', estado:'operativo' },
+    { servicio:'Pasarela de pagos',       estado:'degradado' },
+    { servicio:'Correo institucional',    estado:'operativo' },
   ];
 
   const TOUR_STEPS = [
@@ -294,6 +312,12 @@
     qr:          '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3M20 14v.01M14 20h.01M17 20h.01M20 17v4"/>',
     fingerprint: '<path d="M12 11a2 2 0 0 1 2 2c0 3.5-1 5.5-1.5 6.5"/><path d="M8.5 13a3.5 3.5 0 0 1 7 0c0 2-.3 4-1 5.5"/><path d="M5 12a7 7 0 0 1 13.5-2.5"/><path d="M5.5 16c.3 1 .3 2.5 0 3.5"/>',
     info:        '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',
+    sparkle:     '<path d="M12 3.5 13.6 9 19 10.5 13.6 12 12 17.5 10.4 12 5 10.5 10.4 9z"/><path d="M19 4v3M20.5 5.5h-3" strokeWidth="1.4"/>',
+    rocket:      '<path d="M5 13c-1.5.5-3 2.5-3 6 3.5 0 5.5-1.5 6-3"/><path d="M12.5 4.5C16 1 20.5 2 22 3.5S23 10 19.5 13.5L15 18l-5-5z"/><circle cx="15.5" cy="8.5" r="1.5"/>',
+    campus:      '<path d="M3 21h18M5 21V10l7-5 7 5v11"/><path d="M10 21v-5h4v5"/><path d="M9 11h.01M15 11h.01"/>',
+    alert:       '<path d="M12 3 2 20h20z"/><path d="M12 10v4M12 17h.01"/>',
+    mail:        '<rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.5 7 8.5 6 8.5-6"/>',
+    file:        '<path d="M14 3v5h5"/><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/>',
   };
 
   function Icon({ name, size=22, className='', strokeWidth=1.7, style }) {
@@ -790,6 +814,297 @@
     );
   }
 
+  // ─── PANTALLA NOTIFICACIONES ────────────────────────────────────────────────
+  const URGENCY_FILTERS = ['Todas','Alta','Media','Baja'];
+
+  function NotificationsScreen({ notifications, onDismiss }) {
+    const [filter, setFilter] = React.useState('Todas');
+    const [dismissed, setDismissed] = React.useState([]);
+
+    const order = { alta:0, media:1, baja:2 };
+    const visible = [...notifications]
+      .filter(n => !dismissed.includes(n.id))
+      .filter(n => filter === 'Todas' || n.urgencia === filter.toLowerCase())
+      .sort((a,b) => order[a.urgencia]-order[b.urgencia]);
+
+    const handleDismiss = (id) => { setDismissed(d => [...d, id]); onDismiss(id); };
+    const markAllRead = () => visible.forEach(n => handleDismiss(n.id));
+
+    const totalUnread = notifications.filter(n => !dismissed.includes(n.id)).length;
+
+    return (
+      <div className="max-w-[760px] mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+        {/* Cabecera */}
+        <header className="anim-fade-up flex flex-wrap items-center justify-between gap-3 mb-6">
+          <div>
+            <h1 className="font-display font-extrabold text-ink text-[clamp(1.6rem,4vw,2rem)] tracking-tight leading-tight flex items-center gap-3">
+              <Icon name="bell" size={28} className="text-primary" /> Notificaciones
+            </h1>
+            <p className="text-faint text-[13.5px] font-medium mt-1 ml-[44px]">
+              {totalUnread > 0 ? `${totalUnread} sin revisar` : 'Todo al día'}
+            </p>
+          </div>
+          {totalUnread > 0 && (
+            <button onClick={markAllRead}
+              className="text-[13px] font-bold text-primary flex items-center gap-1.5 px-3 py-2 rounded-xl hover:bg-primary-soft transition-colors"
+              style={{ minHeight:40 }}>
+              <Icon name="checkCircle" size={16} /> Marcar todas como leídas
+            </button>
+          )}
+        </header>
+
+        {/* Filtros por urgencia */}
+        <div className="anim-fade-up flex items-center gap-2 mb-5 overflow-x-auto pb-1" style={{ animationDelay:'.05s' }}>
+          {URGENCY_FILTERS.map((f) => {
+            const active = filter === f;
+            const tone = f==='Alta' ? 'high' : f==='Media' ? 'medium' : f==='Baja' ? 'low' : null;
+            const colors = { Alta:'var(--high)', Media:'var(--medium)', Baja:'var(--low)' };
+            return (
+              <button key={f} onClick={() => setFilter(f)}
+                className={`flex items-center gap-1.5 px-3.5 h-9 rounded-full text-[13px] font-bold whitespace-nowrap transition-all border ${
+                  active
+                    ? tone ? '' : 'bg-primary text-white border-transparent'
+                    : 'bg-surface border-line text-muted hover:border-primary/40'
+                }`}
+                style={active && tone ? { background:`color-mix(in srgb, ${colors[f]} 14%, transparent)`, color:colors[f], borderColor:`color-mix(in srgb, ${colors[f]} 30%, transparent)` } : {}}>
+                {tone && <span className="w-2 h-2 rounded-full" style={{ background: active ? colors[f] : 'var(--text-faint)' }} />}
+                {f}
+                {f !== 'Todas' && (
+                  <span className="text-[11px] font-bold opacity-70">
+                    {notifications.filter(n => n.urgencia===f.toLowerCase() && !dismissed.includes(n.id)).length}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Lista */}
+        <div className="space-y-3">
+          {visible.length === 0 && (
+            <div className="anim-fade-in flex flex-col items-center justify-center py-20 text-center">
+              <div className="grid place-items-center rounded-2xl bg-surface border border-line shadow-card mb-4" style={{ width:72, height:72 }}>
+                <Icon name="checkCircle" size={36} className="text-[var(--ok)]" />
+              </div>
+              <h3 className="font-display font-bold text-ink text-[18px]">¡Todo al día!</h3>
+              <p className="text-muted text-[14px] mt-1">No hay notificaciones {filter !== 'Todas' ? `de urgencia ${filter.toLowerCase()}` : ''}.</p>
+            </div>
+          )}
+
+          {visible.map((n, idx) => {
+            const u = URGENCY[n.urgencia];
+            return (
+              <div key={n.id} className="group relative bg-surface border border-line rounded-2xl shadow-card hover:shadow-float transition-all duration-300 anim-fade-up overflow-hidden"
+                style={{ animationDelay:`${idx*.04}s` }}>
+                <div className="absolute left-0 top-0 bottom-0 w-1.5 rounded-l-2xl" style={{ background:u.color }} />
+                <div className="flex items-start gap-4 p-4 pl-5">
+                  {/* Icono urgencia */}
+                  <div className="grid place-items-center rounded-2xl shrink-0" style={{ width:44, height:44, background:`color-mix(in srgb, ${u.color} 14%, transparent)` }}>
+                    <Icon name={u.icon} size={20} style={{ color:u.color }} />
+                  </div>
+                  {/* Contenido */}
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2 mb-1 flex-wrap">
+                      <span className="text-[11px] font-bold tracking-widest uppercase whitespace-nowrap" style={{ color:u.color }}>{n.tipo}</span>
+                      <span className="text-faint text-[11.5px]">·</span>
+                      <span className="text-faint text-[12px] font-medium">{n.tiempo}</span>
+                      <Badge tone={u.tone} className="ml-auto">{u.label}</Badge>
+                    </div>
+                    <p className="text-ink font-semibold text-[14.5px] leading-snug">{n.titulo}</p>
+                    <p className="text-muted text-[13px] leading-relaxed mt-1">{n.detalle}</p>
+                    <button className="mt-2.5 text-[13px] font-bold text-primary inline-flex items-center gap-1 hover:gap-2 transition-all">
+                      {n.accion} <Icon name="arrowRight" size={14} />
+                    </button>
+                  </div>
+                  {/* Dismiss */}
+                  <button onClick={() => handleDismiss(n.id)} aria-label="Descartar"
+                    className="opacity-0 group-hover:opacity-100 transition-opacity text-faint hover:text-high grid place-items-center rounded-xl hover:bg-high-soft shrink-0 mt-0.5"
+                    style={{ width:34, height:34 }}>
+                    <Icon name="close" size={16} />
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
+  // ─── PANTALLA AYUDA ─────────────────────────────────────────────────────────
+  function FaqRow({ q }) {
+    const [open, setOpen] = React.useState(false);
+    return (
+      <div>
+        <button onClick={() => setOpen(!open)}
+          className="w-full flex items-center gap-3 p-4 text-left hover:bg-surface-2 transition-colors"
+          style={{ minHeight:44 }}>
+          <Icon name="support" size={18} className="text-primary shrink-0" />
+          <span className="text-ink font-semibold text-[14px] flex-1">{q}</span>
+          <Icon name="chevronDown" size={17} className={`text-faint shrink-0 transition-transform ${open?'rotate-180':''}`} />
+        </button>
+        {open && (
+          <div className="px-4 pb-4 pl-[52px] anim-fade-in">
+            <p className="text-muted text-[13.5px] leading-relaxed">
+              Sigue la guía paso a paso desde tu panel. Si el problema persiste, inicia una conversación con el equipo de soporte y te ayudaremos en minutos.
+            </p>
+            <button className="mt-2 text-[12.5px] font-bold text-primary flex items-center gap-1 hover:gap-1.5 transition-all">
+              Ver guía completa <Icon name="arrowRight" size={13} />
+            </button>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  function HelpScreen() {
+    const [q, setQ] = React.useState('');
+    const filtered = HELP_POPULAR.filter(p => p.toLowerCase().includes(q.toLowerCase()));
+    const anyIssue = SERVICE_STATUS.some(s => s.estado !== 'operativo');
+    const statusLabel = { operativo:'Operativo', degradado:'Intermitente', caido:'No disponible' };
+
+    return (
+      <div className="max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+        {/* Hero */}
+        <div className="anim-fade-up relative rounded-3xl overflow-hidden p-7 sm:p-10 text-white mb-6"
+          style={{ background:'linear-gradient(140deg, #0e4fb8 0%, #0c3f93 100%)' }}>
+          <div className="absolute inset-0 opacity-[0.13]" style={{ backgroundImage:'repeating-linear-gradient(125deg,#fff 0,#fff 1px,transparent 1px,transparent 22px)' }} />
+          <div className="absolute -right-12 -top-16 w-64 h-64 rounded-full" style={{ background:'radial-gradient(circle,var(--accent) 0%,transparent 70%)', opacity:.45 }} />
+          <div className="relative z-10 max-w-2xl">
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11.5px] font-bold tracking-wide whitespace-nowrap bg-[var(--accent)] text-accent-ink">
+              <Icon name="sparkle" size={13} strokeWidth={2.2} /> Centro de ayuda
+            </span>
+            <h1 className="font-display font-extrabold text-[clamp(1.7rem,4vw,2.5rem)] leading-tight tracking-tight mt-3">¿En qué te ayudamos hoy?</h1>
+            <p className="text-white/80 text-[15px] mt-2">Guías rápidas, trámites y soporte directo. Todo en un solo lugar.</p>
+            <div className="mt-5 flex items-center gap-3 h-14 px-5 rounded-2xl bg-white shadow-float">
+              <Icon name="search" size={21} className="text-primary" />
+              <input value={q} onChange={e=>setQ(e.target.value)}
+                placeholder="Describe tu problema o busca un trámite…"
+                className="flex-1 bg-transparent outline-none text-[15px] font-medium placeholder:text-faint"
+                style={{ color:'var(--text)' }} />
+            </div>
+          </div>
+        </div>
+
+        {/* Resultados búsqueda */}
+        {q && (
+          <div className="bg-surface border border-line rounded-2xl shadow-card p-5 mb-6 anim-fade-in">
+            <p className="text-[12.5px] font-bold text-faint uppercase tracking-wide mb-2">
+              {filtered.length} resultado{filtered.length!==1?'s':''}
+            </p>
+            <div className="space-y-1">
+              {filtered.length===0 && (
+                <p className="text-muted text-[14px] py-2">No encontramos coincidencias. Prueba con otras palabras o contacta al chat de soporte.</p>
+              )}
+              {filtered.map((p,i) => (
+                <button key={i} className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-surface-2 text-left transition-colors" style={{ minHeight:44 }}>
+                  <Icon name="file" size={17} className="text-primary shrink-0" />
+                  <span className="text-ink font-medium text-[14px] flex-1">{p}</span>
+                  <Icon name="arrowRight" size={16} className="text-faint" />
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="grid lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 space-y-6">
+            {/* Categorías */}
+            <section className="anim-fade-up">
+              <h2 className="font-display font-bold text-ink text-[18px] mb-4">Explora por categoría</h2>
+              <div className="grid sm:grid-cols-2 gap-4">
+                {HELP_CATEGORIES.map((cat,i) => (
+                  <button key={cat.id}
+                    className="text-left bg-surface border border-line rounded-2xl p-4 shadow-card hover:shadow-float hover:-translate-y-0.5 transition-all duration-300 group anim-fade-up"
+                    style={{ animationDelay:`${i*.04}s`, minHeight:44 }}>
+                    <div className="flex items-start gap-3.5">
+                      <div className="grid place-items-center rounded-xl shrink-0 transition-transform group-hover:scale-105"
+                        style={{ width:44, height:44, background:`color-mix(in srgb, ${cat.color} 13%, transparent)` }}>
+                        <Icon name={cat.icon} size={21} style={{ color:cat.color }} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-display font-bold text-ink text-[15px] group-hover:text-primary transition-colors">{cat.titulo}</h3>
+                        <p className="text-faint text-[12.5px] leading-snug mt-0.5">{cat.desc}</p>
+                        <span className="inline-block text-[11.5px] font-bold text-muted mt-2">{cat.articulos} guías →</span>
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </section>
+
+            {/* FAQ */}
+            <section className="anim-fade-up">
+              <h2 className="font-display font-bold text-ink text-[18px] mb-3">Preguntas frecuentes</h2>
+              <div className="bg-surface border border-line rounded-2xl shadow-card overflow-hidden">
+                <div className="divide-y divide-[var(--border)]">
+                  {HELP_POPULAR.map((p,i) => <FaqRow key={i} q={p} />)}
+                </div>
+              </div>
+            </section>
+          </div>
+
+          {/* Lateral */}
+          <div className="space-y-6">
+            {/* Chat soporte */}
+            <div className="anim-fade-up rounded-2xl p-5 text-white border border-transparent shadow-card" style={{ background:'var(--primary)' }}>
+              <div className="grid place-items-center rounded-2xl bg-white/15 mb-3" style={{ width:48, height:48 }}>
+                <Icon name="chat" size={24} />
+              </div>
+              <h3 className="font-display font-extrabold text-[18px]">Chatea con soporte</h3>
+              <p className="text-white/80 text-[13.5px] leading-relaxed mt-1">Atención de lunes a viernes, 08:00 a 22:00. Tiempo de respuesta promedio: 4 min.</p>
+              <button className="mt-4 w-full h-12 rounded-xl bg-white text-primary font-bold text-[14px] flex items-center justify-center gap-2 hover:brightness-95 transition-all active:scale-[.98]" style={{ minHeight:44 }}>
+                <Icon name="chat" size={18} /> Iniciar conversación
+              </button>
+              <div className="flex items-center gap-2 mt-3 text-white/75 text-[12px] font-medium justify-center">
+                <span className="w-2 h-2 rounded-full bg-[var(--accent)]" /> 3 agentes en línea ahora
+              </div>
+            </div>
+
+            {/* Estado de servicios */}
+            <div className="anim-fade-up bg-surface border border-line rounded-2xl shadow-card p-5">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="font-display font-bold text-ink text-[15px]">Estado de servicios</h3>
+                <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11.5px] font-bold ${anyIssue?'bg-medium-soft text-medium':'bg-[color-mix(in_srgb,var(--ok)_14%,transparent)] text-[var(--ok)]'}`}>
+                  <Icon name={anyIssue?'alert':'checkCircle'} size={13} strokeWidth={2.2} />
+                  {anyIssue?'Incidencia':'Todo OK'}
+                </span>
+              </div>
+              <div className="space-y-2.5">
+                {SERVICE_STATUS.map(s => (
+                  <div key={s.servicio} className="flex items-center gap-3">
+                    <span className="w-2.5 h-2.5 rounded-full shrink-0"
+                      style={{ background: s.estado==='operativo'?'var(--ok)':s.estado==='degradado'?'var(--medium)':'var(--high)' }} />
+                    <span className="text-ink text-[13.5px] font-medium flex-1">{s.servicio}</span>
+                    <span className="text-[11.5px] font-bold"
+                      style={{ color: s.estado==='operativo'?'var(--ok)':s.estado==='degradado'?'var(--medium)':'var(--high)' }}>
+                      {statusLabel[s.estado]}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <p className="text-faint text-[11.5px] mt-3 pt-3 border-t border-line">Actualizado hace 2 min · Notificaremos cualquier cambio.</p>
+            </div>
+
+            {/* Otros canales */}
+            <div className="anim-fade-up bg-surface border border-line rounded-2xl shadow-card p-5">
+              <h3 className="font-display font-bold text-ink text-[15px] mb-2">Otros canales</h3>
+              <div className="space-y-1">
+                {[{ i:'mail', t:'soporte@duocuc.cl' },{ i:'pin', t:'Punto estudiantil · Sede' },{ i:'globe', t:'Reglamentos y normativa' }].map(c => (
+                  <button key={c.t} className="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-surface-2 transition-colors text-left" style={{ minHeight:44 }}>
+                    <Icon name={c.i} size={17} className="text-primary" />
+                    <span className="text-ink text-[13.5px] font-medium flex-1">{c.t}</span>
+                    <Icon name="chevronRight" size={15} className="text-faint" />
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // ─── TOUR DE ONBOARDING ─────────────────────────────────────────────────────
   function OnboardingTour({ steps, onFinish }) {
     const [i, setI] = React.useState(0);
@@ -1199,7 +1514,7 @@
               <IconButton name={dark?'sun':'moon'} label="Cambiar tema" onClick={()=>setDark(d=>!d)} />
             </Tooltip>
             <Tooltip label="Notificaciones">
-              <IconButton name="bell" label="Notificaciones" badge={unread} onClick={()=>navigate('inicio')} />
+              <IconButton name="bell" label="Notificaciones" badge={unread} onClick={()=>navigate('notificaciones')} />
             </Tooltip>
             <button onClick={()=>setSettingsOpen(true)} className="lg:hidden">
               <Avatar iniciales={STUDENT.iniciales} size={38} />
@@ -1226,18 +1541,10 @@
               </div>
             )}
             {route==='ayuda' && (
-              <div className="max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
-                <div className="grid place-items-center rounded-2xl bg-surface border border-line p-12 shadow-card max-w-sm mx-auto">
-                  <div className="grid place-items-center rounded-2xl bg-primary-soft mb-4" style={{ width:64, height:64 }}>
-                    <Icon name="support" size={28} className="text-primary" />
-                  </div>
-                  <h2 className="font-display font-extrabold text-ink text-[20px] mt-1">Centro de ayuda</h2>
-                  <p className="text-muted text-[14px] mt-2 leading-relaxed">Vista en construcción para la siguiente entrega.</p>
-                  <button onClick={()=>navigate('inicio')} className="mt-5 text-[13.5px] font-bold text-primary inline-flex items-center gap-1.5 hover:gap-2 transition-all">
-                    <Icon name="chevronLeft" size={15} /> Volver al inicio
-                  </button>
-                </div>
-              </div>
+              <HelpScreen onNavigate={navigate} />
+            )}
+            {route==='notificaciones' && (
+              <NotificationsScreen notifications={notifs} onDismiss={dismiss} onNavigate={navigate} />
             )}
           </main>
         </div>
