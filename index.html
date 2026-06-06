@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="es" class="">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Duoc Unifica · Plataforma Estudiantil</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet" />
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: {
+          bg: 'var(--bg)',
+          surface: 'var(--surface)',
+          'surface-2': 'var(--surface-2)',
+          line: 'var(--border)',
+          ink: 'var(--text)',
+          muted: 'var(--text-muted)',
+          faint: 'var(--text-faint)',
+          primary: 'var(--primary)',
+          'primary-soft': 'var(--primary-soft)',
+          accent: 'var(--accent)',
+          'accent-ink': 'var(--accent-ink)',
+          high: 'var(--high)',
+          'high-soft': 'var(--high-soft)',
+          medium: 'var(--medium)',
+          'medium-soft': 'var(--medium-soft)',
+          low: 'var(--low)',
+          'low-soft': 'var(--low-soft)',
+          ok: 'var(--ok)',
+        },
+        fontFamily: {
+          display: 'var(--font-display)',
+          sans: 'var(--font-body)',
+        },
+        borderRadius: {
+          xl: '14px',
+          '2xl': '20px',
+          '3xl': '28px',
+        },
+        boxShadow: {
+          card: 'var(--shadow-card)',
+          float: 'var(--shadow-float)',
+        },
+      },
+    },
+  };
+</script>
+<style>
+  :root {
+    --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+    --font-body: 'Manrope', system-ui, sans-serif;
+
+    --bg: #eef1f6;
+    --surface: #ffffff;
+    --surface-2: #f4f6fa;
+    --border: #e3e8f0;
+    --text: #0f1b2d;
+    --text-muted: #56657c;
+    --text-faint: #8a99ad;
+
+    --primary: #0e4fb8;
+    --primary-soft: #e7f0ff;
+
+    --accent: #ffce00;
+    --accent-ink: #6e5800;
+
+    --high: #e0454b;
+    --high-soft: #fdecec;
+    --medium: #d98300;
+    --medium-soft: #fdf1dd;
+    --low: #4f7bd6;
+    --low-soft: #eaf1fc;
+    --ok: #1f9d6b;
+
+    --shadow-card: 0 1px 2px rgba(16,32,60,.04), 0 8px 24px -16px rgba(16,32,60,.18);
+    --shadow-float: 0 12px 40px -12px rgba(16,32,60,.28);
+  }
+
+  html.dark {
+    --bg: #0a0f1a;
+    --surface: #121a2a;
+    --surface-2: #1a2436;
+    --border: #27344c;
+    --text: #e9f0fa;
+    --text-muted: #9aabc4;
+    --text-faint: #6c7d96;
+
+    --primary: #5a93f5;
+    --primary-soft: #16294a;
+
+    --accent: #ffd633;
+    --accent-ink: #ffe27a;
+
+    --high: #f06a6f;
+    --high-soft: #2e1b1f;
+    --medium: #eaa53a;
+    --medium-soft: #2c2316;
+    --low: #6b97e6;
+    --low-soft: #182338;
+    --ok: #3cc28a;
+
+    --shadow-card: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px -18px rgba(0,0,0,.6);
+    --shadow-float: 0 16px 48px -12px rgba(0,0,0,.7);
+  }
+
+  * { -webkit-tap-highlight-color: transparent; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .font-display { font-family: var(--font-display); }
+
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; border: 3px solid var(--bg); }
+  ::-webkit-scrollbar-track { background: transparent; }
+
+  @keyframes fadeUp { from { transform: translateY(12px); } to { transform: translateY(0); } }
+  @keyframes fadeIn { from { transform: translateY(5px); } to { transform: translateY(0); } }
+  @keyframes scaleIn { from { transform: scale(.97); } to { transform: scale(1); } }
+  @keyframes slideInRight { from { transform: translateX(26px); } to { transform: translateX(0); } }
+  @keyframes pulseRing { 0%{box-shadow:0 0 0 0 rgba(14,79,184,.35)} 70%{box-shadow:0 0 0 14px rgba(14,79,184,0)} 100%{box-shadow:0 0 0 0 rgba(14,79,184,0)} }
+
+  .anim-fade-up, .anim-fade-in, .anim-scale-in, .anim-slide-right { opacity: 1; }
+  @media (prefers-reduced-motion: no-preference) {
+    .anim-fade-up    { animation: fadeUp      .5s cubic-bezier(.22,1,.36,1) backwards; }
+    .anim-fade-in    { animation: fadeIn      .4s ease backwards; }
+    .anim-scale-in   { animation: scaleIn     .32s cubic-bezier(.22,1,.36,1) backwards; }
+    .anim-slide-right{ animation: slideInRight .45s cubic-bezier(.22,1,.36,1) backwards; }
+  }
+  .pulse-ring { animation: pulseRing 2s ease-out infinite; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration:.001ms !important; transition-duration:.001ms !important; }
+    html { scroll-behavior: auto; }
+  }
+
+  .focus-ring:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; border-radius: 10px; }
+
+  [data-tour-highlight] {
+    position: relative; z-index: 60; border-radius: 16px;
+    box-shadow: 0 0 0 4px var(--primary), 0 0 0 9999px rgba(7,14,26,.62);
+    transition: box-shadow .3s ease;
+  }
+  html.dark [data-tour-highlight] {
+    box-shadow: 0 0 0 4px var(--primary), 0 0 0 9999px rgba(0,0,0,.74);
+  }
+
+  /* Tweaks panel */
+  .twk-panel{position:fixed;right:16px;bottom:16px;z-index:2147483646;width:280px;
+    max-height:calc(100vh - 32px);display:flex;flex-direction:column;
+    background:rgba(250,249,247,.82);color:#29261b;
+    -webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%);
+    border:.5px solid rgba(255,255,255,.6);border-radius:14px;
+    box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 12px 40px rgba(0,0,0,.18);
+    font:11.5px/1.4 ui-sans-serif,system-ui,-apple-system,sans-serif;overflow:hidden}
+  .twk-hd{display:flex;align-items:center;justify-content:space-between;padding:10px 8px 10px 14px;cursor:move;user-select:none}
+  .twk-hd b{font-size:12px;font-weight:600}
+  .twk-x{appearance:none;border:0;background:transparent;color:rgba(41,38,27,.55);width:22px;height:22px;border-radius:6px;cursor:default;font-size:13px;line-height:1}
+  .twk-x:hover{background:rgba(0,0,0,.06);color:#29261b}
+  .twk-body{padding:2px 14px 14px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;min-height:0}
+  .twk-row{display:flex;flex-direction:column;gap:5px}
+  .twk-row-h{flex-direction:row;align-items:center;justify-content:space-between;gap:10px}
+  .twk-lbl{display:flex;justify-content:space-between;align-items:baseline;color:rgba(41,38,27,.72)}
+  .twk-lbl>span:first-child{font-weight:500}
+  .twk-sect{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(41,38,27,.45);padding:10px 0 0}
+  .twk-sect:first-child{padding-top:0}
+  .twk-seg{position:relative;display:flex;padding:2px;border-radius:8px;background:rgba(0,0,0,.06);user-select:none}
+  .twk-seg-thumb{position:absolute;top:2px;bottom:2px;border-radius:6px;background:rgba(255,255,255,.9);box-shadow:0 1px 2px rgba(0,0,0,.12);transition:left .15s cubic-bezier(.3,.7,.4,1),width .15s}
+  .twk-seg button{appearance:none;position:relative;z-index:1;flex:1;border:0;background:transparent;color:inherit;font:inherit;font-weight:500;min-height:22px;border-radius:6px;cursor:default;padding:4px 6px;line-height:1.2}
+  .twk-chips{display:flex;gap:6px}
+  .twk-chip{position:relative;appearance:none;flex:1;min-width:0;height:46px;padding:0;border:0;border-radius:6px;overflow:hidden;cursor:default;box-shadow:0 0 0 .5px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.06);transition:transform .12s,box-shadow .12s}
+  .twk-chip:hover{transform:translateY(-1px);box-shadow:0 0 0 .5px rgba(0,0,0,.18),0 4px 10px rgba(0,0,0,.12)}
+  .twk-chip[data-on="1"]{box-shadow:0 0 0 1.5px rgba(0,0,0,.85),0 2px 6px rgba(0,0,0,.15)}
+  .twk-chip svg{position:absolute;top:6px;left:6px;width:13px;height:13px;filter:drop-shadow(0 1px 1px rgba(0,0,0,.3))}
+</style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin></script>
+
+  <script type="text/babel">
+  // ─── DATOS ──────────────────────────────────────────────────────────────────
+  const STUDENT = {
+    nombre: 'Camila Reyes Soto', primerNombre: 'Camila',
+    rut: '21.345.678-9', carrera: 'Ingeniería en Informática',
+    sede: 'Sede Plaza Vespucio', jornada: 'Vespertina',
+    semestre: '5º Semestre · 2026', avance: 64, iniciales: 'CR',
+  };
+
+  const COURSES = [
+    { id: 'cloud', sigla: 'TIN-2043', nombre: 'Introducción a Cloud Computing', seccion: '002V', docente: 'Rodrigo Maldonado', color: '#0e4fb8', progreso: 72, proxima: 'Mié 14:30 · Lab 4', tareasPendientes: 2, nuevos: 3 },
+    { id: 'bd',    sigla: 'TIN-1052', nombre: 'Bases de Datos Relacionales',    seccion: '004V', docente: 'Patricia Aguilera', color: '#7b3ff2', progreso: 58, proxima: 'Jue 19:00 · Sala 312', tareasPendientes: 1, nuevos: 0 },
+    { id: 'web',   sigla: 'TIN-2110', nombre: 'Desarrollo de Aplicaciones Web', seccion: '001V', docente: 'Felipe Cárcamo',   color: '#1f9d6b', progreso: 81, proxima: 'Vie 14:30 · Lab 2',  tareasPendientes: 0, nuevos: 1 },
+    { id: 'etica', sigla: 'EPL-1500', nombre: 'Ética para el Trabajo',          seccion: '012V', docente: 'Ignacia Tapia',    color: '#d98300', progreso: 44, proxima: 'Lun 19:00 · Sala 208', tareasPendientes: 1, nuevos: 0 },
+  ];
+
+  const NOTIFICATIONS = [
+    { id:'n1', urgencia:'alta',  tipo:'Calificación',   titulo:'Nueva nota publicada en Cloud Computing',       detalle:'Experiencia de Aprendizaje 2: obtuviste un 6,3. Revisa la retroalimentación del docente.', tiempo:'Hace 20 min', accion:'Ver calificación' },
+    { id:'n2', urgencia:'alta',  tipo:'Horario',        titulo:'Tu clase de Bases de Datos cambió de sala',     detalle:'La sesión del jueves 19:00 se traslada de Sala 312 a Sala 401, Edificio B.',              tiempo:'Hace 1 h',   accion:'Ver en calendario' },
+    { id:'n3', urgencia:'media', tipo:'Trámite',        titulo:'Inscripción de asignaturas abre en 3 días',     detalle:'El periodo de toma de ramos para el 6º semestre comienza el 8 de junio a las 09:00.',    tiempo:'Hace 3 h',   accion:'Ir al trámite' },
+    { id:'n4', urgencia:'media', tipo:'Entrega',        titulo:'Tarea por vencer en Ética para el Trabajo',     detalle:'El control de lectura cierra mañana a las 23:59. Aún no registras entrega.',              tiempo:'Hace 5 h',   accion:'Subir entrega' },
+    { id:'n5', urgencia:'baja',  tipo:'Estado técnico', titulo:'Mantención programada de la plataforma',        detalle:'El sábado 7 de junio entre 02:00 y 04:00 el servicio podría presentar intermitencias.',   tiempo:'Ayer',       accion:'Ver estado' },
+    { id:'n6', urgencia:'baja',  tipo:'Comunidad',      titulo:'Nuevo anuncio en Desarrollo Web',               detalle:'El docente compartió material complementario sobre componentes reutilizables.',            tiempo:'Ayer',       accion:'Leer anuncio' },
+  ];
+
+  const CALENDAR = [
+    { id:'c1', dia:'HOY',     fecha:'Jue 5 jun', items:[
+      { hora:'19:00', titulo:'Bases de Datos Relacionales',      lugar:'Sala 401 · Ed. B',  tipo:'clase',    color:'#7b3ff2', alerta:'Sala actualizada' },
+      { hora:'23:59', titulo:'Cierre control de lectura · Ética',lugar:'Entrega en línea',  tipo:'entrega',  color:'#d98300' },
+    ]},
+    { id:'c2', dia:'MAÑANA',  fecha:'Vie 6 jun', items:[
+      { hora:'14:30', titulo:'Desarrollo de Aplicaciones Web',   lugar:'Lab 2',             tipo:'clase',    color:'#1f9d6b' },
+    ]},
+    { id:'c3', dia:'PRÓXIMO', fecha:'Lun 8 jun', items:[
+      { hora:'09:00', titulo:'Apertura inscripción de asignaturas',lugar:'Trámite · Vivo',  tipo:'tramite',  color:'#0e4fb8' },
+      { hora:'19:00', titulo:'Ética para el Trabajo',            lugar:'Sala 208',          tipo:'clase',    color:'#d98300' },
+    ]},
+    { id:'c4', dia:'PRÓXIMO', fecha:'Mié 10 jun',items:[
+      { hora:'14:30', titulo:'Evaluación Cloud Computing',       lugar:'Lab 4',             tipo:'evaluacion',color:'#e0454b', alerta:'Evaluación' },
+    ]},
+  ];
+
+  const QUICK_ACTIONS = [
+    { id:'q1', label:'Certificado de alumno regular', icon:'doc',     categoria:'Trámite',  destacado:true },
+    { id:'q2', label:'Estado de cuenta y pagos',      icon:'wallet',  categoria:'Finanzas' },
+    { id:'q3', label:'Inscripción de asignaturas',    icon:'list',    categoria:'Trámite' },
+    { id:'q4', label:'Reservar sala de estudio',      icon:'pin',     categoria:'Campus' },
+    { id:'q5', label:'Solicitar beca o beneficio',    icon:'gift',    categoria:'Finanzas' },
+    { id:'q6', label:'Mesa de ayuda técnica',         icon:'support', categoria:'Soporte' },
+  ];
+
+  const HELP_POPULAR = [
+    '¿Cómo descargo mi certificado de alumno regular?',
+    'No puedo ver las notas de un curso',
+    'Restablecer mi contraseña de acceso',
+  ];
+
+  const TOUR_STEPS = [
+    { target:'tour-search',   titulo:'Búsqueda global',           desc:'Encuentra cursos, trámites, recursos y personas desde un solo lugar. Sin navegar por menús.',                                          icon:'search',   pos:'bottom' },
+    { target:'tour-notifs',   titulo:'Notificaciones priorizadas', desc:'Tus alertas ordenadas por urgencia: notas, cambios de horario y estado técnico, siempre primero lo importante.',                      icon:'bell',     pos:'left' },
+    { target:'tour-calendar', titulo:'Calendario unificado',       desc:'Clases, evaluaciones y fechas institucionales en una sola vista integrada.',                                                           icon:'calendar', pos:'left' },
+    { target:'tour-courses',  titulo:'Tus cursos, simplificados',  desc:'Accede al material académico y a las funciones administrativas de cada ramo en menos de 3 clics.',                                    icon:'book',     pos:'top' },
+    { target:'tour-help',     titulo:'Ayuda en todo momento',      desc:'El botón de ayuda te acompaña en cada pantalla con guías, chat y estado de los servicios.',                                           icon:'support',  pos:'left' },
+  ];
+
+  // ─── ICONOS ─────────────────────────────────────────────────────────────────
+  const ICON_PATHS = {
+    home:        '<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h3v-6h6v6h3a1 1 0 0 0 1-1V9.5"/>',
+    book:        '<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20v3H6.5A2.5 2.5 0 0 1 4 20.5z"/>',
+    bell:        '<path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
+    calendar:    '<rect x="3" y="4.5" width="18" height="16.5" rx="2.5"/><path d="M3 9h18M8 2.5v4M16 2.5v4"/>',
+    search:      '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/>',
+    support:     '<circle cx="12" cy="12" r="9"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.5-3 4"/><circle cx="12" cy="17" r="0.6" fill="currentColor" stroke="none"/>',
+    doc:         '<path d="M14 3v5h5"/><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M9 13h6M9 17h4"/>',
+    wallet:      '<path d="M3 7.5A2.5 2.5 0 0 1 5.5 5H18a1 1 0 0 1 1 1v1.5"/><rect x="3" y="7.5" width="18" height="12" rx="2.5"/><circle cx="16.5" cy="13.5" r="1.3" fill="currentColor" stroke="none"/>',
+    list:        '<path d="M8 6h12M8 12h12M8 18h12"/><circle cx="3.5" cy="6" r="1.1" fill="currentColor" stroke="none"/><circle cx="3.5" cy="12" r="1.1" fill="currentColor" stroke="none"/><circle cx="3.5" cy="18" r="1.1" fill="currentColor" stroke="none"/>',
+    pin:         '<path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+    gift:        '<rect x="3" y="9" width="18" height="4" rx="1"/><path d="M5 13v8h14v-8M12 9v12"/><path d="M12 9S10.5 4.5 8 5.5 9.5 9 12 9zM12 9s1.5-4.5 4-3.5S14.5 9 12 9z"/>',
+    user:        '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+    settings:    '<circle cx="12" cy="12" r="3"/><path d="M19.4 13.5a7.8 7.8 0 0 0 0-3l1.6-1.2-1.8-3.1-1.9.8a7.7 7.7 0 0 0-2.6-1.5L14.4 2h-3.6l-.3 2a7.7 7.7 0 0 0-2.6 1.5l-1.9-.8L4.2 7.8 5.8 9a7.8 7.8 0 0 0 0 3l-1.6 1.2 1.8 3.1 1.9-.8a7.7 7.7 0 0 0 2.6 1.5l.3 2h3.6l.3-2a7.7 7.7 0 0 0 2.6-1.5l1.9.8 1.8-3.1z"/>',
+    moon:        '<path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8z"/>',
+    sun:         '<circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.5M12 19v2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M2.5 12H5M19 12h2.5M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/>',
+    chevronDown: '<path d="m6 9 6 6 6-6"/>',
+    chevronRight:'<path d="m9 6 6 6-6 6"/>',
+    chevronLeft: '<path d="m15 6-6 6 6 6"/>',
+    arrowRight:  '<path d="M5 12h14M13 6l6 6-6 6"/>',
+    close:       '<path d="M6 6l12 12M18 6 6 18"/>',
+    check:       '<path d="M5 12.5 10 17.5 19.5 7"/>',
+    checkCircle: '<circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/>',
+    logout:      '<path d="M15 4h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-2"/><path d="M10 12H3M6 8l-4 4 4 4"/>',
+    shield:      '<path d="M12 3 5 6v5c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6z"/><path d="m9.5 12 1.8 1.8 3.2-3.6"/>',
+    lock:        '<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+    play:        '<path d="M7 5.5 19 12 7 18.5z" fill="currentColor" stroke="none"/>',
+    clock:       '<circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/>',
+    chat:        '<path d="M21 12a8 8 0 0 1-11.5 7.2L3 21l1.8-6.5A8 8 0 1 1 21 12z"/>',
+    flame:       '<path d="M12 22c4 0 6.5-2.7 6.5-6 0-3.5-3-5-3.5-8-2 1.5-2.5 3-2.5 3S11 8 9 6c-.5 1.5-2.5 3-2.5 6.5C6.5 16.5 8 22 12 22z"/>',
+    award:       '<circle cx="12" cy="9" r="6"/><path d="M9 14.5 8 22l4-2.5L16 22l-1-7.5"/>',
+    trending:    '<path d="M3 17 9 11l4 4 8-8"/><path d="M21 7v5h-5"/>',
+    grid:        '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+    globe:       '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.8 5.6 4 9-.2 3.4-1.5 6.5-4 9-2.5-2.5-3.8-5.6-4-9 .2-3.4 1.5-6.5 4-9z"/>',
+    qr:          '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3M20 14v.01M14 20h.01M17 20h.01M20 17v4"/>',
+    fingerprint: '<path d="M12 11a2 2 0 0 1 2 2c0 3.5-1 5.5-1.5 6.5"/><path d="M8.5 13a3.5 3.5 0 0 1 7 0c0 2-.3 4-1 5.5"/><path d="M5 12a7 7 0 0 1 13.5-2.5"/><path d="M5.5 16c.3 1 .3 2.5 0 3.5"/>',
+    info:        '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',
+  };
+
+  function Icon({ name, size=22, className='', strokeWidth=1.7, style }) {
+    const path = ICON_PATHS[name] || ICON_PATHS.info;
+    return (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round"
+        className={className} style={style} aria-hidden="true"
+        dangerouslySetInnerHTML={{ __html: path }} />
+    );
+  }
+
+  // ─── PRIMITIVAS UI ──────────────────────────────────────────────────────────
+  function Logo({ size='md' }) {
+    const d = size==='sm' ? 30 : size==='lg' ? 44 : 36;
+    return (
+      <div className="flex items-center gap-2.5 select-none">
+        <div className="relative grid place-items-center shrink-0 rounded-[11px]"
+          style={{ width:d, height:d, background:'var(--primary)' }}>
+          <div className="absolute rounded-[4px]" style={{ width:d*.30, height:d*.30, background:'var(--accent)', top:d*.20, left:d*.20 }} />
+          <div className="absolute rounded-full" style={{ width:d*.26, height:d*.26, background:'#fff', bottom:d*.18, right:d*.18, opacity:.92 }} />
+        </div>
+        <div className="leading-none">
+          <div className="font-display font-extrabold tracking-tight text-ink" style={{ fontSize:d*.48 }}>
+            Unifica<span className="text-primary">.</span>
+          </div>
+          <div className="font-semibold text-faint tracking-[0.18em] uppercase" style={{ fontSize:d*.22, marginTop:2 }}>Duoc UC</div>
+        </div>
+      </div>
+    );
+  }
+
+  function Button({ children, variant='primary', size='md', icon, iconRight, full, className='', ...props }) {
+    const sz = { sm:'h-10 px-4 text-[14px] gap-1.5 rounded-xl', md:'h-12 px-5 text-[15px] gap-2 rounded-xl', lg:'h-14 px-7 text-[16px] gap-2.5 rounded-2xl' };
+    const vr = {
+      primary:'bg-primary text-white hover:brightness-110 shadow-card',
+      accent:'bg-accent text-accent-ink hover:brightness-105 shadow-card',
+      soft:'bg-primary-soft text-primary hover:brightness-[.97]',
+      ghost:'bg-transparent text-muted hover:bg-surface-2 hover:text-ink',
+      outline:'bg-surface text-ink border border-line hover:bg-surface-2',
+      danger:'bg-high-soft text-high hover:brightness-[.98]',
+    };
+    return (
+      <button className={`relative inline-flex items-center justify-center font-semibold transition-all duration-200 active:scale-[.97] focus-ring ${sz[size]} ${vr[variant]} ${full?'w-full':''} ${className}`}
+        style={{ minHeight:44 }} {...props}>
+        {icon && <Icon name={icon} size={size==='lg'?20:18} />}
+        {children}
+        {iconRight && <Icon name={iconRight} size={size==='lg'?20:18} />}
+      </button>
+    );
+  }
+
+  function IconButton({ name, label, onClick, active, badge, size=20, className='' }) {
+    return (
+      <button onClick={onClick} aria-label={label} title={label}
+        className={`relative grid place-items-center rounded-xl transition-all duration-200 active:scale-90 focus-ring ${active?'bg-primary-soft text-primary':'text-muted hover:bg-surface-2 hover:text-ink'} ${className}`}
+        style={{ width:44, height:44 }}>
+        <Icon name={name} size={size} />
+        {badge>0 && <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 grid place-items-center rounded-full bg-high text-white text-[10px] font-bold ring-2 ring-surface">{badge}</span>}
+      </button>
+    );
+  }
+
+  function Card({ children, className='', pad=true, hover=false, ...props }) {
+    return (
+      <div className={`bg-surface border border-line rounded-2xl shadow-card ${pad?'p-5':''} ${hover?'transition-all duration-300 hover:shadow-float hover:-translate-y-0.5 cursor-pointer':''} ${className}`} {...props}>
+        {children}
+      </div>
+    );
+  }
+
+  function Badge({ children, tone='neutral', className='', icon }) {
+    const t = {
+      neutral:'bg-surface-2 text-muted', primary:'bg-primary-soft text-primary',
+      accent:'bg-[var(--accent)] text-accent-ink', high:'bg-high-soft text-high',
+      medium:'bg-medium-soft text-medium', low:'bg-low-soft text-low',
+      ok:'bg-[color-mix(in_srgb,var(--ok)_14%,transparent)] text-[var(--ok)]',
+    };
+    return (
+      <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11.5px] font-bold tracking-wide whitespace-nowrap ${t[tone]} ${className}`}>
+        {icon && <Icon name={icon} size={13} strokeWidth={2.2} />}
+        {children}
+      </span>
+    );
+  }
+
+  function Avatar({ iniciales, size=40, color='var(--primary)' }) {
+    return (
+      <div className="grid place-items-center rounded-full font-display font-bold text-white shrink-0"
+        style={{ width:size, height:size, background:color, fontSize:size*.38 }}>
+        {iniciales}
+      </div>
+    );
+  }
+
+  function CourseGlyph({ course, size=52, radius=14 }) {
+    return (
+      <div className="relative grid place-items-center shrink-0 overflow-hidden"
+        style={{ width:size, height:size, borderRadius:radius, background:`color-mix(in srgb, ${course.color} 16%, var(--surface))` }}>
+        <div className="absolute inset-0 opacity-[0.5]" style={{ background:`repeating-linear-gradient(125deg, ${course.color}22 0, ${course.color}22 6px, transparent 6px, transparent 13px)` }} />
+        <span className="relative font-display font-extrabold tracking-tight" style={{ color:course.color, fontSize:size*.26 }}>
+          {course.sigla.split('-')[0]}
+        </span>
+      </div>
+    );
+  }
+
+  function Progress({ value, color='var(--primary)', track, height=7, className='' }) {
+    return (
+      <div className={`w-full rounded-full overflow-hidden ${className}`} style={{ height, background:track||'var(--surface-2)' }}>
+        <div className="h-full rounded-full transition-all duration-700 ease-out" style={{ width:`${value}%`, background:color }} />
+      </div>
+    );
+  }
+
+  function Tooltip({ children, label }) {
+    const [show, setShow] = React.useState(false);
+    return (
+      <span className="relative inline-flex" onMouseEnter={()=>setShow(true)} onMouseLeave={()=>setShow(false)}>
+        {children}
+        {show && <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2.5 py-1 rounded-lg text-xs font-semibold whitespace-nowrap z-50 anim-fade-in" style={{ background:'var(--text)', color:'var(--surface)' }}>{label}</span>}
+      </span>
+    );
+  }
+
+  function Sheet({ open, onClose, children, side='center', label }) {
+    React.useEffect(() => {
+      if (!open) return;
+      const onKey = (e) => { if (e.key==='Escape') onClose(); };
+      document.addEventListener('keydown', onKey);
+      return () => document.removeEventListener('keydown', onKey);
+    }, [open, onClose]);
+    if (!open) return null;
+    return (
+      <div className="fixed inset-0 z-[80] flex anim-fade-in"
+        style={{ alignItems: side==='center'?'center':'stretch' }}
+        role="dialog" aria-modal="true" aria-label={label}>
+        <div className="absolute inset-0 bg-[rgba(8,15,28,0.55)] backdrop-blur-sm" onClick={onClose} />
+        <div className={`relative w-full flex ${side==='right'?'justify-end':'justify-center'}`}>{children}</div>
+      </div>
+    );
+  }
+
+  const URGENCY = {
+    alta:  { tone:'high',   label:'Alta',  color:'var(--high)',   icon:'flame' },
+    media: { tone:'medium', label:'Media', color:'var(--medium)', icon:'clock' },
+    baja:  { tone:'low',    label:'Baja',  color:'var(--low)',    icon:'info'  },
+  };
+
+  // ─── PANTALLA LOGIN ─────────────────────────────────────────────────────────
+  function LoginScreen({ onLogin }) {
+    const [loading, setLoading] = React.useState(false);
+    const [user, setUser]       = React.useState('camila.reyes');
+    const [pass, setPass]       = React.useState('••••••••••');
+
+    const submit = (e) => {
+      e.preventDefault();
+      setLoading(true);
+      setTimeout(() => onLogin(), 1100);
+    };
+
+    const features = [
+      { icon:'book', t:'Aula Virtual' }, { icon:'doc', t:'Trámites' },
+      { icon:'wallet', t:'Finanzas' },   { icon:'calendar', t:'Calendario' },
+    ];
+
+    return (
+      <div className="min-h-screen w-full flex flex-col lg:flex-row bg-bg">
+        {/* Panel de marca */}
+        <div className="relative lg:w-[54%] overflow-hidden text-white flex flex-col justify-between p-7 sm:p-10 lg:p-14 min-h-[300px]"
+          style={{ background:'linear-gradient(150deg, #0c3f93 0%, #0e4fb8 45%, #103a86 100%)' }}>
+          <div className="absolute inset-0 opacity-[0.14]" style={{ backgroundImage:'repeating-linear-gradient(125deg,#fff 0,#fff 1px,transparent 1px,transparent 22px)' }} />
+          <div className="absolute -right-16 -top-20 w-72 h-72 rounded-full" style={{ background:'radial-gradient(circle,var(--accent) 0%,transparent 68%)', opacity:.5 }} />
+          <div className="absolute right-10 bottom-24 w-24 h-24 rounded-3xl rotate-12 hidden lg:block" style={{ background:'var(--accent)', opacity:.9 }} />
+
+          <div className="relative z-10"><Logo size="lg" /></div>
+
+          <div className="relative z-10 max-w-xl anim-fade-up">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-6 text-[12.5px] font-semibold whitespace-nowrap" style={{ background:'rgba(255,255,255,0.14)' }}>
+              <span className="w-2 h-2 rounded-full" style={{ background:'var(--accent)' }} />
+              Plataforma estudiantil unificada
+            </div>
+            <h1 className="font-display font-extrabold leading-[1.04] tracking-tight text-[clamp(2rem,5vw,3.4rem)]">
+              Una sola cuenta.<br />Toda tu vida<br />académica.
+            </h1>
+            <p className="mt-5 text-[15px] sm:text-[17px] leading-relaxed text-white/80 max-w-md">
+              Lo académico y lo administrativo, por fin en un mismo lugar. Sin contraseñas duplicadas, sin pestañas perdidas.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-2.5">
+              {features.map((f) => (
+                <div key={f.t} className="flex items-center gap-2 px-3.5 h-11 rounded-xl text-[13.5px] font-semibold whitespace-nowrap" style={{ background:'rgba(255,255,255,0.12)' }}>
+                  <Icon name={f.icon} size={17} /> {f.t}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="relative z-10 flex items-center gap-2 text-white/70 text-[13px] font-medium">
+            <Icon name="shield" size={16} /> Acceso seguro · Inicio de sesión único (SSO)
+          </div>
+        </div>
+
+        {/* Panel de formulario */}
+        <div className="lg:w-[46%] flex items-center justify-center p-6 sm:p-10">
+          <div className="w-full max-w-[400px] anim-fade-up">
+            <div className="lg:hidden mb-8"><Logo /></div>
+            <h2 className="font-display font-extrabold text-[26px] sm:text-[30px] tracking-tight text-ink">Hola de nuevo 👋</h2>
+            <p className="text-muted mt-1.5 text-[15px]">Ingresa con tu cuenta institucional Duoc UC.</p>
+
+            <form onSubmit={submit} className="mt-8 space-y-4">
+              <label className="block">
+                <span className="text-[13px] font-semibold text-muted ml-1">Usuario o correo institucional</span>
+                <div className="mt-1.5 flex items-center gap-2.5 px-4 rounded-xl bg-surface border border-line focus-within:border-primary focus-within:ring-2 focus-within:ring-[var(--primary-soft)] transition-all" style={{ height:52 }}>
+                  <Icon name="user" size={18} className="text-faint" />
+                  <input value={user} onChange={(e)=>setUser(e.target.value)} className="flex-1 bg-transparent outline-none text-[15px] text-ink font-medium" placeholder="nombre.apellido" />
+                  <span className="text-faint text-[14px] font-medium hidden sm:block">@duocuc.cl</span>
+                </div>
+              </label>
+              <label className="block">
+                <span className="text-[13px] font-semibold text-muted ml-1">Contraseña</span>
+                <div className="mt-1.5 flex items-center gap-2.5 px-4 rounded-xl bg-surface border border-line focus-within:border-primary focus-within:ring-2 focus-within:ring-[var(--primary-soft)] transition-all" style={{ height:52 }}>
+                  <Icon name="lock" size={18} className="text-faint" />
+                  <input type="password" value={pass} onChange={(e)=>setPass(e.target.value)} className="flex-1 bg-transparent outline-none text-[15px] text-ink font-medium tracking-widest" />
+                </div>
+              </label>
+
+              <div className="flex items-center justify-between pt-1">
+                <label className="flex items-center gap-2 text-[13.5px] text-muted font-medium cursor-pointer select-none">
+                  <span className="rounded-md bg-primary grid place-items-center" style={{ width:18, height:18 }}>
+                    <Icon name="check" size={12} className="text-white" strokeWidth={3} />
+                  </span>
+                  Recordarme
+                </label>
+                <a href="#" onClick={(e)=>e.preventDefault()} className="text-[13.5px] font-semibold text-primary hover:underline whitespace-nowrap">¿Olvidaste tu clave?</a>
+              </div>
+
+              <Button type="submit" full size="lg" iconRight={loading?null:'arrowRight'} className="mt-2">
+                {loading
+                  ? <span className="flex items-center gap-2"><span className="w-4 h-4 rounded-full border-2 border-white/40 border-t-white animate-spin" /> Verificando…</span>
+                  : 'Iniciar sesión'}
+              </Button>
+            </form>
+
+            <div className="flex items-center gap-3 my-6">
+              <div className="flex-1 h-px bg-line" />
+              <span className="text-[12.5px] text-faint font-semibold whitespace-nowrap">o accede con</span>
+              <div className="flex-1 h-px bg-line" />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <button onClick={submit} className="flex items-center justify-center gap-2 h-12 rounded-xl border border-line bg-surface text-ink font-semibold text-[14px] hover:bg-surface-2 transition-all active:scale-[.98] focus-ring" style={{ minHeight:44 }}>
+                <Icon name="qr" size={18} className="text-primary" /> <span className="whitespace-nowrap">Código QR</span>
+              </button>
+              <button onClick={submit} className="flex items-center justify-center gap-2 h-12 rounded-xl border border-line bg-surface text-ink font-semibold text-[14px] hover:bg-surface-2 transition-all active:scale-[.98] focus-ring" style={{ minHeight:44 }}>
+                <Icon name="fingerprint" size={18} className="text-primary" /> Biometría
+              </button>
+            </div>
+
+            <p className="text-center text-[12.5px] text-faint mt-8 leading-relaxed">
+              Al ingresar aceptas el reglamento de uso de plataformas digitales de Duoc UC.<br />
+              ¿Problemas de acceso? <a href="#" onClick={(e)=>e.preventDefault()} className="text-primary font-semibold hover:underline">Mesa de ayuda</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ─── DASHBOARD ──────────────────────────────────────────────────────────────
+  function SectionHead({ icon, title, sub, action, onAction }) {
+    return (
+      <div className="flex items-end justify-between gap-3">
+        <div>
+          <h2 className="font-display font-bold text-ink text-[18px] flex items-center gap-2">
+            <Icon name={icon} size={19} className="text-primary" /> {title}
+          </h2>
+          {sub && <p className="text-faint text-[12.5px] font-medium mt-0.5 ml-7">{sub}</p>}
+        </div>
+        {action && (
+          <button onClick={onAction} className="text-[13px] font-bold text-primary inline-flex items-center gap-1 hover:gap-1.5 transition-all shrink-0">
+            {action} <Icon name="arrowRight" size={14} />
+          </button>
+        )}
+      </div>
+    );
+  }
+
+  function StatChip({ icon, label, value, tone }) {
+    const colors = { primary:'var(--primary)', ok:'var(--ok)', medium:'var(--medium)' };
+    return (
+      <div className="hidden sm:flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-surface border border-line shadow-card">
+        <div className="grid place-items-center rounded-lg" style={{ width:32, height:32, background:`color-mix(in srgb, ${colors[tone]} 13%, transparent)` }}>
+          <Icon name={icon} size={16} style={{ color:colors[tone] }} />
+        </div>
+        <div className="leading-none">
+          <div className="text-[16px] font-display font-extrabold text-ink">{value}</div>
+          <div className="text-[10.5px] font-semibold text-faint mt-0.5 whitespace-nowrap">{label}</div>
+        </div>
+      </div>
+    );
+  }
+
+  function DashboardScreen({ student, onNavigate, notifications, onDismiss }) {
+    const [filterUrgent, setFilterUrgent] = React.useState(false);
+
+    const order = { alta:0, media:1, baja:2 };
+    const visibleNotifs = [...notifications]
+      .filter((n) => filterUrgent ? n.urgencia==='alta' : true)
+      .sort((a,b) => order[a.urgencia]-order[b.urgencia]);
+    const altas = notifications.filter((n)=>n.urgencia==='alta').length;
+
+    const hora = new Date().getHours();
+    const saludo = hora<12 ? 'Buenos días' : hora<19 ? 'Buenas tardes' : 'Buenas noches';
+
+    return (
+      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+        {/* Saludo */}
+        <header className="anim-fade-up flex flex-wrap items-end justify-between gap-4 mb-6">
+          <div>
+            <p className="text-muted font-medium text-[14px]">{saludo},</p>
+            <h1 className="font-display font-extrabold tracking-tight text-ink text-[clamp(1.7rem,4vw,2.4rem)] leading-tight">{student.primerNombre} 👋</h1>
+            <p className="text-faint text-[13.5px] mt-1 font-medium">{student.carrera} · {student.semestre} · {student.sede}</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <StatChip icon="trending" label="Avance carrera" value={`${student.avance}%`} tone="primary" />
+            <StatChip icon="award"    label="Promedio"        value="6,0"                  tone="ok" />
+            <StatChip icon="clock"    label="Pendientes"      value="4"                    tone="medium" />
+          </div>
+        </header>
+
+        {/* Barra de búsqueda (visual, sin funcionalidad) */}
+        <div data-tour="tour-search"
+          className="anim-fade-up w-full flex items-center gap-3 h-14 px-5 rounded-2xl bg-surface border border-line shadow-card text-left mb-7"
+          style={{ animationDelay:'.05s' }}>
+          <Icon name="search" size={21} className="text-primary" />
+          <span className="text-faint text-[15px] font-medium flex-1">Busca cursos, trámites, recursos o personas…</span>
+          <span className="hidden sm:flex items-center gap-1 text-[12px] font-bold text-faint px-2 py-1 rounded-lg bg-surface-2 border border-line">⌘K</span>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Columna principal */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Cursos */}
+            <section data-tour="tour-courses" className="anim-fade-up" style={{ animationDelay:'.1s' }}>
+              <SectionHead icon="book" title="Mis cursos" sub="Semestre en curso" action="Ver todos" onAction={() => onNavigate('cursos')} />
+              <div className="grid sm:grid-cols-2 gap-4 mt-4">
+                {COURSES.map((c,i) => (
+                  <Card key={c.id} hover pad={false} className="p-4 group anim-fade-up" style={{ animationDelay:`${.12+i*.04}s` }}>
+                    <div className="flex items-start gap-3.5">
+                      <CourseGlyph course={c} size={50} />
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[11.5px] font-bold tracking-wide text-faint">{c.sigla} · {c.seccion}</span>
+                          {c.nuevos>0 && <Badge tone="high">{c.nuevos} nuevo{c.nuevos>1?'s':''}</Badge>}
+                        </div>
+                        <h3 className="font-display font-bold text-ink text-[15px] leading-snug mt-0.5 line-clamp-2 group-hover:text-primary transition-colors">{c.nombre}</h3>
+                        <p className="text-faint text-[12.5px] mt-1 flex items-center gap-1.5"><Icon name="user" size={13} /> {c.docente}</p>
+                      </div>
+                    </div>
+                    <div className="mt-3.5">
+                      <div className="flex items-center justify-between text-[12px] font-semibold text-muted mb-1.5">
+                        <span>Progreso del curso</span><span style={{ color:c.color }}>{c.progreso}%</span>
+                      </div>
+                      <Progress value={c.progreso} color={c.color} />
+                    </div>
+                    <div className="mt-3 pt-3 border-t border-line flex items-center justify-between">
+                      <span className="text-[12.5px] font-semibold text-muted flex items-center gap-1.5">
+                        <Icon name="calendar" size={14} className="text-faint" /> {c.proxima}
+                      </span>
+                      {c.tareasPendientes>0
+                        ? <Badge tone="medium" icon="clock">{c.tareasPendientes} por entregar</Badge>
+                        : <Badge tone="ok" icon="check">Al día</Badge>}
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </section>
+
+            {/* Trámites rápidos */}
+            <section className="anim-fade-up" style={{ animationDelay:'.18s' }}>
+              <SectionHead icon="grid" title="Trámites rápidos" sub="Lo administrativo, sin salir de aquí" action="Centro de ayuda" onAction={() => onNavigate('ayuda')} />
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
+                {QUICK_ACTIONS.map((q) => (
+                  <button key={q.id}
+                    className={`relative flex flex-col gap-2.5 p-4 rounded-2xl border text-left transition-all duration-300 active:scale-[.98] hover:-translate-y-0.5 focus-ring ${q.destacado?'bg-primary text-white border-transparent shadow-card':'bg-surface border-line hover:shadow-card'}`}
+                    style={{ minHeight:44 }}>
+                    <div className={`grid place-items-center rounded-xl ${q.destacado?'bg-white/15':'bg-primary-soft'}`} style={{ width:38, height:38 }}>
+                      <Icon name={q.icon} size={19} className={q.destacado?'text-white':'text-primary'} />
+                    </div>
+                    <div>
+                      <div className={`text-[10.5px] font-bold tracking-wide uppercase ${q.destacado?'text-white/70':'text-faint'}`}>{q.categoria}</div>
+                      <div className={`text-[13.5px] font-semibold leading-snug mt-0.5 ${q.destacado?'text-white':'text-ink'}`}>{q.label}</div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </section>
+          </div>
+
+          {/* Columna lateral */}
+          <div className="space-y-6">
+            {/* Notificaciones */}
+            <section data-tour="tour-notifs" className="anim-fade-up" style={{ animationDelay:'.14s' }}>
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <h2 className="font-display font-bold text-ink text-[17px] flex items-center gap-2">
+                    <Icon name="bell" size={18} className="text-primary" /> Notificaciones
+                  </h2>
+                  {altas>0 && <Badge tone="high">{altas} urgente{altas>1?'s':''}</Badge>}
+                </div>
+                <button onClick={()=>setFilterUrgent(v=>!v)}
+                  className={`text-[12px] font-bold px-2.5 py-1.5 rounded-lg transition-all ${filterUrgent?'bg-high-soft text-high':'text-faint hover:bg-surface-2'}`}
+                  style={{ minHeight:32 }}>
+                  {filterUrgent?'Ver todas':'Solo urgentes'}
+                </button>
+              </div>
+              <div className="space-y-2.5">
+                {visibleNotifs.length===0 && (
+                  <Card className="text-center py-8">
+                    <Icon name="checkCircle" size={30} className="text-[var(--ok)] mx-auto" />
+                    <p className="text-muted text-[14px] font-medium mt-2">¡Todo al día!</p>
+                  </Card>
+                )}
+                {visibleNotifs.map((n) => {
+                  const u = URGENCY[n.urgencia];
+                  return (
+                    <div key={n.id} className="group relative bg-surface border border-line rounded-2xl p-3.5 shadow-card hover:shadow-float transition-all duration-300 anim-fade-up overflow-hidden">
+                      <div className="absolute left-0 top-0 bottom-0 w-1" style={{ background:u.color }} />
+                      <div className="flex items-start gap-3 pl-1.5">
+                        <div className="grid place-items-center rounded-xl shrink-0 mt-0.5" style={{ width:34, height:34, background:`color-mix(in srgb, ${u.color} 14%, transparent)` }}>
+                          <Icon name={u.icon} size={16} style={{ color:u.color }} />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-2 mb-0.5 min-w-0">
+                            <span className="text-[10.5px] font-bold tracking-wide uppercase whitespace-nowrap" style={{ color:u.color }}>{n.tipo}</span>
+                            <span className="text-faint text-[11px] whitespace-nowrap truncate">· {n.tiempo}</span>
+                          </div>
+                          <p className="text-ink font-semibold text-[13.5px] leading-snug">{n.titulo}</p>
+                          <p className="text-muted text-[12.5px] leading-snug mt-1 line-clamp-2">{n.detalle}</p>
+                          <button className="mt-2 text-[12.5px] font-bold text-primary inline-flex items-center gap-1 hover:gap-1.5 transition-all whitespace-nowrap">
+                            {n.accion} <Icon name="arrowRight" size={13} />
+                          </button>
+                        </div>
+                        <button onClick={()=>onDismiss(n.id)} aria-label="Descartar"
+                          className="opacity-0 group-hover:opacity-100 transition-opacity text-faint hover:text-high grid place-items-center rounded-lg hover:bg-high-soft shrink-0"
+                          style={{ width:28, height:28 }}>
+                          <Icon name="close" size={15} />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+
+            {/* Agenda */}
+            <section data-tour="tour-calendar" className="anim-fade-up" style={{ animationDelay:'.2s' }}>
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="font-display font-bold text-ink text-[17px] flex items-center gap-2">
+                  <Icon name="calendar" size={18} className="text-primary" /> Agenda
+                </h2>
+                <span className="text-[12px] font-semibold text-faint">Junio 2026</span>
+              </div>
+              <Card pad={false} className="p-4">
+                <div className="space-y-4">
+                  {CALENDAR.map((day) => (
+                    <div key={day.id}>
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className={`text-[10.5px] font-bold tracking-wide px-2 py-0.5 rounded-md ${day.dia==='HOY'?'bg-primary text-white':'bg-surface-2 text-faint'}`}>{day.dia}</span>
+                        <span className="text-[12px] font-semibold text-muted">{day.fecha}</span>
+                      </div>
+                      <div className="space-y-2 pl-1">
+                        {day.items.map((it,idx) => (
+                          <div key={idx} className="flex items-start gap-3">
+                            <div className="text-[12px] font-bold text-muted tabular-nums pt-0.5 w-11 shrink-0">{it.hora}</div>
+                            <div className="relative pl-3.5 flex-1 min-w-0">
+                              <span className="absolute left-0 top-1 bottom-1 w-1 rounded-full" style={{ background:it.color }} />
+                              <p className="text-ink font-semibold text-[13px] leading-snug">{it.titulo}</p>
+                              <div className="flex items-center gap-2 mt-0.5 flex-wrap">
+                                <span className="text-faint text-[11.5px] font-medium">{it.lugar}</span>
+                                {it.alerta && <Badge tone={it.tipo==='evaluacion'?'high':'medium'}>{it.alerta}</Badge>}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+            </section>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ─── TOUR DE ONBOARDING ─────────────────────────────────────────────────────
+  function OnboardingTour({ steps, onFinish }) {
+    const [i, setI] = React.useState(0);
+    const [rect, setRect] = React.useState(null);
+    const [mobile, setMobile] = React.useState(window.innerWidth < 1024);
+    const step = steps[i];
+
+    const measure = React.useCallback(() => {
+      setMobile(window.innerWidth < 1024);
+      document.querySelectorAll('[data-tour-highlight]').forEach(el => el.removeAttribute('data-tour-highlight'));
+      const el = document.querySelector(`[data-tour="${step.target}"]`);
+      if (!el) { setRect(null); return; }
+      const r = el.getBoundingClientRect();
+      if (r.top < 80 || r.bottom > window.innerHeight - 80) {
+        window.scrollTo({ top: window.scrollY + r.top - window.innerHeight * 0.35, behavior:'smooth' });
+        setTimeout(() => {
+          const rr = el.getBoundingClientRect();
+          el.setAttribute('data-tour-highlight','');
+          setRect({ top:rr.top, left:rr.left, width:rr.width, height:rr.height, bottom:rr.bottom, right:rr.right });
+        }, 320);
+        return;
+      }
+      el.setAttribute('data-tour-highlight','');
+      setRect({ top:r.top, left:r.left, width:r.width, height:r.height, bottom:r.bottom, right:r.right });
+    }, [step]);
+
+    React.useEffect(() => {
+      measure();
+      window.addEventListener('resize', measure);
+      window.addEventListener('scroll', measure, true);
+      return () => { window.removeEventListener('resize', measure); window.removeEventListener('scroll', measure, true); };
+    }, [measure]);
+
+    React.useEffect(() => () => {
+      document.querySelectorAll('[data-tour-highlight]').forEach(el => el.removeAttribute('data-tour-highlight'));
+    }, []);
+
+    const next = () => { if (i < steps.length-1) setI(i+1); else finish(); };
+    const prev = () => i > 0 && setI(i-1);
+    const finish = () => {
+      document.querySelectorAll('[data-tour-highlight]').forEach(el => el.removeAttribute('data-tour-highlight'));
+      onFinish();
+    };
+
+    let cardStyle = {};
+    if (mobile || !rect) {
+      cardStyle = { left:'50%', bottom:16, transform:'translateX(-50%)', width:'min(92vw, 380px)' };
+    } else {
+      const W=340, gap=18;
+      let top, left;
+      if (step.pos==='bottom') { top=rect.bottom+gap; left=rect.left; }
+      else if (step.pos==='top') { top=rect.top-gap; left=rect.left; }
+      else if (step.pos==='left') { top=rect.top; left=rect.left-W-gap; }
+      else { top=rect.top; left=rect.right+gap; }
+      left = Math.max(16, Math.min(left, window.innerWidth-W-16));
+      top  = Math.max(16, Math.min(top,  window.innerHeight-280));
+      cardStyle = { top, left, width:W, transform: step.pos==='top'?'translateY(-100%)':'none' };
+    }
+
+    return (
+      <div className="fixed inset-0 z-[70]">
+        {!rect && <div className="absolute inset-0 bg-[rgba(7,14,26,0.62)]" />}
+        <div key={i} className="fixed z-[75] anim-scale-in" style={cardStyle}>
+          <div className="bg-surface rounded-2xl shadow-float border border-line overflow-hidden">
+            <div className="h-1.5 w-full bg-surface-2">
+              <div className="h-full bg-primary transition-all duration-500" style={{ width:`${((i+1)/steps.length)*100}%` }} />
+            </div>
+            <div className="p-5">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="grid place-items-center rounded-xl bg-primary-soft pulse-ring" style={{ width:42, height:42 }}>
+                  <Icon name={step.icon} size={21} className="text-primary" />
+                </div>
+                <div className="flex items-center gap-1.5">
+                  {steps.map((_,idx) => (
+                    <span key={idx} className="rounded-full transition-all duration-300"
+                      style={{ width:idx===i?20:7, height:7, background:idx<=i?'var(--primary)':'var(--border)', opacity:idx<=i?1:.6 }} />
+                  ))}
+                </div>
+              </div>
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="text-[11px] font-bold text-faint tracking-wide">PASO {i+1} DE {steps.length}</span>
+              </div>
+              <h3 className="font-display font-extrabold text-ink text-[19px] leading-tight">{step.titulo}</h3>
+              <p className="text-muted text-[14px] leading-relaxed mt-1.5">{step.desc}</p>
+              <div className="flex items-center justify-between gap-2 mt-5">
+                <button onClick={finish} className="text-[13px] font-semibold text-faint hover:text-muted transition-colors px-2 py-2" style={{ minHeight:40 }}>Saltar tour</button>
+                <div className="flex items-center gap-2">
+                  {i>0 && <Button variant="ghost" size="sm" onClick={prev} icon="chevronLeft">Atrás</Button>}
+                  <Button size="sm" onClick={next} iconRight={i===steps.length-1?'check':'arrowRight'}>
+                    {i===steps.length-1?'Empezar':'Siguiente'}
+                  </Button>
+                </div>
+              </div>
+              <p className="text-[11.5px] text-faint mt-3 flex items-center gap-1.5 pt-3 border-t border-line">
+                <Icon name="settings" size={13} /> Puedes reactivar este tour en Ajustes cuando quieras.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ─── PANEL DE AJUSTES ───────────────────────────────────────────────────────
+  function SettingsSheet({ open, onClose, dark, onToggleDark, onReactivateTour, onLogout }) {
+    return (
+      <Sheet open={open} onClose={onClose} side="right" label="Ajustes">
+        <div className="relative h-screen w-full max-w-[400px] bg-surface border-l border-line shadow-float overflow-y-auto anim-slide-right">
+          <div className="sticky top-0 bg-surface border-b border-line px-5 h-[60px] flex items-center justify-between z-10">
+            <h2 className="font-display font-bold text-ink text-[18px]">Ajustes</h2>
+            <button onClick={onClose} aria-label="Cerrar" className="grid place-items-center rounded-xl hover:bg-surface-2 text-muted" style={{ width:40, height:40 }}>
+              <Icon name="close" size={20} />
+            </button>
+          </div>
+          <div className="p-5 space-y-6">
+            {/* Perfil */}
+            <div className="flex items-center gap-3.5">
+              <Avatar iniciales={STUDENT.iniciales} size={56} />
+              <div className="min-w-0">
+                <div className="font-display font-bold text-ink text-[16px]">{STUDENT.nombre}</div>
+                <div className="text-faint text-[12.5px]">{STUDENT.rut} · {STUDENT.jornada}</div>
+                <div className="text-primary text-[12.5px] font-semibold mt-0.5">{STUDENT.carrera}</div>
+              </div>
+            </div>
+
+            {/* Apariencia */}
+            <div>
+              <p className="text-[11px] font-bold text-faint uppercase tracking-wide mb-2 ml-1">Apariencia</p>
+              <div className="bg-surface-2 rounded-2xl p-1.5 space-y-0.5">
+                <div className="flex items-center gap-3 p-3 rounded-xl">
+                  <div className="grid place-items-center rounded-xl bg-surface" style={{ width:38, height:38 }}>
+                    <Icon name={dark?'moon':'sun'} size={17} className="text-primary" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="font-semibold text-ink text-[14px]">Modo oscuro</div>
+                    <div className="text-faint text-[12px]">Ideal para estudiar de noche</div>
+                  </div>
+                  <button onClick={onToggleDark} role="switch" aria-checked={dark} className="relative rounded-full transition-colors shrink-0" style={{ width:46, height:28, background:dark?'var(--primary)':'var(--border)' }}>
+                    <span className="absolute top-1 rounded-full bg-white shadow transition-all" style={{ width:20, height:20, left:dark?22:4 }} />
+                  </button>
+                </div>
+                <div className="flex items-center gap-3 p-3 rounded-xl">
+                  <div className="grid place-items-center rounded-xl bg-surface" style={{ width:38, height:38 }}>
+                    <Icon name="globe" size={17} className="text-primary" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="font-semibold text-ink text-[14px]">Idioma</div>
+                    <div className="text-faint text-[12px]">Español (Chile)</div>
+                  </div>
+                  <Icon name="chevronRight" size={18} className="text-faint" />
+                </div>
+              </div>
+            </div>
+
+            {/* Onboarding */}
+            <div>
+              <p className="text-[11px] font-bold text-faint uppercase tracking-wide mb-2 ml-1">Onboarding y ayuda</p>
+              <div className="bg-surface-2 rounded-2xl p-1.5">
+                <button onClick={onReactivateTour} className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-surface-2 transition-colors text-left" style={{ minHeight:44 }}>
+                  <div className="grid place-items-center rounded-xl bg-primary-soft" style={{ width:38, height:38 }}>
+                    <Icon name="play" size={17} className="text-primary" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="font-semibold text-ink text-[14px]">Reactivar tour guiado</div>
+                    <div className="text-faint text-[12px]">Vuelve a ver las 5 funciones clave</div>
+                  </div>
+                  <Icon name="chevronRight" size={18} className="text-faint" />
+                </button>
+              </div>
+            </div>
+
+            {/* Cuenta */}
+            <div>
+              <p className="text-[11px] font-bold text-faint uppercase tracking-wide mb-2 ml-1">Cuenta</p>
+              <div className="bg-surface-2 rounded-2xl p-1.5 space-y-0.5">
+                {[{ icon:'shield', label:'Seguridad y acceso', desc:'Contraseña, biometría, sesiones' },
+                  { icon:'bell',   label:'Notificaciones',     desc:'Preferencias de alertas' }].map((row) => (
+                  <div key={row.label} className="flex items-center gap-3 p-3 rounded-xl">
+                    <div className="grid place-items-center rounded-xl bg-surface" style={{ width:38, height:38 }}>
+                      <Icon name={row.icon} size={17} className="text-primary" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-semibold text-ink text-[14px]">{row.label}</div>
+                      <div className="text-faint text-[12px]">{row.desc}</div>
+                    </div>
+                    <Icon name="chevronRight" size={18} className="text-faint" />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <button onClick={onLogout} className="w-full flex items-center justify-center gap-2 h-12 rounded-xl bg-high-soft text-high font-bold text-[14px] hover:brightness-95 transition-all" style={{ minHeight:44 }}>
+              <Icon name="logout" size={18} /> Cerrar sesión
+            </button>
+            <p className="text-center text-faint text-[11.5px]">Duoc Unifica · v1.0 · Prototipo</p>
+          </div>
+        </div>
+      </Sheet>
+    );
+  }
+
+  // ─── POPOVER DE AYUDA (FAB) ─────────────────────────────────────────────────
+  function HelpPopover({ onClose }) {
+    return (
+      <div className="fixed z-40 right-4 lg:right-6 bottom-[148px] lg:bottom-[80px] w-[min(92vw,340px)] anim-scale-in" style={{ transformOrigin:'bottom right' }}>
+        <div className="bg-surface border border-line rounded-2xl shadow-float overflow-hidden">
+          <div className="p-4 text-white" style={{ background:'var(--primary)' }}>
+            <div className="flex items-center justify-between">
+              <h3 className="font-display font-bold text-[16px]">¿Necesitas ayuda?</h3>
+              <button onClick={onClose} aria-label="Cerrar" className="grid place-items-center rounded-lg hover:bg-white/15" style={{ width:32, height:32 }}>
+                <Icon name="close" size={17} />
+              </button>
+            </div>
+            <p className="text-white/80 text-[12.5px] mt-0.5">Respuestas rápidas y soporte en línea.</p>
+          </div>
+          <div className="p-2">
+            <p className="text-[10.5px] font-bold text-faint uppercase tracking-wide px-2 pt-1.5 pb-1">Preguntas frecuentes</p>
+            {HELP_POPULAR.map((p,i) => (
+              <button key={i} className="w-full flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-surface-2 text-left transition-colors" style={{ minHeight:44 }}>
+                <Icon name="support" size={16} className="text-primary shrink-0" />
+                <span className="text-ink text-[13px] font-medium flex-1 leading-snug">{p}</span>
+              </button>
+            ))}
+            <div className="grid grid-cols-2 gap-2 p-1.5 pt-2">
+              <button className="flex items-center justify-center gap-1.5 h-11 rounded-xl bg-surface-2 text-ink font-bold text-[12.5px] hover:bg-line transition-colors" style={{ minHeight:44 }}>
+                <Icon name="book" size={16} /> Centro
+              </button>
+              <button className="flex items-center justify-center gap-1.5 h-11 rounded-xl bg-primary text-white font-bold text-[12.5px] hover:brightness-110 transition-all" style={{ minHeight:44 }}>
+                <Icon name="chat" size={16} /> Chat
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ─── TWEAKS (claro/oscuro + color primario) ─────────────────────────────────
+  const FONT_MAP = {
+    Moderno:    { d:"'Plus Jakarta Sans', system-ui, sans-serif", b:"'Manrope', system-ui, sans-serif" },
+    Geométrico: { d:"'Sora', system-ui, sans-serif",              b:"'Manrope', system-ui, sans-serif" },
+    Editorial:  { d:"'Newsreader', Georgia, serif",               b:"'Manrope', system-ui, sans-serif" },
+  };
+  const PRIMARY_OPTS = ['#0e4fb8','#143a86','#0c7a5b'];
+
+  function TweaksUI({ dark, onToggleDark, primary, onPrimary, font, onFont }) {
+    const [open, setOpen] = React.useState(false);
+    if (!open) return (
+      <button onClick={()=>setOpen(true)} title="Tweaks"
+        className="fixed right-4 bottom-4 z-[2147483646] text-[11.5px] font-semibold px-3 py-1.5 rounded-full border border-[rgba(0,0,0,.15)] shadow-sm"
+        style={{ background:'rgba(250,249,247,.9)', backdropFilter:'blur(12px)', color:'#29261b' }}>
+        Tweaks
+      </button>
+    );
+    return (
+      <div className="twk-panel">
+        <div className="twk-hd">
+          <b>Tweaks</b>
+          <button className="twk-x" onClick={()=>setOpen(false)}>✕</button>
+        </div>
+        <div className="twk-body">
+          <div className="twk-sect">Tema</div>
+          <div className="twk-row">
+            <div className="twk-lbl"><span>Apariencia</span></div>
+            <div className="twk-seg">
+              <div className="twk-seg-thumb" style={{ left: dark?'calc(2px + (100% - 4px)/2)':'2px', width:'calc((100% - 4px)/2)' }} />
+              <button type="button" onClick={()=>dark&&onToggleDark()}>Claro</button>
+              <button type="button" onClick={()=>!dark&&onToggleDark()}>Oscuro</button>
+            </div>
+          </div>
+          <div className="twk-row">
+            <div className="twk-lbl"><span>Color primario</span></div>
+            <div className="twk-chips">
+              {PRIMARY_OPTS.map((c) => (
+                <button key={c} type="button" className="twk-chip" data-on={primary===c?'1':'0'}
+                  style={{ background:c }} aria-label={c} onClick={()=>onPrimary(c)}>
+                  {primary===c && (
+                    <svg viewBox="0 0 14 14" aria-hidden="true">
+                      <path d="M3 7.2 5.8 10 11 4.2" fill="none" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" stroke="#fff" />
+                    </svg>
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="twk-sect">Tipografía</div>
+          <div className="twk-row">
+            <div className="twk-lbl"><span>Estilo</span></div>
+            <div className="twk-seg">
+              <div className="twk-seg-thumb" style={{
+                left: font==='Moderno'?'2px':font==='Geométrico'?'calc(2px + (100% - 4px)/3)':'calc(2px + 2*(100% - 4px)/3)',
+                width:'calc((100% - 4px)/3)'
+              }} />
+              {['Moderno','Geométrico','Editorial'].map((f) => (
+                <button key={f} type="button" onClick={()=>onFont(f)}>{f}</button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ─── APP SHELL ───────────────────────────────────────────────────────────────
+  const NAV = [
+    { id:'inicio', icon:'home',    label:'Inicio' },
+    { id:'cursos', icon:'book',    label:'Cursos' },
+    { id:'ayuda',  icon:'support', label:'Ayuda' },
+  ];
+
+  function App() {
+    const [logged,        setLogged]       = React.useState(false);
+    const [route,         setRoute]        = React.useState('inicio');
+    const [tour,          setTour]         = React.useState(false);
+    const [settingsOpen,  setSettingsOpen] = React.useState(false);
+    const [helpOpen,      setHelpOpen]     = React.useState(false);
+    const [notifs,        setNotifs]       = React.useState(NOTIFICATIONS);
+    const [dark,          setDark]         = React.useState(false);
+    const [primary,       setPrimary]      = React.useState('#0e4fb8');
+    const [font,          setFont]         = React.useState('Moderno');
+
+    // Aplicar tokens
+    React.useEffect(() => {
+      document.documentElement.classList.toggle('dark', dark);
+    }, [dark]);
+    React.useEffect(() => {
+      document.documentElement.style.setProperty('--primary', primary);
+      document.documentElement.style.setProperty('--primary-soft', `color-mix(in srgb, ${primary} 13%, var(--surface))`);
+    }, [primary]);
+    React.useEffect(() => {
+      const f = FONT_MAP[font] || FONT_MAP.Moderno;
+      document.documentElement.style.setProperty('--font-display', f.d);
+      document.documentElement.style.setProperty('--font-body', f.b);
+    }, [font]);
+
+    const safeGet = (k) => { try { return localStorage.getItem(k); } catch(e) { return null; } };
+    const safeSet = (k,v) => { try { localStorage.setItem(k,v); } catch(e) {} };
+
+    const login = () => {
+      setLogged(true);
+      if (!safeGet('duoc_onboarded')) setTimeout(() => setTour(true), 700);
+    };
+    const finishTour = () => { setTour(false); safeSet('duoc_onboarded','1'); };
+    const reactivateTour = () => { setSettingsOpen(false); setRoute('inicio'); setTimeout(() => setTour(true), 400); };
+    const navigate = (r) => { setRoute(r); window.scrollTo({ top:0 }); };
+    const dismiss  = (id) => setNotifs(ns => ns.filter(n => n.id !== id));
+
+    if (!logged) return (
+      <>
+        <LoginScreen onLogin={login} />
+        <TweaksUI dark={dark} onToggleDark={()=>setDark(d=>!d)} primary={primary} onPrimary={setPrimary} font={font} onFont={setFont} />
+      </>
+    );
+
+    const unread = notifs.filter(n => n.urgencia==='alta').length;
+
+    return (
+      <div className="min-h-screen bg-bg flex">
+        {/* Sidebar desktop */}
+        <aside className="hidden lg:flex flex-col w-[230px] shrink-0 border-r border-line bg-surface sticky top-0 h-screen">
+          <div className="px-5 h-[68px] flex items-center border-b border-line">
+            <Logo size="sm" />
+          </div>
+          <nav className="flex-1 p-3 space-y-1">
+            {NAV.map((n) => {
+              const active = route === n.id;
+              return (
+                <button key={n.id} onClick={() => navigate(n.id)}
+                  className={`w-full flex items-center gap-3 px-3.5 h-12 rounded-xl font-semibold text-[14.5px] transition-all ${active?'bg-primary-soft text-primary':'text-muted hover:bg-surface-2 hover:text-ink'}`}>
+                  <Icon name={n.icon} size={20} /> {n.label}
+                  {n.id==='inicio' && unread>0 && (
+                    <span className="ml-auto min-w-[20px] h-5 px-1.5 grid place-items-center rounded-full bg-high text-white text-[11px] font-bold">{unread}</span>
+                  )}
+                </button>
+              );
+            })}
+            <div className="pt-3 mt-3 border-t border-line">
+              <div className="w-full flex items-center gap-3 px-3.5 h-12 rounded-xl font-semibold text-[14.5px] text-muted cursor-default select-none">
+                <Icon name="search" size={20} /> Buscar
+                <span className="ml-auto text-[11px] font-bold text-faint px-1.5 py-0.5 rounded bg-surface-2 border border-line">⌘K</span>
+              </div>
+            </div>
+          </nav>
+          <div className="p-3 border-t border-line">
+            <button onClick={()=>setSettingsOpen(true)} className="w-full flex items-center gap-3 p-2 rounded-xl hover:bg-surface-2 transition-all text-left">
+              <Avatar iniciales={STUDENT.iniciales} size={40} />
+              <div className="min-w-0 flex-1">
+                <div className="font-bold text-ink text-[13.5px] truncate">{STUDENT.nombre}</div>
+                <div className="text-faint text-[11.5px] truncate">{STUDENT.carrera}</div>
+              </div>
+              <Icon name="settings" size={18} className="text-faint shrink-0" />
+            </button>
+          </div>
+        </aside>
+
+        {/* Columna principal */}
+        <div className="flex-1 min-w-0 flex flex-col">
+          {/* Topbar */}
+          <header className="sticky top-0 z-40 h-[60px] lg:h-[68px] border-b border-line flex items-center gap-2 px-4 lg:px-6"
+            style={{ background:'color-mix(in srgb, var(--surface) 88%, transparent)', backdropFilter:'blur(12px)' }}>
+            <div className="lg:hidden"><Logo size="sm" /></div>
+            <h1 className="hidden lg:block font-display font-bold text-ink text-[18px]">
+              {{ inicio:'Inicio', cursos:'Mis cursos', ayuda:'Centro de ayuda' }[route]}
+            </h1>
+            <div className="flex-1" />
+            <Tooltip label="Cambiar tema">
+              <IconButton name={dark?'sun':'moon'} label="Cambiar tema" onClick={()=>setDark(d=>!d)} />
+            </Tooltip>
+            <Tooltip label="Notificaciones">
+              <IconButton name="bell" label="Notificaciones" badge={unread} onClick={()=>navigate('inicio')} />
+            </Tooltip>
+            <button onClick={()=>setSettingsOpen(true)} className="lg:hidden">
+              <Avatar iniciales={STUDENT.iniciales} size={38} />
+            </button>
+          </header>
+
+          {/* Contenido */}
+          <main className="flex-1 pb-24 lg:pb-8">
+            {route==='inicio' && (
+              <DashboardScreen student={STUDENT} onNavigate={navigate} notifications={notifs} onDismiss={dismiss} />
+            )}
+            {route==='cursos' && (
+              <div className="max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+                <div className="grid place-items-center rounded-2xl bg-surface border border-line p-12 shadow-card max-w-sm mx-auto">
+                  <div className="grid place-items-center rounded-2xl bg-primary-soft mb-4" style={{ width:64, height:64 }}>
+                    <Icon name="book" size={28} className="text-primary" />
+                  </div>
+                  <h2 className="font-display font-extrabold text-ink text-[20px] mt-1">Vista en construcción</h2>
+                  <p className="text-muted text-[14px] mt-2 leading-relaxed">El detalle de cursos se implementará en la próxima entrega.</p>
+                  <button onClick={()=>navigate('inicio')} className="mt-5 text-[13.5px] font-bold text-primary inline-flex items-center gap-1.5 hover:gap-2 transition-all">
+                    <Icon name="chevronLeft" size={15} /> Volver al inicio
+                  </button>
+                </div>
+              </div>
+            )}
+            {route==='ayuda' && (
+              <div className="max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+                <div className="grid place-items-center rounded-2xl bg-surface border border-line p-12 shadow-card max-w-sm mx-auto">
+                  <div className="grid place-items-center rounded-2xl bg-primary-soft mb-4" style={{ width:64, height:64 }}>
+                    <Icon name="support" size={28} className="text-primary" />
+                  </div>
+                  <h2 className="font-display font-extrabold text-ink text-[20px] mt-1">Centro de ayuda</h2>
+                  <p className="text-muted text-[14px] mt-2 leading-relaxed">Vista en construcción para la siguiente entrega.</p>
+                  <button onClick={()=>navigate('inicio')} className="mt-5 text-[13.5px] font-bold text-primary inline-flex items-center gap-1.5 hover:gap-2 transition-all">
+                    <Icon name="chevronLeft" size={15} /> Volver al inicio
+                  </button>
+                </div>
+              </div>
+            )}
+          </main>
+        </div>
+
+        {/* Bottom nav mobile */}
+        <nav className="lg:hidden fixed bottom-0 inset-x-0 z-40 h-[64px] border-t border-line flex items-center justify-around px-2"
+          style={{ background:'color-mix(in srgb, var(--surface) 92%, transparent)', backdropFilter:'blur(12px)', paddingBottom:'env(safe-area-inset-bottom)' }}>
+          {NAV.map((n) => {
+            const active = route===n.id;
+            return (
+              <button key={n.id} onClick={()=>navigate(n.id)}
+                className={`flex flex-col items-center justify-center gap-0.5 flex-1 h-full rounded-xl transition-colors ${active?'text-primary':'text-faint'}`}
+                style={{ minHeight:44 }}>
+                <div className="relative">
+                  <Icon name={n.icon} size={23} strokeWidth={active?2.2:1.7} />
+                  {n.id==='inicio' && unread>0 && <span className="absolute -top-1 -right-1.5 w-2 h-2 rounded-full bg-high" />}
+                </div>
+                <span className="text-[11px] font-bold">{n.label}</span>
+              </button>
+            );
+          })}
+        </nav>
+
+        {/* FAB ayuda */}
+        <div className="fixed z-40 right-4 lg:right-6 bottom-[80px] lg:bottom-6" data-tour="tour-help">
+          <button onClick={()=>setHelpOpen(v=>!v)} aria-label="Ayuda rápida"
+            className="grid place-items-center rounded-full bg-primary text-white shadow-float hover:scale-105 active:scale-95 transition-transform"
+            style={{ width:56, height:56 }}>
+            <Icon name={helpOpen?'close':'support'} size={26} />
+          </button>
+        </div>
+        {helpOpen && <HelpPopover onClose={()=>setHelpOpen(false)} />}
+
+        {/* Panel ajustes */}
+        <SettingsSheet
+          open={settingsOpen} onClose={()=>setSettingsOpen(false)}
+          dark={dark} onToggleDark={()=>setDark(d=>!d)}
+          onReactivateTour={reactivateTour}
+          onLogout={() => { setSettingsOpen(false); setLogged(false); setRoute('inicio'); }}
+        />
+
+        {/* Tour */}
+        {tour && <OnboardingTour steps={TOUR_STEPS} onFinish={finishTour} />}
+
+        {/* Tweaks */}
+        <TweaksUI dark={dark} onToggleDark={()=>setDark(d=>!d)} primary={primary} onPrimary={(c)=>{setPrimary(c); document.documentElement.style.setProperty('--primary',c);}} font={font} onFont={setFont} />
+      </div>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
