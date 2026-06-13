@@ -7,7 +7,7 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;0,6..72,800;1,6..72,400;1,6..72,500;1,6..72,600;1,6..72,700&display=swap" rel="stylesheet" />
 <script>
   tailwind.config = {
     darkMode: 'class',
@@ -38,9 +38,9 @@
           sans: 'var(--font-body)',
         },
         borderRadius: {
-          xl: '14px',
-          '2xl': '20px',
-          '3xl': '28px',
+          xl: '11px',
+          '2xl': '15px',
+          '3xl': '20px',
         },
         boxShadow: {
           card: 'var(--shadow-card)',
@@ -52,22 +52,23 @@
 </script>
 <style>
   :root {
-    --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+    --font-display: 'Newsreader', Georgia, 'Times New Roman', serif;
     --font-body: 'Manrope', system-ui, sans-serif;
 
     --bg: #eef1f6;
     --surface: #ffffff;
-    --surface-2: #f4f6fa;
-    --border: #e3e8f0;
+    --surface-2: #f5f7fa;
+    --border: #e4e8ef;
     --text: #0f1b2d;
     --text-muted: #56657c;
     --text-faint: #8a99ad;
 
-    --primary: #0e4fb8;
-    --primary-soft: #e7f0ff;
+    --primary: #1a1a1a;
+    --primary-soft: #ededed;
+    --on-primary: #ffffff;
 
-    --accent: #ffce00;
-    --accent-ink: #6e5800;
+    --accent: #ffb800;
+    --accent-ink: #5a4300;
 
     --high: #e0454b;
     --high-soft: #fdecec;
@@ -77,24 +78,27 @@
     --low-soft: #eaf1fc;
     --ok: #1f9d6b;
 
-    --shadow-card: 0 1px 2px rgba(16, 32, 60, 0.04), 0 8px 24px -16px rgba(16, 32, 60, 0.18);
-    --shadow-float: 0 12px 40px -12px rgba(16, 32, 60, 0.28);
+    --cat-inst: #c79100;
+
+    --shadow-card: none;
+    --shadow-float: 0 18px 50px -26px rgba(16, 32, 60, 0.30);
   }
 
   html.dark {
-    --bg: #0a0f1a;
-    --surface: #121a2a;
-    --surface-2: #1a2436;
-    --border: #27344c;
-    --text: #e9f0fa;
-    --text-muted: #9aabc4;
-    --text-faint: #6c7d96;
+    --bg: #08090c;
+    --surface: #101216;
+    --surface-2: #15181d;
+    --border: #23262e;
+    --text: #ecedf0;
+    --text-muted: #9a9ea8;
+    --text-faint: #65696f;
 
-    --primary: #5a93f5;
-    --primary-soft: #16294a;
+    --primary: #f1f1ef;
+    --primary-soft: #232a34;
+    --on-primary: #1a1a1a;
 
-    --accent: #ffd633;
-    --accent-ink: #ffe27a;
+    --accent: #ffc233;
+    --accent-ink: #3a2c00;
 
     --high: #f06a6f;
     --high-soft: #2e1b1f;
@@ -104,8 +108,10 @@
     --low-soft: #182338;
     --ok: #3cc28a;
 
-    --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 10px 30px -18px rgba(0, 0, 0, 0.6);
-    --shadow-float: 0 16px 48px -12px rgba(0, 0, 0, 0.7);
+    --cat-inst: #f2c84b;
+
+    --shadow-card: none;
+    --shadow-float: 0 22px 60px -28px rgba(0, 0, 0, 0.80);
   }
 
   * { -webkit-tap-highlight-color: transparent; }
@@ -130,20 +136,25 @@
   @keyframes fadeIn { from { transform: translateY(5px); } to { transform: translateY(0); } }
   @keyframes scaleIn { from { transform: scale(.97); } to { transform: scale(1); } }
   @keyframes slideInRight { from { transform: translateX(26px); } to { transform: translateX(0); } }
-  @keyframes pulseRing { 0% { box-shadow: 0 0 0 0 rgba(14,79,184,.35); } 70% { box-shadow: 0 0 0 14px rgba(14,79,184,0); } 100% { box-shadow: 0 0 0 0 rgba(14,79,184,0); } }
+  @keyframes slideInLeft { from { transform: translateX(-26px); } to { transform: translateX(0); } }
+  @keyframes pulseRing { 0% { box-shadow: 0 0 0 0 rgba(255,184,0,.45); } 70% { box-shadow: 0 0 0 14px rgba(255,184,0,0); } 100% { box-shadow: 0 0 0 0 rgba(255,184,0,0); } }
   @keyframes shimmer { 100% { background-position: 200% 0; } }
 
   /* Resting state is VISIBLE; animation plays from hidden as an enhancement.
      No backwards/both fill, so if the animation engine is paused (screenshots,
      PDF, verifier) the content stays visible instead of trapping at opacity 0. */
-  .anim-fade-up, .anim-fade-in, .anim-scale-in, .anim-slide-right { opacity: 1; }
+  .anim-fade-up, .anim-fade-in, .anim-scale-in, .anim-slide-right, .anim-slide-left { opacity: 1; }
   @media (prefers-reduced-motion: no-preference) {
     .anim-fade-up { animation: fadeUp .5s cubic-bezier(.22,1,.36,1) backwards; }
     .anim-fade-in { animation: fadeIn .4s ease backwards; }
     .anim-scale-in { animation: scaleIn .32s cubic-bezier(.22,1,.36,1) backwards; }
     .anim-slide-right { animation: slideInRight .45s cubic-bezier(.22,1,.36,1) backwards; }
+    .anim-slide-left { animation: slideInLeft .45s cubic-bezier(.22,1,.36,1) backwards; }
   }
   .pulse-ring { animation: pulseRing 2s ease-out infinite; }
+
+  @keyframes qrScan { 0% { top: 14px; } 50% { top: calc(100% - 16px); } 100% { top: 14px; } }
+  .qr-scan { animation: qrScan 1.6s cubic-bezier(.45,0,.55,1) infinite; }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
@@ -160,6 +171,13 @@
 </style>
 </head>
 <body>
+  <template id="__bundler_thumbnail">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <rect width="100" height="100" rx="20" fill="#0b0b0c"/>
+      <rect x="30" y="30" width="40" height="40" rx="10" fill="#ffb800"/>
+      <text x="50" y="50" dy="0.36em" text-anchor="middle" font-family="Georgia, serif" font-weight="800" font-size="30" fill="#1a1a1a">U</text>
+    </svg>
+  </template>
   <div id="root"></div>
 
   <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
@@ -170,6 +188,7 @@
   <script type="text/babel" src="src/data.jsx"></script>
   <script type="text/babel" src="src/icons.jsx"></script>
   <script type="text/babel" src="src/ui.jsx"></script>
+  <script type="text/babel" src="src/auth-methods.jsx"></script>
   <script type="text/babel" src="src/screen-login.jsx"></script>
   <script type="text/babel" src="src/onboarding.jsx"></script>
   <script type="text/babel" src="src/screen-dashboard.jsx"></script>
