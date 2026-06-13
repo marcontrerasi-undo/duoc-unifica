@@ -1,0 +1,3206 @@
+<!DOCTYPE html>
+<html lang="es" class="">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Duoc Unifica · Plataforma Estudiantil</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;0,6..72,800;1,6..72,400;1,6..72,500;1,6..72,600;1,6..72,700&display=swap" rel="stylesheet" />
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: {
+          bg: 'var(--bg)',
+          surface: 'var(--surface)',
+          'surface-2': 'var(--surface-2)',
+          line: 'var(--border)',
+          ink: 'var(--text)',
+          muted: 'var(--text-muted)',
+          faint: 'var(--text-faint)',
+          primary: 'var(--primary)',
+          'primary-soft': 'var(--primary-soft)',
+          accent: 'var(--accent)',
+          'accent-ink': 'var(--accent-ink)',
+          high: 'var(--high)',
+          'high-soft': 'var(--high-soft)',
+          medium: 'var(--medium)',
+          'medium-soft': 'var(--medium-soft)',
+          low: 'var(--low)',
+          'low-soft': 'var(--low-soft)',
+          ok: 'var(--ok)',
+        },
+        fontFamily: {
+          display: 'var(--font-display)',
+          sans: 'var(--font-body)',
+        },
+        borderRadius: {
+          xl: '11px',
+          '2xl': '15px',
+          '3xl': '20px',
+        },
+        boxShadow: {
+          card: 'var(--shadow-card)',
+          float: 'var(--shadow-float)',
+        },
+      },
+    },
+  };
+</script>
+<style>
+  :root {
+    --font-display: 'Newsreader', Georgia, 'Times New Roman', serif;
+    --font-body: 'Manrope', system-ui, sans-serif;
+
+    --bg: #eef1f6;
+    --surface: #ffffff;
+    --surface-2: #f5f7fa;
+    --border: #e4e8ef;
+    --text: #0f1b2d;
+    --text-muted: #56657c;
+    --text-faint: #8a99ad;
+
+    --primary: #1a1a1a;
+    --primary-soft: #ededed;
+    --on-primary: #ffffff;
+
+    --accent: #ffb800;
+    --accent-ink: #5a4300;
+
+    --high: #e0454b;
+    --high-soft: #fdecec;
+    --medium: #d98300;
+    --medium-soft: #fdf1dd;
+    --low: #4f7bd6;
+    --low-soft: #eaf1fc;
+    --ok: #1f9d6b;
+
+    --cat-inst: #c79100;
+
+    --shadow-card: none;
+    --shadow-float: 0 18px 50px -26px rgba(16, 32, 60, 0.30);
+  }
+
+  html.dark {
+    --bg: #08090c;
+    --surface: #101216;
+    --surface-2: #15181d;
+    --border: #23262e;
+    --text: #ecedf0;
+    --text-muted: #9a9ea8;
+    --text-faint: #65696f;
+
+    --primary: #f1f1ef;
+    --primary-soft: #232a34;
+    --on-primary: #1a1a1a;
+
+    --accent: #ffc233;
+    --accent-ink: #3a2c00;
+
+    --high: #f06a6f;
+    --high-soft: #2e1b1f;
+    --medium: #eaa53a;
+    --medium-soft: #2c2316;
+    --low: #6b97e6;
+    --low-soft: #182338;
+    --ok: #3cc28a;
+
+    --cat-inst: #f2c84b;
+
+    --shadow-card: none;
+    --shadow-float: 0 22px 60px -28px rgba(0, 0, 0, 0.80);
+  }
+
+  * { -webkit-tap-highlight-color: transparent; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .font-display { font-family: var(--font-display); }
+
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; border: 3px solid var(--bg); }
+  ::-webkit-scrollbar-track { background: transparent; }
+
+  /* Animations */
+  /* Transform-only: never animate opacity from 0, so content can't trap invisible in frozen captures */
+  @keyframes fadeUp { from { transform: translateY(12px); } to { transform: translateY(0); } }
+  @keyframes fadeIn { from { transform: translateY(5px); } to { transform: translateY(0); } }
+  @keyframes scaleIn { from { transform: scale(.97); } to { transform: scale(1); } }
+  @keyframes slideInRight { from { transform: translateX(26px); } to { transform: translateX(0); } }
+  @keyframes slideInLeft { from { transform: translateX(-26px); } to { transform: translateX(0); } }
+  @keyframes pulseRing { 0% { box-shadow: 0 0 0 0 rgba(255,184,0,.45); } 70% { box-shadow: 0 0 0 14px rgba(255,184,0,0); } 100% { box-shadow: 0 0 0 0 rgba(255,184,0,0); } }
+  @keyframes shimmer { 100% { background-position: 200% 0; } }
+
+  /* Resting state is VISIBLE; animation plays from hidden as an enhancement.
+     No backwards/both fill, so if the animation engine is paused (screenshots,
+     PDF, verifier) the content stays visible instead of trapping at opacity 0. */
+  .anim-fade-up, .anim-fade-in, .anim-scale-in, .anim-slide-right, .anim-slide-left { opacity: 1; }
+  @media (prefers-reduced-motion: no-preference) {
+    .anim-fade-up { animation: fadeUp .5s cubic-bezier(.22,1,.36,1) backwards; }
+    .anim-fade-in { animation: fadeIn .4s ease backwards; }
+    .anim-scale-in { animation: scaleIn .32s cubic-bezier(.22,1,.36,1) backwards; }
+    .anim-slide-right { animation: slideInRight .45s cubic-bezier(.22,1,.36,1) backwards; }
+    .anim-slide-left { animation: slideInLeft .45s cubic-bezier(.22,1,.36,1) backwards; }
+  }
+  .pulse-ring { animation: pulseRing 2s ease-out infinite; }
+
+  @keyframes qrScan { 0% { top: 14px; } 50% { top: calc(100% - 16px); } 100% { top: 14px; } }
+  .qr-scan { animation: qrScan 1.6s cubic-bezier(.45,0,.55,1) infinite; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+    html { scroll-behavior: auto; }
+  }
+
+  .stripe-placeholder {
+    background-image: repeating-linear-gradient(135deg, var(--surface-2) 0, var(--surface-2) 10px, transparent 10px, transparent 20px);
+  }
+  .focus-ring:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; border-radius: 10px; }
+
+  [data-tour-highlight] { position: relative; z-index: 60; border-radius: 16px; box-shadow: 0 0 0 4px var(--primary), 0 0 0 9999px rgba(7, 14, 26, 0.62); transition: box-shadow .3s ease; }
+  html.dark [data-tour-highlight] { box-shadow: 0 0 0 4px var(--primary), 0 0 0 9999px rgba(0,0,0,.74); }
+</style>
+</head>
+<body>
+  <template id="__bundler_thumbnail">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <rect width="100" height="100" rx="20" fill="#0b0b0c"/>
+      <rect x="30" y="30" width="40" height="40" rx="10" fill="#ffb800"/>
+      <text x="50" y="50" dy="0.36em" text-anchor="middle" font-family="Georgia, serif" font-weight="800" font-size="30" fill="#1a1a1a">U</text>
+    </svg>
+  </template>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <script type="text/babel" data-from="tweaks-panel.jsx">
+// @ds-adherence-ignore -- omelette starter scaffold (raw elements/hex/px by design)
+
+/* BEGIN USAGE */
+// tweaks-panel.jsx
+// Reusable Tweaks shell + form-control helpers.
+// Exports (to window): useTweaks, TweaksPanel, TweakSection, TweakRow, TweakSlider,
+//   TweakToggle, TweakRadio, TweakSelect, TweakText, TweakNumber, TweakColor, TweakButton.
+//
+// Owns the host protocol (listens for __activate_edit_mode / __deactivate_edit_mode,
+// posts __edit_mode_available / __edit_mode_set_keys / __edit_mode_dismissed) so
+// individual prototypes don't re-roll it. Ships a consistent set of controls so you
+// don't hand-draw <input type="range">, segmented radios, steppers, etc.
+//
+// Usage (in an HTML file that loads React + Babel):
+//
+//   const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+//     "primaryColor": "#D97757",
+//     "palette": ["#D97757", "#29261b", "#f6f4ef"],
+//     "fontSize": 16,
+//     "density": "regular",
+//     "dark": false
+//   }/*EDITMODE-END*/;
+//
+//   function App() {
+//     const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+//     return (
+//       <div style={{ fontSize: t.fontSize, color: t.primaryColor }}>
+//         Hello
+//         <TweaksPanel>
+//           <TweakSection label="Typography" />
+//           <TweakSlider label="Font size" value={t.fontSize} min={10} max={32} unit="px"
+//                        onChange={(v) => setTweak('fontSize', v)} />
+//           <TweakRadio  label="Density" value={t.density}
+//                        options={['compact', 'regular', 'comfy']}
+//                        onChange={(v) => setTweak('density', v)} />
+//           <TweakSection label="Theme" />
+//           <TweakColor  label="Primary" value={t.primaryColor}
+//                        options={['#D97757', '#2A6FDB', '#1F8A5B', '#7A5AE0']}
+//                        onChange={(v) => setTweak('primaryColor', v)} />
+//           <TweakColor  label="Palette" value={t.palette}
+//                        options={[['#D97757', '#29261b', '#f6f4ef'],
+//                                  ['#475569', '#0f172a', '#f1f5f9']]}
+//                        onChange={(v) => setTweak('palette', v)} />
+//           <TweakToggle label="Dark mode" value={t.dark}
+//                        onChange={(v) => setTweak('dark', v)} />
+//         </TweaksPanel>
+//       </div>
+//     );
+//   }
+//
+// TweakRadio is the segmented control for 2–3 short options (auto-falls-back to
+// TweakSelect past ~16/~10 chars per label); reach for TweakSelect directly when
+// options are many or long. For color tweaks always curate 3-4 options rather than
+// a free picker; an option can also be a whole 2–5 color palette (the stored value
+// is the array). The Tweak* controls are a floor, not a ceiling — build custom
+// controls inside the panel if a tweak calls for UI they don't cover.
+/* END USAGE */
+// ─────────────────────────────────────────────────────────────────────────────
+
+const __TWEAKS_STYLE = `
+  .twk-panel{position:fixed;right:16px;bottom:16px;z-index:2147483646;width:280px;
+    max-height:calc(100vh - 32px);display:flex;flex-direction:column;
+    transform:scale(var(--dc-inv-zoom,1));transform-origin:bottom right;
+    background:rgba(250,249,247,.78);color:#29261b;
+    -webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%);
+    border:.5px solid rgba(255,255,255,.6);border-radius:14px;
+    box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 12px 40px rgba(0,0,0,.18);
+    font:11.5px/1.4 ui-sans-serif,system-ui,-apple-system,sans-serif;overflow:hidden}
+  .twk-hd{display:flex;align-items:center;justify-content:space-between;
+    padding:10px 8px 10px 14px;cursor:move;user-select:none}
+  .twk-hd b{font-size:12px;font-weight:600;letter-spacing:.01em}
+  .twk-x{appearance:none;border:0;background:transparent;color:rgba(41,38,27,.55);
+    width:22px;height:22px;border-radius:6px;cursor:default;font-size:13px;line-height:1}
+  .twk-x:hover{background:rgba(0,0,0,.06);color:#29261b}
+  .twk-body{padding:2px 14px 14px;display:flex;flex-direction:column;gap:10px;
+    overflow-y:auto;overflow-x:hidden;min-height:0;
+    scrollbar-width:thin;scrollbar-color:rgba(0,0,0,.15) transparent}
+  .twk-body::-webkit-scrollbar{width:8px}
+  .twk-body::-webkit-scrollbar-track{background:transparent;margin:2px}
+  .twk-body::-webkit-scrollbar-thumb{background:rgba(0,0,0,.15);border-radius:4px;
+    border:2px solid transparent;background-clip:content-box}
+  .twk-body::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,.25);
+    border:2px solid transparent;background-clip:content-box}
+  .twk-row{display:flex;flex-direction:column;gap:5px}
+  .twk-row-h{flex-direction:row;align-items:center;justify-content:space-between;gap:10px}
+  .twk-lbl{display:flex;justify-content:space-between;align-items:baseline;
+    color:rgba(41,38,27,.72)}
+  .twk-lbl>span:first-child{font-weight:500}
+  .twk-val{color:rgba(41,38,27,.5);font-variant-numeric:tabular-nums}
+
+  .twk-sect{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    color:rgba(41,38,27,.45);padding:10px 0 0}
+  .twk-sect:first-child{padding-top:0}
+
+  .twk-field{appearance:none;box-sizing:border-box;width:100%;min-width:0;height:26px;padding:0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;
+    background:rgba(255,255,255,.6);color:inherit;font:inherit;outline:none}
+  .twk-field:focus{border-color:rgba(0,0,0,.25);background:rgba(255,255,255,.85)}
+  select.twk-field{padding-right:22px;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='rgba(0,0,0,.5)' d='M0 0h10L5 6z'/></svg>");
+    background-repeat:no-repeat;background-position:right 8px center}
+
+  .twk-slider{appearance:none;-webkit-appearance:none;width:100%;height:4px;margin:6px 0;
+    border-radius:999px;background:rgba(0,0,0,.12);outline:none}
+  .twk-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+    width:14px;height:14px;border-radius:50%;background:#fff;
+    border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+  .twk-slider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;
+    background:#fff;border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+
+  .twk-seg{position:relative;display:flex;padding:2px;border-radius:8px;
+    background:rgba(0,0,0,.06);user-select:none}
+  .twk-seg-thumb{position:absolute;top:2px;bottom:2px;border-radius:6px;
+    background:rgba(255,255,255,.9);box-shadow:0 1px 2px rgba(0,0,0,.12);
+    transition:left .15s cubic-bezier(.3,.7,.4,1),width .15s}
+  .twk-seg.dragging .twk-seg-thumb{transition:none}
+  .twk-seg button{appearance:none;position:relative;z-index:1;flex:1;border:0;
+    background:transparent;color:inherit;font:inherit;font-weight:500;min-height:22px;
+    border-radius:6px;cursor:default;padding:4px 6px;line-height:1.2;
+    overflow-wrap:anywhere}
+
+  .twk-toggle{position:relative;width:32px;height:18px;border:0;border-radius:999px;
+    background:rgba(0,0,0,.15);transition:background .15s;cursor:default;padding:0}
+  .twk-toggle[data-on="1"]{background:#34c759}
+  .twk-toggle i{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;
+    background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .15s}
+  .twk-toggle[data-on="1"] i{transform:translateX(14px)}
+
+  .twk-num{display:flex;align-items:center;box-sizing:border-box;min-width:0;height:26px;padding:0 0 0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;background:rgba(255,255,255,.6)}
+  .twk-num-lbl{font-weight:500;color:rgba(41,38,27,.6);cursor:ew-resize;
+    user-select:none;padding-right:8px}
+  .twk-num input{flex:1;min-width:0;height:100%;border:0;background:transparent;
+    font:inherit;font-variant-numeric:tabular-nums;text-align:right;padding:0 8px 0 0;
+    outline:none;color:inherit;-moz-appearance:textfield}
+  .twk-num input::-webkit-inner-spin-button,.twk-num input::-webkit-outer-spin-button{
+    -webkit-appearance:none;margin:0}
+  .twk-num-unit{padding-right:8px;color:rgba(41,38,27,.45)}
+
+  .twk-btn{appearance:none;height:26px;padding:0 12px;border:0;border-radius:7px;
+    background:rgba(0,0,0,.78);color:#fff;font:inherit;font-weight:500;cursor:default}
+  .twk-btn:hover{background:rgba(0,0,0,.88)}
+  .twk-btn.secondary{background:rgba(0,0,0,.06);color:inherit}
+  .twk-btn.secondary:hover{background:rgba(0,0,0,.1)}
+
+  .twk-swatch{appearance:none;-webkit-appearance:none;width:56px;height:22px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:6px;padding:0;cursor:default;
+    background:transparent;flex-shrink:0}
+  .twk-swatch::-webkit-color-swatch-wrapper{padding:0}
+  .twk-swatch::-webkit-color-swatch{border:0;border-radius:5.5px}
+  .twk-swatch::-moz-color-swatch{border:0;border-radius:5.5px}
+
+  .twk-chips{display:flex;gap:6px}
+  .twk-chip{position:relative;appearance:none;flex:1;min-width:0;height:46px;
+    padding:0;border:0;border-radius:6px;overflow:hidden;cursor:default;
+    box-shadow:0 0 0 .5px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.06);
+    transition:transform .12s cubic-bezier(.3,.7,.4,1),box-shadow .12s}
+  .twk-chip:hover{transform:translateY(-1px);
+    box-shadow:0 0 0 .5px rgba(0,0,0,.18),0 4px 10px rgba(0,0,0,.12)}
+  .twk-chip[data-on="1"]{box-shadow:0 0 0 1.5px rgba(0,0,0,.85),
+    0 2px 6px rgba(0,0,0,.15)}
+  .twk-chip>span{position:absolute;top:0;bottom:0;right:0;width:34%;
+    display:flex;flex-direction:column;box-shadow:-1px 0 0 rgba(0,0,0,.1)}
+  .twk-chip>span>i{flex:1;box-shadow:0 -1px 0 rgba(0,0,0,.1)}
+  .twk-chip>span>i:first-child{box-shadow:none}
+  .twk-chip svg{position:absolute;top:6px;left:6px;width:13px;height:13px;
+    filter:drop-shadow(0 1px 1px rgba(0,0,0,.3))}
+`;
+
+// ── useTweaks ───────────────────────────────────────────────────────────────
+// Single source of truth for tweak values. setTweak persists via the host
+// (__edit_mode_set_keys → host rewrites the EDITMODE block on disk).
+function useTweaks(defaults) {
+  const [values, setValues] = React.useState(defaults);
+  // Accepts either setTweak('key', value) or setTweak({ key: value, ... }) so a
+  // useState-style call doesn't write a "[object Object]" key into the persisted
+  // JSON block.
+  const setTweak = React.useCallback((keyOrEdits, val) => {
+    const edits = typeof keyOrEdits === 'object' && keyOrEdits !== null
+      ? keyOrEdits : { [keyOrEdits]: val };
+    setValues((prev) => ({ ...prev, ...edits }));
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits }, '*');
+    // Same-window signal so in-page listeners (deck-stage rail thumbnails)
+    // can react — the parent message only reaches the host, not peers.
+    window.dispatchEvent(new CustomEvent('tweakchange', { detail: edits }));
+  }, []);
+  return [values, setTweak];
+}
+
+// ── TweaksPanel ─────────────────────────────────────────────────────────────
+// Floating shell. Registers the protocol listener BEFORE announcing
+// availability — if the announce ran first, the host's activate could land
+// before our handler exists and the toolbar toggle would silently no-op.
+// The close button posts __edit_mode_dismissed so the host's toolbar toggle
+// flips off in lockstep; the host echoes __deactivate_edit_mode back which
+// is what actually hides the panel.
+function TweaksPanel({ title = 'Tweaks', children }) {
+  const [open, setOpen] = React.useState(false);
+  const dragRef = React.useRef(null);
+  const offsetRef = React.useRef({ x: 16, y: 16 });
+  const PAD = 16;
+
+  const clampToViewport = React.useCallback(() => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const w = panel.offsetWidth, h = panel.offsetHeight;
+    const maxRight = Math.max(PAD, window.innerWidth - w - PAD);
+    const maxBottom = Math.max(PAD, window.innerHeight - h - PAD);
+    offsetRef.current = {
+      x: Math.min(maxRight, Math.max(PAD, offsetRef.current.x)),
+      y: Math.min(maxBottom, Math.max(PAD, offsetRef.current.y)),
+    };
+    panel.style.right = offsetRef.current.x + 'px';
+    panel.style.bottom = offsetRef.current.y + 'px';
+  }, []);
+
+  React.useEffect(() => {
+    if (!open) return;
+    clampToViewport();
+    if (typeof ResizeObserver === 'undefined') {
+      window.addEventListener('resize', clampToViewport);
+      return () => window.removeEventListener('resize', clampToViewport);
+    }
+    const ro = new ResizeObserver(clampToViewport);
+    ro.observe(document.documentElement);
+    return () => ro.disconnect();
+  }, [open, clampToViewport]);
+
+  React.useEffect(() => {
+    const onMsg = (e) => {
+      const t = e?.data?.type;
+      if (t === '__activate_edit_mode') setOpen(true);
+      else if (t === '__deactivate_edit_mode') setOpen(false);
+    };
+    window.addEventListener('message', onMsg);
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+    return () => window.removeEventListener('message', onMsg);
+  }, []);
+
+  const dismiss = () => {
+    setOpen(false);
+    window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*');
+  };
+
+  const onDragStart = (e) => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const r = panel.getBoundingClientRect();
+    const sx = e.clientX, sy = e.clientY;
+    const startRight = window.innerWidth - r.right;
+    const startBottom = window.innerHeight - r.bottom;
+    const move = (ev) => {
+      offsetRef.current = {
+        x: startRight - (ev.clientX - sx),
+        y: startBottom - (ev.clientY - sy),
+      };
+      clampToViewport();
+    };
+    const up = () => {
+      window.removeEventListener('mousemove', move);
+      window.removeEventListener('mouseup', up);
+    };
+    window.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', up);
+  };
+
+  if (!open) return null;
+  return (
+    <>
+      <style>{__TWEAKS_STYLE}</style>
+      <div ref={dragRef} className="twk-panel" data-omelette-chrome=""
+           style={{ right: offsetRef.current.x, bottom: offsetRef.current.y }}>
+        <div className="twk-hd" onMouseDown={onDragStart}>
+          <b>{title}</b>
+          <button className="twk-x" aria-label="Close tweaks"
+                  onMouseDown={(e) => e.stopPropagation()}
+                  onClick={dismiss}>✕</button>
+        </div>
+        <div className="twk-body">
+          {children}
+        </div>
+      </div>
+    </>
+  );
+}
+
+// ── Layout helpers ──────────────────────────────────────────────────────────
+
+function TweakSection({ label, children }) {
+  return (
+    <>
+      <div className="twk-sect">{label}</div>
+      {children}
+    </>
+  );
+}
+
+function TweakRow({ label, value, children, inline = false }) {
+  return (
+    <div className={inline ? 'twk-row twk-row-h' : 'twk-row'}>
+      <div className="twk-lbl">
+        <span>{label}</span>
+        {value != null && <span className="twk-val">{value}</span>}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+// ── Controls ────────────────────────────────────────────────────────────────
+
+function TweakSlider({ label, value, min = 0, max = 100, step = 1, unit = '', onChange }) {
+  return (
+    <TweakRow label={label} value={`${value}${unit}`}>
+      <input type="range" className="twk-slider" min={min} max={max} step={step}
+             value={value} onChange={(e) => onChange(Number(e.target.value))} />
+    </TweakRow>
+  );
+}
+
+function TweakToggle({ label, value, onChange }) {
+  return (
+    <div className="twk-row twk-row-h">
+      <div className="twk-lbl"><span>{label}</span></div>
+      <button type="button" className="twk-toggle" data-on={value ? '1' : '0'}
+              role="switch" aria-checked={!!value}
+              onClick={() => onChange(!value)}><i /></button>
+    </div>
+  );
+}
+
+function TweakRadio({ label, value, options, onChange }) {
+  const trackRef = React.useRef(null);
+  const [dragging, setDragging] = React.useState(false);
+  // The active value is read by pointer-move handlers attached for the lifetime
+  // of a drag — ref it so a stale closure doesn't fire onChange for every move.
+  const valueRef = React.useRef(value);
+  valueRef.current = value;
+
+  // Segments wrap mid-word once per-segment width runs out. The track is
+  // ~248px (280 panel − 28 body pad − 4 seg pad), each button loses 12px
+  // to its own padding, and 11.5px system-ui averages ~6.3px/char — so 2
+  // options fit ~16 chars each, 3 fit ~10. Past that (or >3 options), fall
+  // back to a dropdown rather than wrap.
+  const labelLen = (o) => String(typeof o === 'object' ? o.label : o).length;
+  const maxLen = options.reduce((m, o) => Math.max(m, labelLen(o)), 0);
+  const fitsAsSegments = maxLen <= ({ 2: 16, 3: 10 }[options.length] ?? 0);
+  if (!fitsAsSegments) {
+    // <select> emits strings — map back to the original option value so the
+    // fallback stays type-preserving (numbers, booleans) like the segment path.
+    const resolve = (s) => {
+      const m = options.find((o) => String(typeof o === 'object' ? o.value : o) === s);
+      return m === undefined ? s : typeof m === 'object' ? m.value : m;
+    };
+    return <TweakSelect label={label} value={value} options={options}
+                        onChange={(s) => onChange(resolve(s))} />;
+  }
+  const opts = options.map((o) => (typeof o === 'object' ? o : { value: o, label: o }));
+  const idx = Math.max(0, opts.findIndex((o) => o.value === value));
+  const n = opts.length;
+
+  const segAt = (clientX) => {
+    const r = trackRef.current.getBoundingClientRect();
+    const inner = r.width - 4;
+    const i = Math.floor(((clientX - r.left - 2) / inner) * n);
+    return opts[Math.max(0, Math.min(n - 1, i))].value;
+  };
+
+  const onPointerDown = (e) => {
+    setDragging(true);
+    const v0 = segAt(e.clientX);
+    if (v0 !== valueRef.current) onChange(v0);
+    const move = (ev) => {
+      if (!trackRef.current) return;
+      const v = segAt(ev.clientX);
+      if (v !== valueRef.current) onChange(v);
+    };
+    const up = () => {
+      setDragging(false);
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+
+  return (
+    <TweakRow label={label}>
+      <div ref={trackRef} role="radiogroup" onPointerDown={onPointerDown}
+           className={dragging ? 'twk-seg dragging' : 'twk-seg'}>
+        <div className="twk-seg-thumb"
+             style={{ left: `calc(2px + ${idx} * (100% - 4px) / ${n})`,
+                      width: `calc((100% - 4px) / ${n})` }} />
+        {opts.map((o) => (
+          <button key={o.value} type="button" role="radio" aria-checked={o.value === value}>
+            {o.label}
+          </button>
+        ))}
+      </div>
+    </TweakRow>
+  );
+}
+
+function TweakSelect({ label, value, options, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <select className="twk-field" value={value} onChange={(e) => onChange(e.target.value)}>
+        {options.map((o) => {
+          const v = typeof o === 'object' ? o.value : o;
+          const l = typeof o === 'object' ? o.label : o;
+          return <option key={v} value={v}>{l}</option>;
+        })}
+      </select>
+    </TweakRow>
+  );
+}
+
+function TweakText({ label, value, placeholder, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <input className="twk-field" type="text" value={value} placeholder={placeholder}
+             onChange={(e) => onChange(e.target.value)} />
+    </TweakRow>
+  );
+}
+
+function TweakNumber({ label, value, min, max, step = 1, unit = '', onChange }) {
+  const clamp = (n) => {
+    if (min != null && n < min) return min;
+    if (max != null && n > max) return max;
+    return n;
+  };
+  const startRef = React.useRef({ x: 0, val: 0 });
+  const onScrubStart = (e) => {
+    e.preventDefault();
+    startRef.current = { x: e.clientX, val: value };
+    const decimals = (String(step).split('.')[1] || '').length;
+    const move = (ev) => {
+      const dx = ev.clientX - startRef.current.x;
+      const raw = startRef.current.val + dx * step;
+      const snapped = Math.round(raw / step) * step;
+      onChange(clamp(Number(snapped.toFixed(decimals))));
+    };
+    const up = () => {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+  return (
+    <div className="twk-num">
+      <span className="twk-num-lbl" onPointerDown={onScrubStart}>{label}</span>
+      <input type="number" value={value} min={min} max={max} step={step}
+             onChange={(e) => onChange(clamp(Number(e.target.value)))} />
+      {unit && <span className="twk-num-unit">{unit}</span>}
+    </div>
+  );
+}
+
+// Relative-luminance contrast pick — checkmarks drawn over a swatch need to
+// read on both #111 and #fafafa without per-option configuration. Hex input
+// only (#rgb / #rrggbb); named or rgb()/hsl() colors fall through to "light".
+function __twkIsLight(hex) {
+  const h = String(hex).replace('#', '');
+  const x = h.length === 3 ? h.replace(/./g, (c) => c + c) : h.padEnd(6, '0');
+  const n = parseInt(x.slice(0, 6), 16);
+  if (Number.isNaN(n)) return true;
+  const r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
+  return r * 299 + g * 587 + b * 114 > 148000;
+}
+
+const __TwkCheck = ({ light }) => (
+  <svg viewBox="0 0 14 14" aria-hidden="true">
+    <path d="M3 7.2 5.8 10 11 4.2" fill="none" strokeWidth="2.2"
+          strokeLinecap="round" strokeLinejoin="round"
+          stroke={light ? 'rgba(0,0,0,.78)' : '#fff'} />
+  </svg>
+);
+
+// TweakColor — curated color/palette picker. Each option is either a single
+// hex string or an array of 1-5 hex strings; the card adapts — a lone color
+// renders solid, a palette renders colors[0] as the hero (left ~2/3) with the
+// rest stacked in a sharp column on the right. onChange emits the
+// option in the shape it was passed (string stays string, array stays array).
+// Without options it falls back to the native color input for back-compat.
+function TweakColor({ label, value, options, onChange }) {
+  if (!options || !options.length) {
+    return (
+      <div className="twk-row twk-row-h">
+        <div className="twk-lbl"><span>{label}</span></div>
+        <input type="color" className="twk-swatch" value={value}
+               onChange={(e) => onChange(e.target.value)} />
+      </div>
+    );
+  }
+  // Native <input type=color> emits lowercase hex per the HTML spec, so
+  // compare case-insensitively. String() guards JSON.stringify(undefined),
+  // which returns the primitive undefined (no .toLowerCase).
+  const key = (o) => String(JSON.stringify(o)).toLowerCase();
+  const cur = key(value);
+  return (
+    <TweakRow label={label}>
+      <div className="twk-chips" role="radiogroup">
+        {options.map((o, i) => {
+          const colors = Array.isArray(o) ? o : [o];
+          const [hero, ...rest] = colors;
+          const sup = rest.slice(0, 4);
+          const on = key(o) === cur;
+          return (
+            <button key={i} type="button" className="twk-chip" role="radio"
+                    aria-checked={on} data-on={on ? '1' : '0'}
+                    aria-label={colors.join(', ')} title={colors.join(' · ')}
+                    style={{ background: hero }}
+                    onClick={() => onChange(o)}>
+              {sup.length > 0 && (
+                <span>
+                  {sup.map((c, j) => <i key={j} style={{ background: c }} />)}
+                </span>
+              )}
+              {on && <__TwkCheck light={__twkIsLight(hero)} />}
+            </button>
+          );
+        })}
+      </div>
+    </TweakRow>
+  );
+}
+
+function TweakButton({ label, onClick, secondary = false }) {
+  return (
+    <button type="button" className={secondary ? 'twk-btn secondary' : 'twk-btn'}
+            onClick={onClick}>{label}</button>
+  );
+}
+
+Object.assign(window, {
+  useTweaks, TweaksPanel, TweakSection, TweakRow,
+  TweakSlider, TweakToggle, TweakRadio, TweakSelect,
+  TweakText, TweakNumber, TweakColor, TweakButton,
+});
+
+</script>
+  <script type="text/babel" data-from="src/data.jsx">
+// src/data.jsx — Datos ficticios en español académico (window.DATA)
+const STUDENT = {
+  nombre: 'Francisco Javier Reyes Soto',
+  primerNombre: 'Francisco Javier',
+  rut: '21.345.678-9',
+  carrera: 'Ingeniería en Informática',
+  sede: 'Sede Plaza Vespucio',
+  jornada: 'Vespertina',
+  semestre: '5º Semestre · 2026',
+  avance: 64,
+  iniciales: 'FR',
+};
+
+const COURSES = [
+  {
+    id: 'cloud',
+    sigla: 'TIN-2043',
+    nombre: 'Introducción a Cloud Computing',
+    seccion: '002V',
+    docente: 'Rodrigo Maldonado',
+    color: '#0e4fb8',
+    progreso: 72,
+    proxima: 'Mié 14:30 · Lab 4',
+    promedio: 5.8,
+    tareasPendientes: 2,
+    nuevos: 3,
+    asistencia: { minimo: 75, total: 32, asistidas: 22, inasistencias: 2 },
+  },
+  {
+    id: 'bd',
+    sigla: 'TIN-1052',
+    nombre: 'Bases de Datos Relacionales',
+    seccion: '004V',
+    docente: 'Patricia Aguilera',
+    color: '#7b3ff2',
+    progreso: 58,
+    proxima: 'Jue 19:00 · Sala 312',
+    promedio: 6.2,
+    tareasPendientes: 1,
+    nuevos: 0,
+    asistencia: { minimo: 75, total: 30, asistidas: 18, inasistencias: 1 },
+  },
+  {
+    id: 'web',
+    sigla: 'TIN-2110',
+    nombre: 'Desarrollo de Aplicaciones Web',
+    seccion: '001V',
+    docente: 'Felipe Cárcamo',
+    color: '#1f9d6b',
+    progreso: 81,
+    proxima: 'Vie 14:30 · Lab 2',
+    promedio: 6.5,
+    tareasPendientes: 0,
+    nuevos: 1,
+    asistencia: { minimo: 75, total: 28, asistidas: 23, inasistencias: 0 },
+  },
+  {
+    id: 'etica',
+    sigla: 'EPL-1500',
+    nombre: 'Ética para el Trabajo',
+    seccion: '012V',
+    docente: 'Ignacia Tapia',
+    color: '#d98300',
+    progreso: 44,
+    proxima: 'Lun 19:00 · Sala 208',
+    promedio: 5.4,
+    tareasPendientes: 1,
+    nuevos: 0,
+    asistencia: { minimo: 75, total: 24, asistidas: 13, inasistencias: 5 },
+  },
+];
+
+const NOTIFICATIONS = [
+  {
+    id: 'n1',
+    urgencia: 'alta',
+    tipo: 'Calificación',
+    titulo: 'Nueva nota publicada en Cloud Computing',
+    detalle: 'Experiencia de Aprendizaje 2: obtuviste un 6,3. Revisa la retroalimentación del docente.',
+    tiempo: 'Hace 20 min',
+    curso: 'cloud',
+    categoria: 'carrera',
+    accion: 'Ver calificación',
+  },
+  {
+    id: 'n2',
+    urgencia: 'alta',
+    tipo: 'Asistencia',
+    titulo: 'Asistencia en riesgo en Ética para el Trabajo',
+    detalle: 'Registras 5 inasistencias de un máximo de 6. Solo puedes faltar a 1 clase más para cumplir el 75% requerido.',
+    tiempo: 'Hace 40 min',
+    curso: 'etica',
+    categoria: 'transversal',
+    accion: 'Ver asistencia',
+  },
+  {
+    id: 'n2b',
+    urgencia: 'alta',
+    tipo: 'Horario',
+    titulo: 'Tu clase de Bases de Datos cambió de sala',
+    detalle: 'La sesión del jueves 19:00 se traslada de Sala 312 a Sala 401, Edificio B.',
+    tiempo: 'Hace 1 h',
+    curso: 'bd',
+    categoria: 'carrera',
+    accion: 'Ver en calendario',
+  },
+  {
+    id: 'n3',
+    urgencia: 'media',
+    tipo: 'Trámite',
+    titulo: 'Inscripción de asignaturas abre en 3 días',
+    detalle: 'El periodo de toma de ramos para el 6º semestre comienza el 8 de junio a las 09:00.',
+    tiempo: 'Hace 3 h',
+    curso: null,
+    categoria: 'institucion',
+    accion: 'Ir al trámite',
+  },
+  {
+    id: 'n4',
+    urgencia: 'media',
+    tipo: 'Entrega',
+    titulo: 'Tarea por vencer en Ética para el Trabajo',
+    detalle: 'El control de lectura cierra mañana a las 23:59. Aún no registras entrega.',
+    tiempo: 'Hace 5 h',
+    curso: 'etica',
+    categoria: 'transversal',
+    accion: 'Subir entrega',
+  },
+  {
+    id: 'n5',
+    urgencia: 'baja',
+    tipo: 'Estado técnico',
+    titulo: 'Mantención programada de la plataforma',
+    detalle: 'El sábado 7 de junio entre 02:00 y 04:00 el servicio podría presentar intermitencias.',
+    tiempo: 'Ayer',
+    curso: null,
+    categoria: 'general',
+    accion: 'Ver estado',
+  },
+  {
+    id: 'n6',
+    urgencia: 'baja',
+    tipo: 'Comunidad',
+    titulo: 'Nuevo anuncio en Desarrollo Web',
+    detalle: 'El docente compartió material complementario sobre componentes reutilizables.',
+    tiempo: 'Ayer',
+    curso: 'web',
+    categoria: 'carrera',
+    accion: 'Leer anuncio',
+  },
+];
+
+const CALENDAR = [
+  { id: 'c1', dia: 'HOY', fecha: 'Jue 5 jun', items: [
+    { hora: '19:00', titulo: 'Bases de Datos Relacionales', lugar: 'Sala 401 · Ed. B', tipo: 'clase', color: '#7b3ff2', alerta: 'Sala actualizada' },
+    { hora: '23:59', titulo: 'Cierre control de lectura · Ética', lugar: 'Entrega en línea', tipo: 'entrega', color: '#d98300' },
+  ]},
+  { id: 'c2', dia: 'MAÑANA', fecha: 'Vie 6 jun', items: [
+    { hora: '14:30', titulo: 'Desarrollo de Aplicaciones Web', lugar: 'Lab 2', tipo: 'clase', color: '#1f9d6b' },
+  ]},
+  { id: 'c3', dia: 'PRÓXIMO', fecha: 'Lun 8 jun', items: [
+    { hora: '09:00', titulo: 'Apertura inscripción de asignaturas', lugar: 'Trámite · Vivo', tipo: 'tramite', color: '#0e4fb8' },
+    { hora: '19:00', titulo: 'Ética para el Trabajo', lugar: 'Sala 208', tipo: 'clase', color: '#d98300' },
+  ]},
+  { id: 'c4', dia: 'PRÓXIMO', fecha: 'Mié 10 jun', items: [
+    { hora: '14:30', titulo: 'Evaluación Cloud Computing', lugar: 'Lab 4', tipo: 'evaluacion', color: '#e0454b', alerta: 'Evaluación' },
+  ]},
+];
+
+const QUICK_ACTIONS = [
+  { id: 'q1', label: 'Certificado de alumno regular', icon: 'doc', categoria: 'Trámite', destacado: true },
+  { id: 'q2', label: 'Estado de cuenta y pagos', icon: 'wallet', categoria: 'Finanzas' },
+  { id: 'q3', label: 'Inscripción de asignaturas', icon: 'list', categoria: 'Trámite' },
+  { id: 'q4', label: 'Reservar sala de estudio', icon: 'pin', categoria: 'Campus' },
+  { id: 'q5', label: 'Solicitar beca o beneficio', icon: 'gift', categoria: 'Finanzas' },
+  { id: 'q6', label: 'Mesa de ayuda técnica', icon: 'support', categoria: 'Soporte' },
+];
+
+const SEARCH_INDEX = [
+  { tipo: 'Curso', titulo: 'Introducción a Cloud Computing', sub: 'TIN-2043 · Sección 002V', icon: 'book', ruta: 'curso:cloud' },
+  { tipo: 'Curso', titulo: 'Bases de Datos Relacionales', sub: 'TIN-1052 · Sección 004V', icon: 'book', ruta: 'curso:bd' },
+  { tipo: 'Trámite', titulo: 'Certificado de alumno regular', sub: 'Emisión inmediata · PDF', icon: 'doc', ruta: 'ayuda' },
+  { tipo: 'Trámite', titulo: 'Inscripción de asignaturas', sub: 'Disponible desde el 8 de junio', icon: 'list', ruta: 'ayuda' },
+  { tipo: 'Recurso', titulo: 'Syllabus · Cloud Computing', sub: 'Documento del curso', icon: 'file', ruta: 'curso:cloud' },
+  { tipo: 'Recurso', titulo: 'Biblioteca digital', sub: 'Catálogo y préstamos', icon: 'book', ruta: 'ayuda' },
+  { tipo: 'Soporte', titulo: 'Restablecer contraseña', sub: 'Guía rápida · 2 min', icon: 'support', ruta: 'ayuda' },
+  { tipo: 'Persona', titulo: 'Rodrigo Maldonado', sub: 'Docente · Cloud Computing', icon: 'user', ruta: 'curso:cloud' },
+];
+
+// Estructura del curso re-imaginada (desde el legacy "Maleta Didáctica")
+const COURSE_CONTENT = {
+  cloud: {
+    banner: 'Introducción a Cloud Computing',
+    descripcion: 'Comprende los fundamentos de la computación en la nube, modelos de servicio y despliegue de soluciones escalables.',
+    modulos: [
+      { id: 'm0', tipo: 'info', titulo: 'Información de la Asignatura', sub: 'Syllabus, programa y reglas de evaluación', estado: 'Revisado', items: 3 },
+      { id: 'm1', tipo: 'experiencia', titulo: 'EA 1 · Conociendo la nube y sus servicios', sub: '4 recursos · 1 actividad evaluada', estado: 'Completado', progreso: 100, items: 5 },
+      { id: 'm2', tipo: 'experiencia', titulo: 'EA 2 · Modelos de servicio IaaS, PaaS y SaaS', sub: '6 recursos · 1 actividad evaluada', estado: 'En curso', progreso: 60, items: 7, activo: true },
+      { id: 'm3', tipo: 'experiencia', titulo: 'EA 3 · Despliegue y escalabilidad', sub: '5 recursos · 1 actividad evaluada', estado: 'Disponible', progreso: 0, items: 6 },
+      { id: 'm4', tipo: 'evaluacion', titulo: 'Evaluación Transversal', sub: 'Disponible desde el 10 de junio', estado: 'Bloqueado', items: 1 },
+    ],
+    notas: [
+      { eval: 'EA 1 · Actividad práctica', nota: 5.8, pond: '25%' },
+      { eval: 'EA 2 · Informe de servicios', nota: 6.3, pond: '25%' },
+      { eval: 'EA 3 · Proyecto despliegue', nota: null, pond: '25%' },
+      { eval: 'Evaluación Transversal', nota: null, pond: '25%' },
+    ],
+  },
+};
+
+const HELP_CATEGORIES = [
+  { id: 'h1', icon: 'rocket', titulo: 'Primeros pasos', desc: 'Configura tu cuenta y conoce la plataforma', articulos: 8, color: '#0e4fb8' },
+  { id: 'h2', icon: 'book', titulo: 'Académico', desc: 'Cursos, notas, foros y entregas', articulos: 14, color: '#1f9d6b' },
+  { id: 'h3', icon: 'doc', titulo: 'Trámites y certificados', desc: 'Solicitudes administrativas en línea', articulos: 11, color: '#d98300' },
+  { id: 'h4', icon: 'wallet', titulo: 'Finanzas y becas', desc: 'Pagos, aranceles y beneficios', articulos: 9, color: '#7b3ff2' },
+  { id: 'h5', icon: 'support', titulo: 'Soporte técnico', desc: 'Acceso, contraseñas y fallas', articulos: 12, color: '#e0454b' },
+  { id: 'h6', icon: 'campus', titulo: 'Vida en el campus', desc: 'Salas, biblioteca y bienestar', articulos: 7, color: '#0e7490' },
+];
+
+const HELP_POPULAR = [
+  '¿Cómo descargo mi certificado de alumno regular?',
+  'No puedo ver las notas de un curso',
+  'Restablecer mi contraseña de acceso',
+  '¿Cuándo abre la inscripción de asignaturas?',
+  '¿Dónde encuentro el syllabus de mi ramo?',
+];
+
+const SERVICE_STATUS = [
+  { servicio: 'Aula Virtual (cursos)', estado: 'operativo' },
+  { servicio: 'Trámites y certificados', estado: 'operativo' },
+  { servicio: 'Pasarela de pagos', estado: 'degradado' },
+  { servicio: 'Correo institucional', estado: 'operativo' },
+];
+
+// Categorías de notificación por origen (color-coded)
+const NOTIF_CATEGORIES = {
+  institucion: { label: 'DUOC UC', color: 'var(--cat-inst)', icon: 'campus' },
+  carrera: { label: 'Carrera', color: 'var(--high)', icon: 'book' },
+  transversal: { label: 'Transversal', color: 'var(--medium)', icon: 'globe' },
+  general: { label: 'General', color: 'var(--ok)', icon: 'info' },
+};
+
+const TOUR_STEPS = [
+  { target: 'tour-search', titulo: 'Búsqueda global', desc: 'Encuentra cursos, trámites, recursos y personas desde un solo lugar. Sin navegar por menús.', icon: 'search', pos: 'bottom' },
+  { target: 'tour-notifs', titulo: 'Notificaciones priorizadas', desc: 'Tus alertas ordenadas por urgencia: notas, cambios de horario y estado técnico, siempre primero lo importante.', icon: 'bell', pos: 'left' },
+  { target: 'tour-calendar', titulo: 'Calendario unificado', desc: 'Clases, evaluaciones y fechas institucionales en una sola vista integrada.', icon: 'calendar', pos: 'left' },
+  { target: 'tour-courses', titulo: 'Tus cursos, simplificados', desc: 'Accede al material académico y a las funciones administrativas de cada ramo en menos de 3 clics.', icon: 'book', pos: 'top' },
+  { target: 'tour-help', titulo: 'Ayuda en todo momento', desc: 'El botón de ayuda te acompaña en cada pantalla con guías, chat y estado de los servicios.', icon: 'support', pos: 'left' },
+];
+
+window.DATA = {
+  STUDENT, COURSES, NOTIFICATIONS, NOTIF_CATEGORIES, CALENDAR, QUICK_ACTIONS, SEARCH_INDEX,
+  COURSE_CONTENT, HELP_CATEGORIES, HELP_POPULAR, SERVICE_STATUS, TOUR_STEPS,
+};
+
+</script>
+  <script type="text/babel" data-from="src/icons.jsx">
+// src/icons.jsx — Iconos SVG (window.Icon)
+const ICON_PATHS = {
+  home: '<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h3v-6h6v6h3a1 1 0 0 0 1-1V9.5"/>',
+  grid: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+  book: '<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20v3H6.5A2.5 2.5 0 0 1 4 20.5z"/>',
+  bell: '<path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
+  calendar: '<rect x="3" y="4.5" width="18" height="16.5" rx="2.5"/><path d="M3 9h18M8 2.5v4M16 2.5v4"/>',
+  search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/>',
+  support: '<circle cx="12" cy="12" r="9"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.5-3 4"/><circle cx="12" cy="17" r="0.6" fill="currentColor" stroke="none"/>',
+  doc: '<path d="M14 3v5h5"/><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M9 13h6M9 17h4"/>',
+  file: '<path d="M14 3v5h5"/><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/>',
+  wallet: '<path d="M3 7.5A2.5 2.5 0 0 1 5.5 5H18a1 1 0 0 1 1 1v1.5"/><rect x="3" y="7.5" width="18" height="12" rx="2.5"/><circle cx="16.5" cy="13.5" r="1.3" fill="currentColor" stroke="none"/>',
+  list: '<path d="M8 6h12M8 12h12M8 18h12"/><circle cx="3.5" cy="6" r="1.1" fill="currentColor" stroke="none"/><circle cx="3.5" cy="12" r="1.1" fill="currentColor" stroke="none"/><circle cx="3.5" cy="18" r="1.1" fill="currentColor" stroke="none"/>',
+  pin: '<path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+  gift: '<rect x="3" y="9" width="18" height="4" rx="1"/><path d="M5 13v8h14v-8M12 9v12"/><path d="M12 9S10.5 4.5 8 5.5 9.5 9 12 9zM12 9s1.5-4.5 4-3.5S14.5 9 12 9z"/>',
+  user: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+  users: '<circle cx="9" cy="8" r="3.5"/><path d="M3 21a6 6 0 0 1 12 0"/><path d="M16 5.2a3.5 3.5 0 0 1 0 6.8M21 21a6 6 0 0 0-4-5.7"/>',
+  rocket: '<path d="M5 13c-1.5.5-3 2.5-3 6 3.5 0 5.5-1.5 6-3"/><path d="M12.5 4.5C16 1 20.5 2 22 3.5S23 10 19.5 13.5L15 18l-5-5z"/><circle cx="15.5" cy="8.5" r="1.5"/>',
+  campus: '<path d="M3 21h18M5 21V10l7-5 7 5v11"/><path d="M10 21v-5h4v5"/><path d="M9 11h.01M15 11h.01"/>',
+  settings: '<circle cx="12" cy="12" r="3"/><path d="M19.4 13.5a7.8 7.8 0 0 0 0-3l1.6-1.2-1.8-3.1-1.9.8a7.7 7.7 0 0 0-2.6-1.5L14.4 2h-3.6l-.3 2a7.7 7.7 0 0 0-2.6 1.5l-1.9-.8L4.2 7.8 5.8 9a7.8 7.8 0 0 0 0 3l-1.6 1.2 1.8 3.1 1.9-.8a7.7 7.7 0 0 0 2.6 1.5l.3 2h3.6l.3-2a7.7 7.7 0 0 0 2.6-1.5l1.9.8 1.8-3.1z"/>',
+  moon: '<path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8z"/>',
+  sun: '<circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.5M12 19v2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M2.5 12H5M19 12h2.5M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/>',
+  chevronDown: '<path d="m6 9 6 6 6-6"/>',
+  chevronRight: '<path d="m9 6 6 6-6 6"/>',
+  chevronLeft: '<path d="m15 6-6 6 6 6"/>',
+  arrowRight: '<path d="M5 12h14M13 6l6 6-6 6"/>',
+  close: '<path d="M6 6l12 12M18 6 6 18"/>',
+  check: '<path d="M5 12.5 10 17.5 19.5 7"/>',
+  checkCircle: '<circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/>',
+  plus: '<path d="M12 5v14M5 12h14"/>',
+  menu: '<path d="M4 6h16M4 12h16M4 18h16"/>',
+  logout: '<path d="M15 4h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-2"/><path d="M10 12H3M6 8l-4 4 4 4"/>',
+  shield: '<path d="M12 3 5 6v5c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6z"/><path d="m9.5 12 1.8 1.8 3.2-3.6"/>',
+  lock: '<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+  mail: '<rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.5 7 8.5 6 8.5-6"/>',
+  play: '<path d="M7 5.5 19 12 7 18.5z" fill="currentColor" stroke="none"/>',
+  sparkle: '<path d="M12 3.5 13.6 9 19 10.5 13.6 12 12 17.5 10.4 12 5 10.5 10.4 9z"/><path d="M19 4v3M20.5 5.5h-3" stroke-width="1.4"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/>',
+  filter: '<path d="M3 5h18l-7 8v5l-4 2v-7z"/>',
+  dots: '<circle cx="5" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.4" fill="currentColor" stroke="none"/>',
+  chat: '<path d="M21 12a8 8 0 0 1-11.5 7.2L3 21l1.8-6.5A8 8 0 1 1 21 12z"/>',
+  flame: '<path d="M12 22c4 0 6.5-2.7 6.5-6 0-3.5-3-5-3.5-8-2 1.5-2.5 3-2.5 3S11 8 9 6c-.5 1.5-2.5 3-2.5 6.5C6.5 16.5 8 22 12 22z"/>',
+  award: '<circle cx="12" cy="9" r="6"/><path d="M9 14.5 8 22l4-2.5L16 22l-1-7.5"/>',
+  trending: '<path d="M3 17 9 11l4 4 8-8"/><path d="M21 7v5h-5"/>',
+  bookmark: '<path d="M6 3h12v18l-6-4-6 4z"/>',
+  download: '<path d="M12 4v11M8 11l4 4 4-4"/><path d="M5 20h14"/>',
+  video: '<rect x="3" y="6" width="13" height="12" rx="2.5"/><path d="m16 10 5-3v10l-5-3z"/>',
+  link: '<path d="M9 15 15 9"/><path d="M11 6.5 13 4.5a4 4 0 0 1 5.7 5.7l-2 2"/><path d="M13 17.5 11 19.5a4 4 0 0 1-5.7-5.7l2-2"/>',
+  alert: '<path d="M12 3 2 20h20z"/><path d="M12 10v4M12 17h.01"/>',
+  info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',
+  globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.8 5.6 4 9-.2 3.4-1.5 6.5-4 9-2.5-2.5-3.8-5.6-4-9 .2-3.4 1.5-6.5 4-9z"/>',
+  qr: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3M20 14v.01M14 20h.01M17 20h.01M20 17v4"/>',
+  fingerprint: '<path d="M12 11a2 2 0 0 1 2 2c0 3.5-1 5.5-1.5 6.5"/><path d="M8.5 13a3.5 3.5 0 0 1 7 0c0 2-.3 4-1 5.5"/><path d="M5 12a7 7 0 0 1 13.5-2.5"/><path d="M5.5 16c.3 1 .3 2.5 0 3.5"/>',
+  phone: '<rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 5.5h4"/><path d="M11 18.5h2"/>',
+  repeat: '<path d="M17 2.5 20.5 6 17 9.5"/><path d="M3.5 11V9a3 3 0 0 1 3-3h14"/><path d="M7 21.5 3.5 18 7 14.5"/><path d="M20.5 13v2a3 3 0 0 1-3 3h-14"/>',
+  wifi: '<path d="M2 8.5a15 15 0 0 1 20 0"/><path d="M5 12a10 10 0 0 1 14 0"/><path d="M8.5 15.5a5 5 0 0 1 7 0"/><circle cx="12" cy="19" r="0.8" fill="currentColor" stroke="none"/>',
+};
+
+function Icon({ name, size = 22, className = '', strokeWidth = 1.7, style }) {
+  const path = ICON_PATHS[name] || ICON_PATHS.info;
+  return (
+    <svg
+      width={size} height={size} viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round"
+      className={className} style={style} aria-hidden="true"
+      dangerouslySetInnerHTML={{ __html: path }}
+    />
+  );
+}
+
+window.Icon = Icon;
+
+</script>
+  <script type="text/babel" data-from="src/ui.jsx">
+// src/ui.jsx — Primitivas de interfaz compartidas (exportadas a window)
+const { useState, useEffect, useRef } = React;
+const Icon = window.Icon;
+
+// ---- Marca original "Duoc Unifica" (no es el logotipo institucional) ----
+function Logo({ size = 'md', mono = false, light = false }) {
+  const dims = size === 'sm' ? 30 : size === 'lg' ? 44 : 36;
+  const boxBg = light ? 'var(--accent)' : (mono ? 'currentColor' : 'var(--primary)');
+  const glyph = light ? '#1a1a1a' : 'var(--accent)';
+  const glyph2 = light ? '#1a1a1a' : 'var(--on-primary)';
+  return (
+    <div className="flex items-center gap-2.5 select-none">
+      <div className="relative grid place-items-center shrink-0 rounded-[11px]"
+        style={{ width: dims, height: dims, background: boxBg }}>
+        <div className="absolute rounded-[4px]" style={{ width: dims*0.30, height: dims*0.30, background: glyph, top: dims*0.20, left: dims*0.20 }}></div>
+        <div className="absolute rounded-full" style={{ width: dims*0.26, height: dims*0.26, background: glyph2, bottom: dims*0.18, right: dims*0.18, opacity: .92 }}></div>
+      </div>
+      {size !== 'icon' && (
+        <div className="leading-none">
+          <div className="font-display font-extrabold tracking-tight" style={{ fontSize: dims*0.48, color: light ? '#fff' : 'var(--text)' }}>
+            Unifica<span style={{ color: 'var(--accent)' }}>.</span>
+          </div>
+          <div className="font-semibold tracking-[0.18em] uppercase" style={{ fontSize: dims*0.22, marginTop: 2, color: light ? 'rgba(255,255,255,0.6)' : 'var(--text-faint)' }}>Duoc UC</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Button({ children, variant = 'primary', size = 'md', icon, iconRight, full, className = '', ...props }) {
+  const sizes = {
+    sm: 'h-10 px-4 text-[14px] gap-1.5 rounded-xl',
+    md: 'h-12 px-5 text-[15px] gap-2 rounded-xl',
+    lg: 'h-14 px-7 text-[16px] gap-2.5 rounded-2xl',
+  };
+  const variants = {
+    primary: 'bg-primary text-[color:var(--on-primary)] hover:brightness-110 shadow-card',
+    accent: 'bg-accent text-accent-ink hover:brightness-105 shadow-card',
+    soft: 'bg-primary-soft text-primary hover:brightness-[.97]',
+    ghost: 'bg-transparent text-muted hover:bg-surface-2 hover:text-ink',
+    outline: 'bg-surface text-ink border border-line hover:bg-surface-2',
+    danger: 'bg-high-soft text-high hover:brightness-[.98]',
+  };
+  return (
+    <button
+      className={`relative inline-flex items-center justify-center font-semibold transition-all duration-200 active:scale-[.97] focus-ring ${sizes[size]} ${variants[variant]} ${full ? 'w-full' : ''} ${className}`}
+      style={{ minHeight: 44 }}
+      {...props}
+    >
+      {icon && <Icon name={icon} size={size === 'lg' ? 20 : 18} />}
+      {children}
+      {iconRight && <Icon name={iconRight} size={size === 'lg' ? 20 : 18} />}
+    </button>
+  );
+}
+
+function IconButton({ name, label, onClick, active, badge, size = 20, className = '' }) {
+  return (
+    <button onClick={onClick} aria-label={label} title={label}
+      className={`relative grid place-items-center rounded-xl transition-all duration-200 active:scale-90 focus-ring ${active ? 'bg-primary-soft text-primary' : 'text-muted hover:bg-surface-2 hover:text-ink'} ${className}`}
+      style={{ width: 44, height: 44 }}>
+      <Icon name={name} size={size} />
+      {badge > 0 && (
+        <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 grid place-items-center rounded-full bg-high text-white text-[10px] font-bold ring-2 ring-surface">{badge}</span>
+      )}
+    </button>
+  );
+}
+
+function Card({ children, className = '', pad = true, hover = false, ...props }) {
+  return (
+    <div className={`bg-surface border border-line rounded-2xl shadow-card ${pad ? 'p-5' : ''} ${hover ? 'transition-all duration-300 hover:shadow-float hover:-translate-y-0.5 cursor-pointer' : ''} ${className}`} {...props}>
+      {children}
+    </div>
+  );
+}
+
+function Badge({ children, tone = 'neutral', className = '', icon }) {
+  const tones = {
+    neutral: 'bg-surface-2 text-muted',
+    primary: 'bg-primary-soft text-primary',
+    accent: 'bg-[var(--accent)] text-accent-ink',
+    high: 'bg-high-soft text-high',
+    medium: 'bg-medium-soft text-medium',
+    low: 'bg-low-soft text-low',
+    ok: 'bg-[color-mix(in_srgb,var(--ok)_14%,transparent)] text-[var(--ok)]',
+  };
+  return (
+    <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11.5px] font-bold tracking-wide whitespace-nowrap ${tones[tone]} ${className}`}>
+      {icon && <Icon name={icon} size={13} strokeWidth={2.2} />}
+      {children}
+    </span>
+  );
+}
+
+function Avatar({ iniciales, size = 40, color = 'var(--primary)', textColor = 'white' }) {
+  return (
+    <div className="grid place-items-center rounded-full font-display font-bold shrink-0"
+      style={{ width: size, height: size, background: color, color: textColor, fontSize: size * 0.38 }}>
+      {iniciales}
+    </div>
+  );
+}
+
+// Glifo del curso: marca de color con sigla (placeholder en vez de imagen real)
+function CourseGlyph({ course, size = 52, radius = 14 }) {
+  return (
+    <div className="relative grid place-items-center shrink-0 overflow-hidden" style={{ width: size, height: size, borderRadius: radius, background: `color-mix(in srgb, ${course.color} 16%, var(--surface))` }}>
+      <div className="absolute inset-0 opacity-[0.5]" style={{ background: `repeating-linear-gradient(125deg, ${course.color}22 0, ${course.color}22 6px, transparent 6px, transparent 13px)` }}></div>
+      <span className="relative font-display font-extrabold tracking-tight" style={{ color: course.color, fontSize: size * 0.26 }}>
+        {course.sigla.split('-')[0]}
+      </span>
+    </div>
+  );
+}
+
+function Progress({ value, color = 'var(--primary)', track, height = 7, className = '' }) {
+  return (
+    <div className={`w-full rounded-full overflow-hidden ${className}`} style={{ height, background: track || 'var(--surface-2)' }}>
+      <div className="h-full rounded-full transition-all duration-700 ease-out" style={{ width: `${value}%`, background: color }}></div>
+    </div>
+  );
+}
+
+const URGENCY = {
+  alta: { tone: 'high', label: 'Alta', color: 'var(--high)', icon: 'flame' },
+  media: { tone: 'medium', label: 'Media', color: 'var(--medium)', icon: 'clock' },
+  baja: { tone: 'low', label: 'Baja', color: 'var(--low)', icon: 'info' },
+};
+
+// Hoja inferior / modal con animación
+function Sheet({ open, onClose, children, side = 'center', label }) {
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [open, onClose]);
+  if (!open) return null;
+  const align = side === 'right' ? 'justify-end' : side === 'left' ? 'justify-start' : 'justify-center';
+  return (
+    <div className="fixed inset-0 z-[80] flex anim-fade-in" style={{ alignItems: side === 'center' ? 'center' : 'stretch' }} role="dialog" aria-modal="true" aria-label={label}>
+      <div className="absolute inset-0 bg-[rgba(8,15,28,0.55)] backdrop-blur-sm" onClick={onClose}></div>
+      <div className={`relative w-full flex ${align}`}>{children}</div>
+    </div>
+  );
+}
+
+function Tooltip({ children, label }) {
+  const [show, setShow] = useState(false);
+  return (
+    <span className="relative inline-flex" onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
+      {children}
+      {show && <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2.5 py-1 rounded-lg bg-ink text-surface text-xs font-semibold whitespace-nowrap z-50 anim-fade-in" style={{ background: 'var(--text)', color: 'var(--surface)' }}>{label}</span>}
+    </span>
+  );
+}
+
+Object.assign(window, { Logo, Button, IconButton, Card, Badge, Avatar, CourseGlyph, Progress, URGENCY, Sheet, Tooltip });
+
+</script>
+  <script type="text/babel" data-from="src/auth-methods.jsx">
+// src/auth-methods.jsx — Flujos reales de acceso: Biometría (huella) y Código QR
+// Exporta window.BiometricSheet y window.QRSheet
+const { useState: useStateAuth, useEffect: useEffectAuth, useRef: useRefAuth } = React;
+
+/* ============================================================
+   BIOMETRÍA — mantener presionado el sensor → lectura → verificación
+   ============================================================ */
+function BiometricSheet({ open, onClose, onLogin }) {
+  const { Sheet, Icon } = window;
+  // 'idle' | 'scanning' | 'success' | 'error'
+  const [phase, setPhase] = useStateAuth('idle');
+  const [pct, setPct] = useStateAuth(0);
+  const rafRef = useRefAuth(null);
+  const startRef = useRefAuth(0);
+  const DURATION = 1500;
+
+  // Reinicia el estado cada vez que se abre
+  useEffectAuth(() => {
+    if (open) { setPhase('idle'); setPct(0); }
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [open]);
+
+  const stopRAF = () => { cancelAnimationFrame(rafRef.current); rafRef.current = null; };
+
+  const tick = (now) => {
+    const elapsed = now - startRef.current;
+    const p = Math.min(1, elapsed / DURATION);
+    setPct(p);
+    if (p >= 1) {
+      stopRAF();
+      setPhase('success');
+      setTimeout(() => onLogin && onLogin(), 1050);
+    } else {
+      rafRef.current = requestAnimationFrame(tick);
+    }
+  };
+
+  const beginScan = () => {
+    if (phase === 'success' || phase === 'scanning') return;
+    setPhase('scanning');
+    startRef.current = performance.now();
+    rafRef.current = requestAnimationFrame(tick);
+  };
+
+  // Soltar antes de completar = lectura incompleta
+  const releaseScan = () => {
+    if (phase !== 'scanning') return;
+    stopRAF();
+    setPhase('error');
+    setPct(0);
+  };
+
+  const R = 86, C = 2 * Math.PI * R;
+  const ringColor = phase === 'success' ? 'var(--ok)' : phase === 'error' ? 'var(--high)' : 'var(--accent)';
+
+  const status = {
+    idle:     { t: 'Mantén presionado el sensor', s: 'Coloca el dedo y no lo sueltes hasta completar la lectura.' },
+    scanning: { t: 'Leyendo tu huella…', s: 'Mantén el dedo en su lugar.' },
+    success:  { t: 'Identidad verificada', s: 'Bienvenido de nuevo, Francisco Reyes.' },
+    error:    { t: 'Lectura incompleta', s: 'Soltaste antes de tiempo. Vuelve a intentarlo.' },
+  }[phase];
+
+  if (!open) return null;
+
+  return (
+    <Sheet open={open} onClose={onClose} label="Acceso con biometría">
+      <div className="relative w-full max-w-[420px] mx-4 bg-surface rounded-3xl shadow-float border border-line p-7 sm:p-9 anim-scale-in text-center">
+        <button onClick={onClose} aria-label="Cerrar"
+          className="absolute top-4 right-4 grid place-items-center w-10 h-10 rounded-xl text-faint hover:bg-surface-2 hover:text-ink transition-all focus-ring">
+          <Icon name="close" size={20} />
+        </button>
+
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-6 text-[11px] font-bold tracking-[0.14em] uppercase bg-primary-soft text-primary">
+          <Icon name="shield" size={14} /> Acceso biométrico
+        </div>
+
+        {/* Sensor */}
+        <div className="relative mx-auto grid place-items-center select-none"
+          style={{ width: 210, height: 210, touchAction: 'none' }}
+          onPointerDown={beginScan}
+          onPointerUp={releaseScan}
+          onPointerLeave={releaseScan}
+          role="button" aria-label="Sensor de huella">
+
+          <svg width="210" height="210" viewBox="0 0 210 210" className="absolute inset-0 -rotate-90">
+            <circle cx="105" cy="105" r={R} fill="none" stroke="var(--surface-2)" strokeWidth="7" />
+            <circle cx="105" cy="105" r={R} fill="none" stroke={ringColor} strokeWidth="7" strokeLinecap="round"
+              strokeDasharray={C}
+              strokeDashoffset={phase === 'success' ? 0 : C * (1 - pct)}
+              style={{ transition: phase === 'scanning' ? 'none' : 'stroke-dashoffset .4s ease, stroke .3s ease' }} />
+          </svg>
+
+          {/* Halo / disco del sensor */}
+          <div className="relative grid place-items-center rounded-full transition-colors duration-300"
+            style={{
+              width: 150, height: 150,
+              background: phase === 'success'
+                ? 'color-mix(in srgb, var(--ok) 14%, var(--surface))'
+                : phase === 'error'
+                ? 'var(--high-soft)'
+                : 'var(--surface-2)',
+              cursor: phase === 'success' ? 'default' : 'pointer',
+              boxShadow: phase === 'scanning' ? '0 0 0 6px color-mix(in srgb, var(--accent) 18%, transparent)' : 'none',
+            }}>
+
+            {phase === 'success' ? (
+              <Icon name="check" size={62} strokeWidth={2.4} style={{ color: 'var(--ok)' }} className="anim-scale-in" />
+            ) : (
+              <div className="relative" style={{ color: phase === 'error' ? 'var(--high)' : phase === 'scanning' ? 'var(--accent)' : 'var(--text-muted)' }}>
+                <Icon name="fingerprint" size={74} strokeWidth={1.5} />
+                {/* Línea de barrido durante la lectura */}
+                {phase === 'scanning' && (
+                  <div className="absolute left-1/2 -translate-x-1/2 rounded-full"
+                    style={{
+                      width: 78, height: 3, top: `${10 + pct * 56}px`,
+                      background: 'var(--accent)',
+                      boxShadow: '0 0 10px 1px var(--accent)',
+                    }}></div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+
+        <h3 className="font-display font-extrabold text-[21px] tracking-tight text-ink mt-6">{status.t}</h3>
+        <p className="text-muted text-[14.5px] mt-1.5 leading-relaxed max-w-[300px] mx-auto">{status.s}</p>
+
+        {phase === 'error' && (
+          <button onClick={beginScan}
+            className="mt-5 inline-flex items-center gap-2 h-11 px-5 rounded-xl bg-primary text-[color:var(--on-primary)] font-semibold text-[14px] active:scale-95 transition-all focus-ring">
+            <Icon name="repeat" size={17} /> Reintentar
+          </button>
+        )}
+
+        <div className="flex items-center justify-center gap-2 text-faint text-[12px] font-medium mt-7">
+          <Icon name="lock" size={14} /> Tus datos biométricos no salen de tu dispositivo
+        </div>
+      </div>
+    </Sheet>
+  );
+}
+
+/* ============================================================
+   CÓDIGO QR — emparejamiento con el teléfono
+   ============================================================ */
+
+// Matriz QR-like determinista (con los tres "ojos" en las esquinas)
+function makeMatrix(n, seed) {
+  const m = Array.from({ length: n }, () => Array(n).fill(false));
+  let s = seed;
+  const rnd = () => { s = (s * 1103515245 + 12345) & 0x7fffffff; return s / 0x7fffffff; };
+  for (let y = 0; y < n; y++)
+    for (let x = 0; x < n; x++)
+      m[y][x] = rnd() > 0.52;
+  const eye = (oy, ox) => {
+    for (let y = 0; y < 7; y++) for (let x = 0; x < 7; x++) {
+      const border = x === 0 || x === 6 || y === 0 || y === 6;
+      const center = x >= 2 && x <= 4 && y >= 2 && y <= 4;
+      m[oy + y][ox + x] = border || center;
+    }
+    for (let y = -1; y <= 7; y++) for (let x = -1; x <= 7; x++) {
+      if ((x === -1 || x === 7 || y === -1 || y === 7) && oy + y >= 0 && oy + y < n && ox + x >= 0 && ox + x < n)
+        m[oy + y][ox + x] = false;
+    }
+  };
+  eye(0, 0); eye(0, n - 7); eye(n - 7, 0);
+  return m;
+}
+
+function QRCanvas({ active }) {
+  const N = 25;
+  const matrix = useRefAuth(makeMatrix(N, 7919)).current;
+  return (
+    <div className="relative rounded-2xl bg-white p-3.5" style={{ width: 230, height: 230 }}>
+      <div className="grid w-full h-full" style={{ gridTemplateColumns: `repeat(${N}, 1fr)`, gap: 0 }}>
+        {matrix.flatMap((row, y) => row.map((on, x) => (
+          <div key={`${y}-${x}`} style={{ background: on ? '#0b0b0c' : 'transparent', borderRadius: 1 }}></div>
+        )))}
+      </div>
+      {/* Logo central */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 grid place-items-center rounded-xl bg-white" style={{ width: 46, height: 46 }}>
+        <div className="grid place-items-center rounded-lg" style={{ width: 34, height: 34, background: 'var(--accent)' }}>
+          <span className="font-display font-extrabold text-[#1a1a1a]" style={{ fontSize: 18 }}>U</span>
+        </div>
+      </div>
+      {/* Línea de escaneo */}
+      {active && (
+        <div className="absolute left-3.5 right-3.5 rounded-full qr-scan" style={{ height: 3, background: 'var(--accent)', boxShadow: '0 0 12px 2px var(--accent)' }}></div>
+      )}
+    </div>
+  );
+}
+
+function QRSheet({ open, onClose, onLogin }) {
+  const { Sheet, Icon } = window;
+  // 'waiting' | 'scanning' | 'detected' | 'confirmed'
+  const [phase, setPhase] = useStateAuth('waiting');
+  const [secs, setSecs] = useStateAuth(299);
+  const timerRef = useRefAuth(null);
+
+  useEffectAuth(() => {
+    if (open) { setPhase('waiting'); setSecs(299); }
+  }, [open]);
+
+  // Cuenta regresiva de caducidad del código
+  useEffectAuth(() => {
+    if (!open || phase !== 'waiting') return;
+    timerRef.current = setInterval(() => setSecs((s) => (s > 0 ? s - 1 : 0)), 1000);
+    return () => clearInterval(timerRef.current);
+  }, [open, phase]);
+
+  const mmss = `${String(Math.floor(secs / 60)).padStart(2, '0')}:${String(secs % 60).padStart(2, '0')}`;
+
+  const simulateScan = () => {
+    setPhase('scanning');
+    setTimeout(() => setPhase('detected'), 1700);
+  };
+  const confirmOnPhone = () => {
+    setPhase('confirmed');
+    setTimeout(() => onLogin && onLogin(), 1000);
+  };
+
+  if (!open) return null;
+
+  return (
+    <Sheet open={open} onClose={onClose} label="Acceso con código QR">
+      <div className="relative w-full max-w-[430px] mx-4 bg-surface rounded-3xl shadow-float border border-line p-7 sm:p-9 anim-scale-in text-center">
+        <button onClick={onClose} aria-label="Cerrar"
+          className="absolute top-4 right-4 grid place-items-center w-10 h-10 rounded-xl text-faint hover:bg-surface-2 hover:text-ink transition-all focus-ring">
+          <Icon name="close" size={20} />
+        </button>
+
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-6 text-[11px] font-bold tracking-[0.14em] uppercase bg-primary-soft text-primary whitespace-nowrap">
+          <Icon name="qr" size={14} /> Vincular con tu teléfono
+        </div>
+
+        {/* ---- ESTADOS QR ---- */}
+        {(phase === 'waiting' || phase === 'scanning') && (
+          <>
+            <div className="grid place-items-center">
+              <div className="relative" style={{ opacity: phase === 'scanning' ? 1 : 1 }}>
+                <QRCanvas active={phase === 'scanning'} />
+                {phase === 'scanning' && (
+                  <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-ink text-surface text-[12px] font-bold whitespace-nowrap" style={{ background: 'var(--text)', color: 'var(--surface)' }}>
+                    Leyendo código…
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <h3 className="font-display font-extrabold text-[20px] tracking-tight text-ink mt-7">
+              {phase === 'scanning' ? 'Código detectado' : 'Escanea con la app Duoc Unifica'}
+            </h3>
+            <p className="text-muted text-[14px] mt-1.5 leading-relaxed max-w-[320px] mx-auto">
+              Abre la app en tu teléfono, toca <span className="font-semibold text-ink">Escanear QR</span> y apunta a este código.
+            </p>
+
+            {phase === 'waiting' && (
+              <>
+                <div className="inline-flex items-center gap-2 mt-4 px-3 py-1.5 rounded-full bg-surface-2 text-muted text-[12.5px] font-semibold">
+                  <Icon name="clock" size={14} /> El código expira en <span className="text-ink tabular-nums">{mmss}</span>
+                </div>
+                <button onClick={simulateScan}
+                  className="mt-6 w-full inline-flex items-center justify-center gap-2 h-12 rounded-xl bg-primary text-[color:var(--on-primary)] font-semibold text-[14.5px] active:scale-[.98] transition-all focus-ring">
+                  <Icon name="phone" size={18} /> Simular escaneo desde el teléfono
+                </button>
+              </>
+            )}
+          </>
+        )}
+
+        {phase === 'detected' && (
+          <div className="anim-fade-up">
+            {/* Mock de teléfono confirmando */}
+            <div className="mx-auto relative rounded-[26px] border-[3px] border-line bg-surface-2 p-3" style={{ width: 168 }}>
+              <div className="rounded-[16px] bg-surface border border-line p-4 text-left">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="grid place-items-center rounded-lg" style={{ width: 24, height: 24, background: 'var(--accent)' }}>
+                    <span className="font-display font-extrabold text-[#1a1a1a] text-[12px]">U</span>
+                  </div>
+                  <span className="text-[11px] font-bold text-ink">Unifica</span>
+                </div>
+                <p className="text-[12px] font-semibold text-ink leading-snug">¿Iniciar sesión en este equipo?</p>
+                <div className="flex items-center gap-1.5 mt-2 text-[10px] text-faint font-medium">
+                  <Icon name="globe" size={11} /> Chrome · Windows
+                </div>
+                <div className="mt-3 h-7 rounded-lg bg-primary text-[color:var(--on-primary)] grid place-items-center text-[11px] font-bold">Confirmar</div>
+              </div>
+            </div>
+
+            <h3 className="font-display font-extrabold text-[20px] tracking-tight text-ink mt-6">Confirma en tu teléfono</h3>
+            <p className="text-muted text-[14px] mt-1.5 leading-relaxed max-w-[300px] mx-auto">
+              Detectamos tu dispositivo. Aprueba el ingreso para continuar.
+            </p>
+            <button onClick={confirmOnPhone}
+              className="mt-6 w-full inline-flex items-center justify-center gap-2 h-12 rounded-xl bg-primary text-[color:var(--on-primary)] font-semibold text-[14.5px] active:scale-[.98] transition-all focus-ring">
+              <Icon name="check" size={18} strokeWidth={2.4} /> Aprobar en el teléfono
+            </button>
+          </div>
+        )}
+
+        {phase === 'confirmed' && (
+          <div className="anim-fade-up py-4">
+            <div className="mx-auto grid place-items-center rounded-full anim-scale-in" style={{ width: 110, height: 110, background: 'color-mix(in srgb, var(--ok) 14%, var(--surface))' }}>
+              <Icon name="check" size={56} strokeWidth={2.4} style={{ color: 'var(--ok)' }} />
+            </div>
+            <h3 className="font-display font-extrabold text-[21px] tracking-tight text-ink mt-6">Dispositivo vinculado</h3>
+            <p className="text-muted text-[14.5px] mt-1.5">Ingresando a tu cuenta…</p>
+          </div>
+        )}
+
+        <div className="flex items-center justify-center gap-2 text-faint text-[12px] font-medium mt-7">
+          <Icon name="shield" size={14} /> Conexión cifrada de extremo a extremo
+        </div>
+      </div>
+    </Sheet>
+  );
+}
+
+window.BiometricSheet = BiometricSheet;
+window.QRSheet = QRSheet;
+
+</script>
+  <script type="text/babel" data-from="src/screen-login.jsx">
+// src/screen-login.jsx — Inicio de sesión unificado (SSO simulado) → window.LoginScreen
+const { useState: useStateLogin } = React;
+
+function LoginScreen({ onLogin }) {
+  const { Logo, Button, Icon, BiometricSheet, QRSheet } = window;
+  const [loading, setLoading] = useStateLogin(false);
+  const [user, setUser] = useStateLogin('francisco.reyes');
+  const [pass, setPass] = useStateLogin('••••••••••');
+  const [method, setMethod] = useStateLogin(null); // 'bio' | 'qr' | null
+
+  const submit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setTimeout(() => onLogin(), 1100);
+  };
+
+  const features = [
+    { icon: 'book', t: 'Aula Virtual' },
+    { icon: 'doc', t: 'Trámites' },
+    { icon: 'wallet', t: 'Finanzas' },
+    { icon: 'calendar', t: 'Calendario' },
+  ];
+
+  return (
+    <div className="min-h-screen w-full flex flex-col lg:flex-row bg-bg">
+      {/* Panel de marca */}
+      <div className="relative lg:w-[54%] overflow-hidden text-white flex flex-col justify-between p-7 sm:p-10 lg:p-14 min-h-[300px]"
+        style={{ background: '#0b0b0c' }}>
+        <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px)', backgroundSize: '22px 22px', opacity: .5 }}></div>
+        <div className="absolute inset-0" style={{ background: 'radial-gradient(120% 80% at 70% 0%, rgba(255,184,0,0.10) 0%, transparent 55%)' }}></div>
+        <div className="absolute left-0 top-0 bottom-0 w-px" style={{ background: 'rgba(255,255,255,0.08)' }}></div>
+
+        <div className="relative z-10"><Logo size="lg" light /></div>
+
+        <div className="relative z-10 max-w-xl anim-fade-up">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-7 text-[11px] font-semibold tracking-[0.16em] uppercase whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)' }}>
+            <span className="w-1.5 h-1.5 rounded-full" style={{ background: 'var(--accent)' }}></span>
+            Plataforma estudiantil unificada
+          </div>
+          <h1 className="font-display font-medium leading-[1.06] tracking-tight text-[clamp(2.2rem,5.2vw,3.6rem)]">
+            Una sola cuenta.<br />Toda tu vida<br /><em className="italic font-normal">académica.</em>
+          </h1>
+          <p className="mt-5 text-[15px] sm:text-[17px] leading-relaxed text-white/80 max-w-md">
+            Lo académico y lo administrativo, por fin en un mismo lugar. Sin contraseñas duplicadas, sin pestañas perdidas.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-2.5">
+            {features.map((f) => (
+              <div key={f.t} className="flex items-center gap-2 px-3.5 h-11 rounded-xl text-[13px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)' }}>
+                <Icon name={f.icon} size={17} /> {f.t}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="relative z-10 flex items-center gap-2 text-white/70 text-[13px] font-medium">
+          <Icon name="shield" size={16} /> Acceso seguro · Inicio de sesión único (SSO)
+        </div>
+      </div>
+
+      {/* Panel de formulario */}
+      <div className="lg:w-[46%] flex items-center justify-center p-6 sm:p-10">
+        <div className="w-full max-w-[400px] anim-fade-up">
+          <div className="lg:hidden mb-8"><Logo /></div>
+          <h2 className="font-display font-extrabold text-[26px] sm:text-[30px] tracking-tight text-ink">Hola de nuevo 👋</h2>
+          <p className="text-muted mt-1.5 text-[15px]">Ingresa con tu cuenta institucional Duoc UC.</p>
+
+          <form onSubmit={submit} className="mt-8 space-y-4">
+            <label className="block">
+              <span className="text-[13px] font-semibold text-muted ml-1">Usuario o correo institucional</span>
+              <div className="mt-1.5 flex items-center gap-2.5 h-13 px-4 rounded-xl bg-surface border border-line focus-within:border-primary focus-within:ring-2 focus-within:ring-[var(--primary-soft)] transition-all" style={{ height: 52 }}>
+                <Icon name="user" size={18} className="text-faint" />
+                <input value={user} onChange={(e) => setUser(e.target.value)} className="flex-1 bg-transparent outline-none text-[15px] text-ink font-medium" placeholder="nombre.apellido" />
+                <span className="text-faint text-[14px] font-medium hidden sm:block">@duocuc.cl</span>
+              </div>
+            </label>
+            <label className="block">
+              <span className="text-[13px] font-semibold text-muted ml-1">Contraseña</span>
+              <div className="mt-1.5 flex items-center gap-2.5 px-4 rounded-xl bg-surface border border-line focus-within:border-primary focus-within:ring-2 focus-within:ring-[var(--primary-soft)] transition-all" style={{ height: 52 }}>
+                <Icon name="lock" size={18} className="text-faint" />
+                <input type="password" value={pass} onChange={(e) => setPass(e.target.value)} className="flex-1 bg-transparent outline-none text-[15px] text-ink font-medium tracking-widest" />
+              </div>
+            </label>
+
+            <div className="flex items-center justify-between pt-1">
+              <label className="flex items-center gap-2 text-[13.5px] text-muted font-medium cursor-pointer select-none">
+                <span className="w-4.5 h-4.5 rounded-md bg-primary grid place-items-center" style={{ width: 18, height: 18 }}><Icon name="check" size={12} className="text-[color:var(--on-primary)]" strokeWidth={3} /></span>
+                Recordarme
+              </label>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-[13.5px] font-semibold text-primary hover:underline whitespace-nowrap">¿Olvidaste tu clave?</a>
+            </div>
+
+            <Button type="submit" full size="lg" iconRight={loading ? null : 'arrowRight'} className="mt-2">
+              {loading ? (
+                <span className="flex items-center gap-2"><span className="w-4 h-4 rounded-full border-2 border-white/40 border-t-white animate-spin"></span> Verificando…</span>
+              ) : 'Iniciar sesión'}
+            </Button>
+          </form>
+
+          <div className="flex items-center gap-3 my-6">
+            <div className="flex-1 h-px bg-line"></div>
+            <span className="text-[12.5px] text-faint font-semibold whitespace-nowrap">o accede con</span>
+            <div className="flex-1 h-px bg-line"></div>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <button onClick={() => setMethod('qr')} className="flex items-center justify-center gap-2 h-12 rounded-xl border border-line bg-surface text-ink font-semibold text-[14px] hover:bg-surface-2 transition-all active:scale-[.98] focus-ring" style={{ minHeight: 44 }}>
+              <Icon name="qr" size={18} className="text-primary" /> <span className="whitespace-nowrap">Código QR</span>
+            </button>
+            <button onClick={() => setMethod('bio')} className="flex items-center justify-center gap-2 h-12 rounded-xl border border-line bg-surface text-ink font-semibold text-[14px] hover:bg-surface-2 transition-all active:scale-[.98] focus-ring" style={{ minHeight: 44 }}>
+              <Icon name="fingerprint" size={18} className="text-primary" /> Biometría
+            </button>
+          </div>
+
+          <p className="text-center text-[12.5px] text-faint mt-8 leading-relaxed">
+            Al ingresar aceptas el reglamento de uso de plataformas digitales de Duoc UC.<br />¿Problemas de acceso? <a href="#" onClick={(e) => e.preventDefault()} className="text-primary font-semibold hover:underline">Mesa de ayuda</a>
+          </p>
+        </div>
+      </div>
+
+      <BiometricSheet open={method === 'bio'} onClose={() => setMethod(null)} onLogin={onLogin} />
+      <QRSheet open={method === 'qr'} onClose={() => setMethod(null)} onLogin={onLogin} />
+    </div>
+  );
+}
+
+window.LoginScreen = LoginScreen;
+
+</script>
+  <script type="text/babel" data-from="src/onboarding.jsx">
+// src/onboarding.jsx — Tour guiado (spotlight) → window.OnboardingTour
+const { useState: useStateTour, useEffect: useEffectTour, useCallback: useCbTour, useRef: useRefTour } = React;
+
+function clearTourHighlights() {
+  document.querySelectorAll('[data-tour-highlight]').forEach((el) => el.removeAttribute('data-tour-highlight'));
+}
+
+function OnboardingTour({ steps, onFinish, onSkip }) {
+  const { Icon, Button } = window;
+  const [i, setI] = useStateTour(0);
+  const [rect, setRect] = useStateTour(null);
+  const [mobile, setMobile] = useStateTour(window.innerWidth < 1024);
+  const timerRef = useRefTour(null);
+  const mountedRef = useRefTour(true);
+  const step = steps[i];
+
+  const measure = useCbTour(() => {
+    setMobile(window.innerWidth < 1024);
+    clearTourHighlights();
+    if (timerRef.current) { clearTimeout(timerRef.current); timerRef.current = null; }
+    const el = document.querySelector(`[data-tour="${step.target}"]`);
+    if (!el) { setRect(null); return; }
+    const r = el.getBoundingClientRect();
+    // asegurar visibilidad
+    if (r.top < 80 || r.bottom > window.innerHeight - 80) {
+      window.scrollTo({ top: window.scrollY + r.top - window.innerHeight * 0.35, behavior: 'smooth' });
+      timerRef.current = setTimeout(() => {
+        if (!mountedRef.current) return;
+        const rr = el.getBoundingClientRect();
+        el.setAttribute('data-tour-highlight', '');
+        setRect({ top: rr.top, left: rr.left, width: rr.width, height: rr.height, bottom: rr.bottom, right: rr.right });
+      }, 320);
+      return;
+    }
+    el.setAttribute('data-tour-highlight', '');
+    setRect({ top: r.top, left: r.left, width: r.width, height: r.height, bottom: r.bottom, right: r.right });
+  }, [step]);
+
+  useEffectTour(() => {
+    measure();
+    window.addEventListener('resize', measure);
+    window.addEventListener('scroll', measure, true);
+    return () => { window.removeEventListener('resize', measure); window.removeEventListener('scroll', measure, true); };
+  }, [measure]);
+
+  useEffectTour(() => () => {
+    // Desmontaje: cancelar timers pendientes y limpiar el spotlight pase lo que pase
+    mountedRef.current = false;
+    if (timerRef.current) clearTimeout(timerRef.current);
+    clearTourHighlights();
+  }, []);
+
+  const next = () => { if (i < steps.length - 1) setI(i + 1); else finish(); };
+  const prev = () => i > 0 && setI(i - 1);
+  const finish = () => {
+    if (timerRef.current) { clearTimeout(timerRef.current); timerRef.current = null; }
+    clearTourHighlights();
+    onFinish();
+  };
+  const skip = () => {
+    if (timerRef.current) { clearTimeout(timerRef.current); timerRef.current = null; }
+    clearTourHighlights();
+    (onSkip || onFinish)();
+  };
+
+  // Posición de la tarjeta
+  let cardStyle = {};
+  if (mobile || !rect) {
+    cardStyle = { left: '50%', bottom: 16, transform: 'translateX(-50%)', width: 'min(92vw, 380px)' };
+  } else {
+    const W = 340, gap = 18;
+    let top, left;
+    if (step.pos === 'bottom') { top = rect.bottom + gap; left = rect.left; }
+    else if (step.pos === 'top') { top = rect.top - gap; left = rect.left; }
+    else if (step.pos === 'left') { top = rect.top; left = rect.left - W - gap; }
+    else { top = rect.top; left = rect.right + gap; }
+    left = Math.max(16, Math.min(left, window.innerWidth - W - 16));
+    top = Math.max(16, Math.min(top, window.innerHeight - 280));
+    cardStyle = { top, left, width: W, transform: step.pos === 'top' ? 'translateY(-100%)' : 'none' };
+  }
+
+  return (
+    <div className="fixed inset-0 z-[70]">
+      {/* scrim cuando no hay target (primer frame) */}
+      {!rect && <div className="absolute inset-0 bg-[rgba(7,14,26,0.62)]"></div>}
+
+      <div key={i} className="fixed z-[75] anim-scale-in" style={cardStyle}>
+        <div className="bg-surface rounded-2xl shadow-float border border-line overflow-hidden">
+          <div className="h-1.5 w-full bg-surface-2">
+            <div className="h-full bg-primary transition-all duration-500" style={{ width: `${((i + 1) / steps.length) * 100}%` }}></div>
+          </div>
+          <div className="p-5">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="grid place-items-center rounded-xl bg-primary-soft pulse-ring" style={{ width: 42, height: 42 }}>
+                <Icon name={step.icon} size={21} className="text-primary" />
+              </div>
+              <div className="flex items-center gap-1.5">
+                {steps.map((_, idx) => (
+                  <span key={idx} className="rounded-full transition-all duration-300" style={{ width: idx === i ? 20 : 7, height: 7, background: idx === i ? 'var(--primary)' : idx < i ? 'var(--primary)' : 'var(--border)', opacity: idx <= i ? 1 : .6 }}></span>
+                ))}
+              </div>
+              <button onClick={skip} aria-label="Cerrar tour" className="ml-auto grid place-items-center rounded-xl text-faint hover:bg-surface-2 hover:text-ink transition-colors shrink-0" style={{ width: 36, height: 36 }}>
+                <Icon name="close" size={18} />
+              </button>
+            </div>
+            <div className="flex items-center gap-2 mb-1.5">
+              <span className="text-[11px] font-bold text-faint tracking-wide">PASO {i + 1} DE {steps.length}</span>
+            </div>
+            <h3 className="font-display font-extrabold text-ink text-[19px] leading-tight">{step.titulo}</h3>
+            <p className="text-muted text-[14px] leading-relaxed mt-1.5">{step.desc}</p>
+
+            <div className="flex items-center justify-between gap-2 mt-5">
+              <button onClick={skip} className="text-[13px] font-semibold text-faint hover:text-muted transition-colors px-2 py-2" style={{ minHeight: 40 }}>Saltar tour</button>
+              <div className="flex items-center gap-2">
+                {i > 0 && <Button variant="ghost" size="sm" onClick={prev} icon="chevronLeft">Atrás</Button>}
+                <Button size="sm" onClick={next} iconRight={i === steps.length - 1 ? 'check' : 'arrowRight'}>
+                  {i === steps.length - 1 ? 'Empezar' : 'Siguiente'}
+                </Button>
+              </div>
+            </div>
+            <p className="text-[11.5px] text-faint mt-3 flex items-center gap-1.5 pt-3 border-t border-line">
+              <Icon name="settings" size={13} /> Puedes reactivar este tour en Ajustes cuando quieras.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+window.OnboardingTour = OnboardingTour;
+
+</script>
+  <script type="text/babel" data-from="src/screen-dashboard.jsx">
+// src/screen-dashboard.jsx — Dashboard unificado → window.DashboardScreen
+const { useState: useStateDash } = React;
+
+function DashboardScreen({ student, onNavigate, onOpenSearch, onCourse, unread, onOpenNotifs }) {
+  const { Icon, Card, Badge, Button, CourseGlyph, Progress } = window;
+  const { COURSES, CALENDAR, QUICK_ACTIONS } = window.DATA;
+
+  const hora = new Date().getHours();
+  const saludo = hora < 12 ? 'Buenos días' : hora < 19 ? 'Buenas tardes' : 'Buenas noches';
+
+  return (
+    <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+      {/* Saludo */}
+      <header className="anim-fade-up flex flex-wrap items-end justify-between gap-4 mb-6">
+        <div>
+          <p className="text-muted font-medium text-[14px]">{saludo},</p>
+          <h1 className="font-display font-extrabold tracking-tight text-ink text-[clamp(1.7rem,4vw,2.4rem)] leading-tight">{student.primerNombre} 👋</h1>
+          <p className="text-faint text-[13.5px] mt-1 font-medium">{student.carrera} · {student.semestre} · {student.sede}</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <StatChip icon="trending" label="Avance carrera" value={`${student.avance}%`} tone="primary" />
+          <StatChip icon="award" label="Promedio" value="6,0" tone="ok" />
+          <StatChip icon="clock" label="Pendientes" value="4" tone="medium" />
+        </div>
+      </header>
+
+      {/* Búsqueda global */}
+      <button data-tour="tour-search" onClick={onOpenSearch}
+        className="anim-fade-up w-full flex items-center gap-3 h-14 px-5 rounded-2xl bg-surface border border-line shadow-card text-left hover:shadow-float hover:border-primary/40 transition-all duration-300 mb-7 group"
+        style={{ animationDelay: '.05s' }}>
+        <Icon name="search" size={21} className="text-primary" />
+        <span className="text-faint text-[15px] font-medium flex-1">Busca cursos, trámites, recursos o personas…</span>
+        <span className="hidden sm:flex items-center gap-1 text-[12px] font-bold text-faint px-2 py-1 rounded-lg bg-surface-2 border border-line">⌘K</span>
+      </button>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Columna principal */}
+        <div className="lg:col-span-2 space-y-6">
+          {/* Cursos */}
+          <section data-tour="tour-courses" className="anim-fade-up" style={{ animationDelay: '.1s' }}>
+            <SectionHead icon="book" title="Mis cursos" sub="Semestre en curso" action="Ver todos" onAction={() => onNavigate('cursos')} />
+            <div className="flex flex-col gap-3 mt-4">
+              {COURSES.map((c, i) => {
+                const a = c.asistencia || { minimo: 75, asistidas: 0, inasistencias: 0 };
+                const real = a.asistidas + a.inasistencias;
+                const aPct = real ? Math.round((a.asistidas / real) * 100) : 100;
+                const aColor = aPct < a.minimo ? 'var(--high)' : aPct < a.minimo + 8 ? 'var(--medium)' : 'var(--ok)';
+                return (
+                <Card key={c.id} hover pad={false} onClick={() => onCourse(c.id)} className="p-4 sm:p-5 group anim-fade-up" style={{ animationDelay: `${.12 + i * .04}s` }}>
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                    {/* Info */}
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="text-[11.5px] font-bold tracking-wide text-faint">{c.sigla} · {c.seccion}</span>
+                      </div>
+                      <h3 className="font-display font-bold text-ink text-[16px] sm:text-[17px] leading-snug mt-1 group-hover:text-primary transition-colors">{c.nombre}</h3>
+                      <div className="text-faint text-[12.5px] mt-1.5 flex items-center gap-x-4 gap-y-1 flex-wrap">
+                        <span className="flex items-center gap-1.5"><Icon name="user" size={13} /> {c.docente}</span>
+                        <span className="flex items-center gap-1.5"><Icon name="calendar" size={13} /> {c.proxima}</span>
+                      </div>
+                    </div>
+                    {/* Progreso + Asistencia */}
+                    <div className="sm:w-[230px] shrink-0 space-y-2.5">
+                      <div>
+                        <div className="flex items-center justify-between text-[12px] font-semibold text-muted mb-1.5">
+                          <span>Progreso del curso</span><span style={{ color: 'var(--ok)' }}>{c.progreso}%</span>
+                        </div>
+                        <Progress value={c.progreso} color="var(--ok)" />
+                      </div>
+                      <div>
+                        <div className="flex items-center justify-between text-[12px] font-semibold text-muted mb-1.5">
+                          <span>Asistencia</span><span style={{ color: aColor }}>{aPct}%</span>
+                        </div>
+                        <Progress value={aPct} color={aColor} />
+                      </div>
+                    </div>
+                    <Icon name="chevronRight" size={20} className="text-faint shrink-0 hidden sm:block group-hover:translate-x-0.5 transition-transform" />
+                  </div>
+                </Card>
+                );
+              })}
+            </div>
+          </section>
+
+          {/* Trámites rápidos */}
+          <section className="anim-fade-up" style={{ animationDelay: '.18s' }}>
+            <SectionHead icon="grid" title="Trámites rápidos" sub="Lo administrativo, sin salir de aquí" action="Centro de ayuda" onAction={() => onNavigate('ayuda')} />
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
+              {QUICK_ACTIONS.map((q) => (
+                <button key={q.id} onClick={() => onNavigate('ayuda')}
+                  className={`relative flex flex-col gap-2.5 p-4 rounded-2xl border text-left transition-all duration-300 active:scale-[.98] hover:-translate-y-0.5 focus-ring ${q.destacado ? 'bg-primary text-[color:var(--on-primary)] border-transparent shadow-card' : 'bg-surface border-line hover:shadow-card'}`}
+                  style={{ minHeight: 44 }}>
+                  <div className="grid place-items-center rounded-xl" style={{ width: 38, height: 38, background: q.destacado ? 'color-mix(in srgb, var(--on-primary) 15%, transparent)' : 'var(--primary-soft)' }}>
+                    <Icon name={q.icon} size={19} className={q.destacado ? 'text-[color:var(--on-primary)]' : 'text-primary'} />
+                  </div>
+                  <div>
+                    <div className="text-[10.5px] font-bold tracking-wide uppercase" style={{ color: q.destacado ? 'color-mix(in srgb, var(--on-primary) 70%, transparent)' : 'var(--text-faint)' }}>{q.categoria}</div>
+                    <div className={`text-[13.5px] font-semibold leading-snug mt-0.5 ${q.destacado ? 'text-[color:var(--on-primary)]' : 'text-ink'}`}>{q.label}</div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </section>
+        </div>
+
+        {/* Columna lateral */}
+        <div className="space-y-6">
+          {/* Calendario unificado */}
+          <section data-tour="tour-calendar" className="anim-fade-up" style={{ animationDelay: '.14s' }}>
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="font-display font-bold text-ink text-[17px] flex items-center gap-2"><Icon name="calendar" size={18} className="text-primary" /> Agenda</h2>
+              <span className="text-[12px] font-semibold text-faint">Junio 2026</span>
+            </div>
+            <Card pad={false} className="p-4">
+              <div className="space-y-4">
+                {CALENDAR.map((day) => (
+                  <div key={day.id}>
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className={`text-[10.5px] font-bold tracking-wide px-2 py-0.5 rounded-md ${day.dia === 'HOY' ? 'bg-primary text-[color:var(--on-primary)]' : 'bg-surface-2 text-faint'}`}>{day.dia}</span>
+                      <span className="text-[12px] font-semibold text-muted">{day.fecha}</span>
+                    </div>
+                    <div className="space-y-2 pl-1">
+                      {day.items.map((it, idx) => (
+                        <div key={idx} className="flex items-start gap-3">
+                          <div className="text-[12px] font-bold text-muted tabular-nums pt-0.5 w-11 shrink-0">{it.hora}</div>
+                          <div className="relative pl-3.5 flex-1 min-w-0">
+                            <span className="absolute left-0 top-1 bottom-1 w-1 rounded-full" style={{ background: it.color }}></span>
+                            <p className="text-ink font-semibold text-[13px] leading-snug">{it.titulo}</p>
+                            <div className="flex items-center gap-2 mt-0.5 flex-wrap">
+                              <span className="text-faint text-[11.5px] font-medium">{it.lugar}</span>
+                              {it.alerta && <Badge tone={it.tipo === 'evaluacion' ? 'high' : 'medium'}>{it.alerta}</Badge>}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </section>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function StatChip({ icon, label, value, tone }) {
+  const { Icon } = window;
+  const colors = { primary: 'var(--primary)', ok: 'var(--ok)', medium: 'var(--medium)' };
+  return (
+    <div className="hidden sm:flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-surface border border-line shadow-card">
+      <div className="grid place-items-center rounded-lg" style={{ width: 32, height: 32, background: `color-mix(in srgb, ${colors[tone]} 13%, transparent)` }}>
+        <Icon name={icon} size={16} style={{ color: colors[tone] }} />
+      </div>
+      <div className="leading-none">
+        <div className="text-[16px] font-display font-extrabold text-ink">{value}</div>
+        <div className="text-[10.5px] font-semibold text-faint mt-0.5 whitespace-nowrap">{label}</div>
+      </div>
+    </div>
+  );
+}
+
+function SectionHead({ icon, title, sub, action, onAction }) {
+  const { Icon } = window;
+  return (
+    <div className="flex items-end justify-between gap-3">
+      <div>
+        <h2 className="font-display font-bold text-ink text-[18px] flex items-center gap-2"><Icon name={icon} size={19} className="text-primary" /> {title}</h2>
+        {sub && <p className="text-faint text-[12.5px] font-medium mt-0.5 ml-7">{sub}</p>}
+      </div>
+      {action && <button onClick={onAction} className="text-[13px] font-bold text-primary inline-flex items-center gap-1 hover:gap-1.5 transition-all shrink-0">{action} <Icon name="arrowRight" size={14} /></button>}
+    </div>
+  );
+}
+
+window.DashboardScreen = DashboardScreen;
+
+</script>
+  <script type="text/babel" data-from="src/screen-course.jsx">
+// src/screen-course.jsx — Detalle de curso re-imaginado → window.CourseScreen
+const { useState: useStateCourse } = React;
+
+function buildContent(course) {
+  const preset = window.DATA.COURSE_CONTENT[course.id];
+  if (preset) return preset;
+  return {
+    descripcion: `Material y actividades de ${course.nombre}. Accede a recursos, entregas y calificaciones desde un solo lugar.`,
+    modulos: [
+      { id: 'm0', tipo: 'info', titulo: 'Información de la Asignatura', sub: 'Syllabus y programa', estado: 'Disponible', items: 3 },
+      { id: 'm1', tipo: 'experiencia', titulo: 'EA 1 · Fundamentos', sub: '4 recursos · 1 actividad', estado: 'En curso', progreso: 50, items: 5, activo: true },
+      { id: 'm2', tipo: 'experiencia', titulo: 'EA 2 · Aplicación', sub: '5 recursos · 1 actividad', estado: 'Disponible', progreso: 0, items: 6 },
+    ],
+    notas: [
+      { eval: 'EA 1', nota: course.promedio, pond: '40%' },
+      { eval: 'EA 2', nota: null, pond: '30%' },
+      { eval: 'Examen', nota: null, pond: '30%' },
+    ],
+  };
+}
+
+const RESOURCE_ICONS = { info: 'doc', experiencia: 'book', evaluacion: 'award' };
+const ESTADO_TONE = { 'Completado': 'ok', 'Revisado': 'ok', 'En curso': 'primary', 'Disponible': 'neutral', 'Bloqueado': 'neutral' };
+
+function CourseScreen({ courseId, initialTab, onBack, onNavigate }) {
+  const { Icon, Card, Badge, Button, Progress, CourseGlyph } = window;
+  const course = window.DATA.COURSES.find((c) => c.id === courseId) || window.DATA.COURSES[0];
+  const content = buildContent(course);
+  const [tab, setTab] = useStateCourse(initialTab || 'contenido');
+  const [openMod, setOpenMod] = useStateCourse(content.modulos.find((m) => m.activo)?.id || content.modulos[0].id);
+
+  const tabs = [
+    { id: 'contenido', label: 'Contenido', icon: 'book' },
+    { id: 'asistencia', label: 'Asistencia', icon: 'calendar' },
+    { id: 'mensajes', label: 'Mensajes', icon: 'mail' },
+    { id: 'notas', label: 'Calificaciones', icon: 'award' },
+    { id: 'foro', label: 'Foro y anuncios', icon: 'chat' },
+  ];
+
+  const sampleResources = [
+    { icon: 'video', t: 'Videocápsula introductoria', d: '8 min · Visto', done: true },
+    { icon: 'file', t: 'Lectura: modelos de servicio', d: 'PDF · 12 págs.' },
+    { icon: 'link', t: 'Recurso interactivo externo', d: 'Enlace · 15 min' },
+    { icon: 'award', t: 'Actividad evaluada EA 2', d: 'Entrega hasta el 10 jun · 23:59', cta: true },
+  ];
+
+  return (
+    <div className="max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+      <button onClick={onBack} className="flex items-center gap-1.5 text-[13.5px] font-bold text-muted hover:text-primary transition-colors mb-4" style={{ minHeight: 40 }}>
+        <Icon name="chevronLeft" size={16} /> Volver al inicio
+      </button>
+
+      {/* Banner editorial atmosférico (superficie calma + hairline + acento fino) */}
+      <div className="anim-fade-up relative rounded-3xl overflow-hidden p-6 sm:p-8 mb-6 bg-surface border border-line">
+        <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(var(--border) 1px, transparent 1px)', backgroundSize: '20px 20px', opacity: .55 }}></div>
+        <div className="absolute left-0 right-0 top-0 h-[2px]" style={{ background: course.color, opacity: .8 }}></div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-2.5 mb-3.5 flex-wrap text-faint">
+            <span className="flex items-center gap-1.5 text-[11.5px] font-bold tracking-wide uppercase"><span className="w-2 h-2 rounded-full" style={{ background: course.color }}></span> {course.sigla}</span>
+            <span className="opacity-50">·</span>
+            <span className="text-[11.5px] font-bold tracking-wide uppercase">Sección {course.seccion}</span>
+            <span className="opacity-50">·</span>
+            <span className="text-[11.5px] font-bold tracking-wide uppercase">{course.proxima}</span>
+          </div>
+          <h1 className="font-display font-medium text-[clamp(1.7rem,4vw,2.5rem)] leading-[1.1] tracking-tight max-w-2xl text-ink">{course.nombre}</h1>
+          <p className="text-muted text-[14.5px] mt-2.5 max-w-xl leading-relaxed">{content.descripcion}</p>
+          <div className="flex items-center gap-5 mt-6 flex-wrap pt-5 border-t border-line">
+            <div className="flex items-center gap-2 text-[13.5px] font-semibold text-ink"><Icon name="user" size={16} className="text-faint" /> {course.docente}</div>
+            <div className="flex items-center gap-3 flex-1 min-w-[180px] max-w-xs">
+              <span className="text-[12.5px] font-bold whitespace-nowrap text-muted">{course.progreso}% completado</span>
+              <div className="flex-1"><Progress value={course.progreso} color="var(--ok)" track="var(--surface-2)" height={6} /></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Tabs */}
+      <div className="flex items-center gap-1 p-1 rounded-2xl bg-surface border border-line shadow-card mb-6 overflow-x-auto">
+        {tabs.map((t) => (
+          <button key={t.id} onClick={() => setTab(t.id)}
+            className={`flex items-center gap-2 px-4 h-11 rounded-xl text-[14px] font-semibold whitespace-nowrap transition-all ${tab === t.id ? 'bg-primary text-[color:var(--on-primary)] shadow-card' : 'text-muted hover:bg-surface-2 hover:text-ink'}`} style={{ minHeight: 44 }}>
+            <Icon name={t.icon} size={17} /> {t.label}
+          </button>
+        ))}
+      </div>
+
+      {tab === 'contenido' && (
+        <div className="grid lg:grid-cols-3 gap-6 anim-fade-in">
+          <div className="lg:col-span-2 space-y-3">
+            {content.modulos.map((m, i) => {
+              const open = openMod === m.id;
+              const locked = m.estado === 'Bloqueado';
+              return (
+                <div key={m.id} className={`bg-surface border rounded-2xl shadow-card overflow-hidden transition-all anim-fade-up ${open ? 'border-primary/40' : 'border-line'}`} style={{ animationDelay: `${i * .05}s` }}>
+                  <button onClick={() => !locked && setOpenMod(open ? null : m.id)} disabled={locked}
+                    className={`w-full flex items-center gap-3.5 p-4 text-left transition-colors ${locked ? 'opacity-60 cursor-not-allowed' : 'hover:bg-surface-2'}`}>
+                    <div className="grid place-items-center rounded-xl shrink-0" style={{ width: 42, height: 42, background: open ? 'var(--primary)' : 'var(--primary-soft)' }}>
+                      <Icon name={locked ? 'lock' : RESOURCE_ICONS[m.tipo]} size={19} className={open ? 'text-[color:var(--on-primary)]' : 'text-primary'} />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <h3 className="font-display font-bold text-ink text-[15px] leading-snug">{m.titulo}</h3>
+                        <Badge tone={ESTADO_TONE[m.estado]}>{m.estado}</Badge>
+                      </div>
+                      <p className="text-faint text-[12.5px] mt-0.5">{m.sub}</p>
+                      {typeof m.progreso === 'number' && m.progreso > 0 && (
+                        <div className="mt-2 max-w-[200px]"><Progress value={m.progreso} color="var(--ok)" height={5} /></div>
+                      )}
+                    </div>
+                    {!locked && <Icon name="chevronDown" size={18} className={`text-faint shrink-0 transition-transform ${open ? 'rotate-180' : ''}`} />}
+                  </button>
+                  {open && !locked && (
+                    <div className="px-4 pb-4 anim-fade-in">
+                      <div className="space-y-2 pt-1">
+                        {sampleResources.map((r, idx) => (
+                          <div key={idx} className={`flex items-center gap-3 p-3 rounded-xl border transition-all hover:border-primary/40 cursor-pointer group ${r.cta ? 'bg-medium-soft border-transparent' : 'bg-surface-2 border-line'}`}>
+                            <div className="grid place-items-center rounded-lg bg-surface shrink-0" style={{ width: 34, height: 34 }}>
+                              <Icon name={r.icon} size={16} className={r.cta ? 'text-medium' : 'text-primary'} />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <p className="text-ink font-semibold text-[13.5px] leading-snug">{r.t}</p>
+                              <p className="text-faint text-[12px]">{r.d}</p>
+                            </div>
+                            {r.done ? <Icon name="checkCircle" size={18} className="text-[var(--ok)]" /> : r.cta ? <Button size="sm" variant="accent">Entregar</Button> : <Icon name="chevronRight" size={16} className="text-faint group-hover:translate-x-0.5 transition-transform" />}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+          {/* Lateral del curso */}
+          <div className="space-y-4">
+            <Card>
+              <h3 className="font-display font-bold text-ink text-[15px] mb-3">Accesos del curso</h3>
+              <div className="space-y-1.5">
+                {[{ i: 'doc', t: 'Syllabus' }, { i: 'calendar', t: 'Mi asistencia' }, { i: 'users', t: 'Compañeros y grupos' }, { i: 'chat', t: 'Foro de dudas' }, { i: 'award', t: 'Mis calificaciones' }].map((a) => (
+                  <button key={a.t} onClick={() => { if (a.t.includes('calific')) setTab('notas'); else if (a.t.includes('asistencia')) setTab('asistencia'); }} className="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-surface-2 transition-colors text-left" style={{ minHeight: 44 }}>
+                    <Icon name={a.i} size={18} className="text-primary" />
+                    <span className="text-ink font-semibold text-[13.5px] flex-1">{a.t}</span>
+                    <Icon name="chevronRight" size={16} className="text-faint" />
+                  </button>
+                ))}
+              </div>
+            </Card>
+            <Card className="bg-primary-soft border-transparent">
+              <div className="flex items-center gap-2 mb-1.5"><Icon name="support" size={18} className="text-primary" /><h3 className="font-display font-bold text-ink text-[15px]">¿Trámite del ramo?</h3></div>
+              <p className="text-muted text-[13px] leading-relaxed">Solicita certificados, justifica inasistencias o revisa tu asistencia sin cambiar de plataforma.</p>
+              <Button size="sm" variant="primary" full className="mt-3" iconRight="arrowRight" onClick={() => onNavigate('ayuda')}>Ir a trámites</Button>
+            </Card>
+          </div>
+        </div>
+      )}
+
+      {tab === 'mensajes' && <MessagesTab course={course} />}
+
+      {tab === 'asistencia' && <AttendanceTab course={course} />}
+
+      {tab === 'notas' && (
+        <Card className="anim-fade-in" pad={false}>
+          <div className="p-5 border-b border-line flex items-center justify-between flex-wrap gap-2">
+            <h3 className="font-display font-bold text-ink text-[16px]">Calificaciones</h3>
+            <div className="flex items-center gap-2 text-[13px]"><span className="text-muted font-medium">Promedio actual</span><span className="font-display font-extrabold text-[20px]" style={{ color: course.color }}>{course.promedio?.toFixed(1)}</span></div>
+          </div>
+          <div className="divide-y divide-[var(--border)]">
+            {content.notas.map((n, idx) => (
+              <div key={idx} className="flex items-center gap-4 p-4">
+                <div className="grid place-items-center rounded-xl shrink-0" style={{ width: 40, height: 40, background: n.nota ? 'color-mix(in srgb, var(--ok) 12%, transparent)' : 'var(--surface-2)' }}>
+                  <Icon name={n.nota ? 'check' : 'clock'} size={18} style={{ color: n.nota ? 'var(--ok)' : 'var(--text-faint)' }} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-ink font-semibold text-[14px]">{n.eval}</p>
+                  <p className="text-faint text-[12px]">Ponderación {n.pond}</p>
+                </div>
+                {n.nota ? <span className="font-display font-extrabold text-[22px] text-ink tabular-nums">{n.nota.toFixed(1)}</span> : <Badge tone="neutral">Pendiente</Badge>}
+              </div>
+            ))}
+          </div>
+        </Card>
+      )}
+
+      {tab === 'foro' && (
+        <div className="anim-fade-in space-y-3">
+          {[{ a: 'Rodrigo Maldonado', r: 'Docente', t: 'Material complementario EA 2', d: 'Recuerden revisar la lectura sobre modelos IaaS/PaaS antes de la sesión del miércoles.', time: 'Hace 2 h', pin: true },
+            { a: 'Valentina Soto', r: 'Estudiante', t: '¿Dudas sobre la entrega?', d: '¿La actividad evaluada se entrega individual o en grupo?', time: 'Ayer' }].map((p, i) => (
+            <Card key={i} className="anim-fade-up" style={{ animationDelay: `${i * .05}s` }}>
+              <div className="flex items-start gap-3">
+                <window.Avatar iniciales={p.a.split(' ').map((x) => x[0]).join('')} size={42} color={p.r === 'Docente' ? course.color : 'var(--low)'} />
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="font-bold text-ink text-[14px]">{p.a}</span>
+                    <Badge tone={p.r === 'Docente' ? 'primary' : 'neutral'}>{p.r}</Badge>
+                    {p.pin && <Badge tone="accent" icon="bookmark">Fijado</Badge>}
+                    <span className="text-faint text-[12px]">· {p.time}</span>
+                  </div>
+                  <h4 className="font-display font-bold text-ink text-[15px] mt-1">{p.t}</h4>
+                  <p className="text-muted text-[13.5px] leading-relaxed mt-1">{p.d}</p>
+                  <div className="flex items-center gap-4 mt-3">
+                    <button className="text-[12.5px] font-bold text-muted hover:text-primary flex items-center gap-1.5"><Icon name="chat" size={15} /> Responder</button>
+                    <button className="text-[12.5px] font-bold text-muted hover:text-primary flex items-center gap-1.5"><Icon name="check" size={15} /> Útil</button>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+window.CourseScreen = CourseScreen;
+
+// ---- Mensajes del curso: distinción privado (docente→tú) vs al curso completo ----
+function initials(name) {
+  return name.split(' ').filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase();
+}
+
+function buildMessages(course) {
+  const doc = course.docente;
+  return [
+    {
+      id: 't0', tipo: 'privado', con: doc, tiempo: 'Hace 3 h', noLeido: true,
+      preview: 'Hola Francisco, recuerda subir tu avance del proyecto de despliegue antes del viernes…',
+      mensajes: [
+        { rol: 'docente', autor: doc, fecha: 'Hoy', hora: '08:15', texto: 'Hola Francisco 👋 Recuerda subir tu avance del proyecto de despliegue antes del viernes a las 23:59. Cualquier duda me escribes por aquí.' },
+      ],
+    },
+    {
+      id: 't1', tipo: 'privado', con: doc, tiempo: 'Hace 2 días',
+      preview: 'Retroalimentación EA 2 · Estado general: Logrado. Revisa el detalle por criterio.',
+      mensajes: [
+        { rol: 'docente', autor: doc, fecha: '27 may', hora: '10:07', titulo: 'Retroalimentación · Experiencia de Aprendizaje 2', estado: 'Logrado', tabla: [
+          { criterio: 'Variables y contadores', estado: 'Logrado', detalle: 'Declara correctamente las variables de cantidad, código y contadores finales.' },
+          { criterio: 'Lectura de registros', estado: 'Logrado', detalle: 'Valida que la cantidad de registros sea mayor a cero antes de iniciar.' },
+          { criterio: 'Validación de datos', estado: 'Por mejorar', detalle: 'Refuerza el control de entradas inválidas para la próxima entrega.' },
+        ], texto: '¡Buen trabajo en general! Sigue reforzando la validación de datos para la EA 3.' },
+        { rol: 'tu', autor: 'Tú', fecha: '27 may', hora: '18:22', texto: 'Muchas gracias profe, lo tendré presente para la siguiente experiencia. 🙌' },
+      ],
+    },
+    {
+      id: 't2', tipo: 'curso', con: doc, tiempo: 'Hace 1 semana',
+      preview: 'Estimados. Ya está disponible en AVA el calendario de evaluaciones del semestre.',
+      mensajes: [
+        { rol: 'docente', autor: doc, fecha: '20 mar', hora: '09:40', texto: 'Estimados, por una emergencia debo reagendar la clase del lunes. Les informaré a la brevedad cómo coordinamos la recuperación. Agradezco su comprensión.\n\nEl lunes desarrollaremos la solución de las Guías 1 y 2 de diagramas de flujo. Saludos cordiales.' },
+        { rol: 'estudiante', autor: 'Jhon Guems', fecha: '21 mar', hora: '10:01', texto: '¡Recibido! Muchas gracias profe.' },
+        { rol: 'docente', autor: doc, fecha: '23 mar', hora: '10:16', texto: 'Estimados. Ya está disponible en AVA el calendario de evaluaciones, para que planifiquen su semestre acorde. Saludos cordiales.', adjunto: { nombre: 'calendario_evaluaciones.pdf', tipo: 'PDF · 240 KB' } },
+      ],
+    },
+  ];
+}
+
+const TIPO_MSG = {
+  privado: { label: 'Privado', tone: 'accent', icon: 'lock', para: 'Solo para ti', corto: 'Privados' },
+  curso: { label: 'Al curso', tone: 'primary', icon: 'users', para: 'Para todo el curso', corto: 'Al curso' },
+};
+
+function MessagesTab({ course }) {
+  const { Icon, Badge, Avatar, Button } = window;
+  const threads = buildMessages(course);
+  const [openId, setOpenId] = useStateCourse(null);
+  const [filter, setFilter] = useStateCourse('todos');
+  const [draft, setDraft] = useStateCourse('');
+
+  const open = threads.find((t) => t.id === openId);
+
+  // ---------- Vista de conversación ----------
+  if (open) {
+    const meta = TIPO_MSG[open.tipo];
+    let lastFecha = null;
+    return (
+      <div className="anim-fade-in">
+        <div className="bg-surface border border-line rounded-2xl shadow-card overflow-hidden flex flex-col" style={{ height: 'min(620px, 72vh)' }}>
+          {/* Encabezado del hilo */}
+          <div className="flex items-center gap-3 px-4 sm:px-5 h-[64px] border-b border-line shrink-0">
+            <button onClick={() => setOpenId(null)} aria-label="Volver" className="grid place-items-center rounded-xl text-muted hover:bg-surface-2 shrink-0" style={{ width: 38, height: 38 }}><Icon name="chevronLeft" size={19} /></button>
+            <Avatar iniciales={initials(open.con)} color={course.color} size={40} />
+            <div className="min-w-0 flex-1">
+              <div className="font-display font-bold text-ink text-[15px] truncate">{open.tipo === 'curso' ? 'Todos los estudiantes' : open.con}</div>
+              <div className="text-faint text-[12px] truncate">{open.tipo === 'curso' ? `${open.con} · ${course.nombre}` : open.con}</div>
+            </div>
+            <Badge tone={meta.tone} icon={meta.icon}>{meta.label}</Badge>
+          </div>
+
+          {/* Mensajes */}
+          <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-5 space-y-1" style={{ background: 'var(--surface-2)' }}>
+            {open.mensajes.map((m, idx) => {
+              const showDate = m.fecha !== lastFecha; lastFecha = m.fecha;
+              const mine = m.rol === 'tu';
+              return (
+                <div key={idx}>
+                  {showDate && (
+                    <div className="flex justify-center my-4"><span className="px-3 py-1 rounded-full bg-surface border border-line text-faint text-[11.5px] font-bold">{m.fecha}</span></div>
+                  )}
+                  <div className={`flex items-start gap-2.5 ${mine ? 'flex-row-reverse' : ''}`}>
+                    {!mine && <Avatar iniciales={initials(m.autor)} color={m.rol === 'docente' ? course.color : 'var(--low)'} size={34} />}
+                    <div className={`max-w-[80%] ${mine ? 'items-end' : 'items-start'} flex flex-col`}>
+                      <div className={`flex items-center gap-2 mb-1 px-1 ${mine ? 'flex-row-reverse' : ''}`}>
+                        <span className="text-[12px] font-bold text-ink">{mine ? 'Tú' : m.autor}</span>
+                        {m.rol === 'docente' && <Badge tone="primary">Docente</Badge>}
+                        <span className="text-faint text-[11px]">{m.hora}</span>
+                      </div>
+                      <div className={`rounded-2xl px-4 py-3 text-[13.5px] leading-relaxed shadow-card ${mine ? 'bg-primary text-[color:var(--on-primary)] rounded-tr-md' : 'bg-surface text-ink border border-line rounded-tl-md'}`}>
+                        {m.titulo && (
+                          <div className="mb-2">
+                            <p className="font-display font-bold text-[14.5px] leading-snug">{m.titulo}</p>
+                            {m.estado && <span className="inline-flex items-center gap-1 mt-1.5 px-2 py-0.5 rounded-full text-[11px] font-bold whitespace-nowrap" style={{ background: 'color-mix(in srgb, var(--ok) 14%, transparent)', color: 'var(--ok)' }}><Icon name="check" size={12} strokeWidth={2.4} /> Estado general: {m.estado}</span>}
+                          </div>
+                        )}
+                        {m.tabla && (
+                          <div className="my-2 rounded-xl overflow-hidden border border-line bg-surface">
+                            {m.tabla.map((row, r) => (
+                              <div key={r} className={`grid grid-cols-[1fr_auto] gap-x-3 gap-y-1 p-2.5 text-[12.5px] ${r > 0 ? 'border-t border-line' : ''}`}>
+                                <span className="font-semibold text-ink">{row.criterio}</span>
+                                <span className="font-bold text-[11.5px] whitespace-nowrap" style={{ color: row.estado === 'Logrado' ? 'var(--ok)' : 'var(--medium)' }}>{row.estado}</span>
+                                <span className="text-muted col-span-2 leading-snug">{row.detalle}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        {m.texto && <p className="whitespace-pre-line">{m.texto}</p>}
+                        {m.adjunto && (
+                          <div className={`flex items-center gap-2.5 mt-2.5 p-2.5 rounded-xl ${mine ? 'bg-[color-mix(in_srgb,var(--on-primary)_12%,transparent)]' : 'bg-surface-2'}`}>
+                            <Icon name="file" size={18} className={mine ? '' : 'text-primary'} />
+                            <div className="min-w-0"><p className="font-semibold text-[12.5px] truncate">{m.adjunto.nombre}</p><p className="text-[11px] opacity-75">{m.adjunto.tipo}</p></div>
+                            <Icon name="download" size={16} className="ml-auto opacity-75" />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Redactar */}
+          <div className="border-t border-line p-3 shrink-0 bg-surface">
+            <div className="flex items-end gap-2">
+              <textarea value={draft} onChange={(e) => setDraft(e.target.value)} rows={1} placeholder={open.tipo === 'curso' ? 'Responder a todo el curso…' : 'Escribe un mensaje…'} className="flex-1 resize-none bg-surface-2 border border-line rounded-xl px-4 py-3 text-[13.5px] text-ink outline-none focus:border-primary transition-colors max-h-32" style={{ minHeight: 46 }} />
+              <button onClick={() => setDraft('')} disabled={!draft.trim()} aria-label="Enviar" className="grid place-items-center rounded-xl bg-primary text-[color:var(--on-primary)] disabled:opacity-40 transition-opacity shrink-0" style={{ width: 46, height: 46 }}><Icon name="arrowRight" size={20} /></button>
+            </div>
+            <label className="flex items-center gap-2 mt-2 ml-1 text-[12px] text-faint font-medium cursor-pointer select-none">
+              <span className="w-4 h-4 rounded border border-line bg-surface-2"></span> Enviar una copia a mi correo institucional
+            </label>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ---------- Bandeja de entrada ----------
+  const filtered = threads.filter((t) => (filter === 'todos' ? true : t.tipo === filter));
+  const noLeidos = threads.filter((t) => t.noLeido).length;
+  return (
+    <div className="anim-fade-in">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+        <div>
+          <h3 className="font-display font-bold text-ink text-[18px] flex items-center gap-2"><Icon name="mail" size={19} className="text-primary" /> Mensajes del curso</h3>
+          <p className="text-faint text-[12.5px] mt-0.5">Comunicación directa con tu docente{noLeidos > 0 ? ` · ${noLeidos} sin leer` : ''}</p>
+        </div>
+        <Button size="sm" variant="primary" icon="plus">Nuevo mensaje</Button>
+      </div>
+
+      {/* Filtro: distinción privado / al curso */}
+      <div className="flex items-center gap-1 p-1 rounded-xl bg-surface-2 w-fit mb-4">
+        {[{ id: 'todos', label: 'Todos' }, { id: 'privado', label: 'Privados' }, { id: 'curso', label: 'Al curso' }].map((f) => (
+          <button key={f.id} onClick={() => setFilter(f.id)} className={`px-3.5 h-9 rounded-lg text-[13px] font-bold transition-all flex items-center gap-1.5 ${filter === f.id ? 'bg-surface text-ink shadow-card' : 'text-faint hover:text-muted'}`}>
+            {f.id !== 'todos' && <Icon name={TIPO_MSG[f.id].icon} size={14} />} {f.label}
+          </button>
+        ))}
+      </div>
+
+      <div className="flex flex-col gap-2.5">
+        {filtered.map((t) => {
+          const meta = TIPO_MSG[t.tipo];
+          return (
+            <button key={t.id} onClick={() => setOpenId(t.id)} className="text-left bg-surface border border-line rounded-2xl p-4 shadow-card hover:shadow-float hover:border-primary/40 transition-all duration-300 group">
+              <div className="flex items-start gap-3.5">
+                <div className="relative shrink-0">
+                  <Avatar iniciales={initials(t.con)} color={course.color} size={46} />
+                  <span className="absolute -bottom-0.5 -right-0.5 grid place-items-center rounded-full ring-2 ring-surface" style={{ width: 20, height: 20, background: `var(--${meta.tone === 'accent' ? 'accent' : 'primary'})`, color: meta.tone === 'accent' ? 'var(--accent-ink)' : 'var(--on-primary)' }}><Icon name={meta.icon} size={11} strokeWidth={2.4} /></span>
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-display font-bold text-ink text-[14.5px] truncate group-hover:text-primary transition-colors">{t.con}</span>
+                    <span className="text-faint text-[11.5px] font-medium shrink-0">{t.tiempo}</span>
+                  </div>
+                  <div className="flex items-center gap-2 mt-1 flex-wrap">
+                    <Badge tone={meta.tone} icon={meta.icon}>{meta.label}</Badge>
+                    <span className="text-faint text-[12px] font-medium">{meta.para}</span>
+                    {t.noLeido && <span className="ml-auto w-2.5 h-2.5 rounded-full bg-high shrink-0"></span>}
+                  </div>
+                  <p className={`text-[13px] leading-snug mt-1.5 line-clamp-1 ${t.noLeido ? 'text-ink font-semibold' : 'text-muted'}`}>{t.preview}</p>
+                </div>
+              </div>
+            </button>
+          );
+        })}
+        {filtered.length === 0 && (
+          <div className="text-center py-14 bg-surface border border-line rounded-2xl">
+            <Icon name="mail" size={30} className="text-faint mx-auto" />
+            <p className="text-muted text-[14px] font-medium mt-2">No hay mensajes en esta categoría.</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ---- Asistencia del curso: métrica independiente del progreso académico ----
+const MESES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+
+function computeAttendance(course) {
+  const a = course.asistencia || { minimo: 75, total: 0, asistidas: 0, inasistencias: 0 };
+  const realizadas = a.asistidas + a.inasistencias;
+  const restantes = Math.max(0, a.total - realizadas);
+  const maxFaltas = Math.floor(a.total * (1 - a.minimo / 100));
+  const puedeFaltar = Math.max(0, maxFaltas - a.inasistencias);
+  const pct = realizadas > 0 ? Math.round((a.asistidas / realizadas) * 100) : 100;
+  const enRiesgo = puedeFaltar <= 1 || pct < a.minimo;
+  return { ...a, realizadas, restantes, maxFaltas, puedeFaltar, pct, enRiesgo };
+}
+
+function buildSessions(course, m) {
+  const sesiones = [];
+  // Marca de inasistencias: distribuidas, nunca en la sesión más reciente
+  const ausentes = new Set();
+  let placed = 0, idx = 1;
+  while (placed < m.inasistencias && idx < m.realizadas) { ausentes.add(idx); placed++; idx += 2; }
+  let idx2 = 2;
+  while (placed < m.inasistencias) { if (!ausentes.has(idx2)) { ausentes.add(idx2); placed++; } idx2++; }
+
+  const base = new Date(2026, 5, 11); // referencia: clase más reciente
+  for (let i = 0; i < m.realizadas; i++) {
+    const d = new Date(base.getTime() - i * 7 * 86400000);
+    sesiones.push({
+      n: m.realizadas - i,
+      fecha: `${d.getDate()} ${MESES[d.getMonth()]}`,
+      ausente: ausentes.has(i),
+    });
+  }
+  return sesiones;
+}
+
+function AttendanceTab({ course }) {
+  const { Icon, Card, Badge, Progress } = window;
+  const m = computeAttendance(course);
+  const sesiones = buildSessions(course, m);
+
+  const tono = m.enRiesgo ? 'var(--high)' : m.pct < m.minimo + 8 ? 'var(--medium)' : 'var(--ok)';
+  const R = 58, C = 2 * Math.PI * R;
+
+  const tiles = [
+    { label: 'Clases asistidas', val: m.asistidas, sub: `de ${m.realizadas} realizadas`, icon: 'checkCircle', color: 'var(--ok)' },
+    { label: 'Inasistencias', val: m.inasistencias, sub: m.inasistencias === 1 ? 'clase no asistida' : 'clases no asistidas', icon: 'close', color: 'var(--high)' },
+    { label: 'Total del semestre', val: m.total, sub: `${m.restantes} clases por dictar`, icon: 'calendar', color: 'var(--text-muted)' },
+    { label: 'Puedes faltar', val: m.puedeFaltar, sub: `de ${m.maxFaltas} permitidas`, icon: 'shield', color: m.enRiesgo ? 'var(--high)' : 'var(--primary)' },
+  ];
+
+  return (
+    <div className="anim-fade-in space-y-5">
+      {/* Resumen con anillo */}
+      <Card pad={false} className="overflow-hidden">
+        <div className="flex flex-col sm:grid items-center gap-6 p-6" style={{ gridTemplateColumns: '150px minmax(0, 1fr)' }}>
+          <div className="relative grid place-items-center shrink-0" style={{ width: 150, height: 150 }}>
+            <svg width="150" height="150" viewBox="0 0 150 150" className="absolute inset-0 -rotate-90">
+              <circle cx="75" cy="75" r={R} fill="none" stroke="var(--surface-2)" strokeWidth="11" />
+              <circle cx="75" cy="75" r={R} fill="none" stroke={tono} strokeWidth="11" strokeLinecap="round"
+                strokeDasharray={C} strokeDashoffset={C * (1 - m.pct / 100)} style={{ transition: 'stroke-dashoffset .9s cubic-bezier(.22,1,.36,1)' }} />
+            </svg>
+            <div className="text-center">
+              <div className="font-display font-extrabold tracking-tight tabular-nums leading-none" style={{ fontSize: 38, color: tono }}>{m.pct}%</div>
+              <div className="text-faint text-[11.5px] font-bold mt-1">asistencia</div>
+            </div>
+          </div>
+          <div className="flex-1 min-w-0 w-full text-center sm:text-left">
+            <div className="flex items-center gap-2.5 justify-center sm:justify-start flex-wrap">
+              <h3 className="font-display font-bold text-ink text-[18px]">Tu asistencia</h3>
+              <Badge tone={m.enRiesgo ? 'high' : 'ok'} icon={m.enRiesgo ? 'flame' : 'check'}>{m.enRiesgo ? 'En riesgo' : 'Al día'}</Badge>
+            </div>
+            <p className="text-muted text-[13.5px] mt-1.5 leading-relaxed max-w-md">
+              Métrica independiente de tu progreso académico. Para aprobar debes mantener al menos un <span className="font-bold text-ink">{m.minimo}%</span> de asistencia en el semestre.
+            </p>
+            <div className="mt-4 max-w-md mx-auto sm:mx-0">
+              <div className="flex items-center justify-between text-[12px] font-semibold mb-1.5">
+                <span className="text-faint">Mínimo requerido {m.minimo}%</span>
+                <span className="tabular-nums" style={{ color: tono }}>{m.pct}% actual</span>
+              </div>
+              <div className="relative">
+                <Progress value={m.pct} color={tono} track="var(--surface-2)" height={9} />
+                <span className="absolute top-1/2 -translate-y-1/2 w-0.5 h-4 bg-ink rounded-full" style={{ left: `${m.minimo}%`, opacity: .55 }} title={`Mínimo ${m.minimo}%`}></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Card>
+
+      {/* Alerta de riesgo */}
+      {m.enRiesgo && (
+        <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-high-soft border border-[color-mix(in_srgb,var(--high)_22%,transparent)] anim-fade-up">
+          <div className="grid place-items-center rounded-xl shrink-0" style={{ width: 38, height: 38, background: 'color-mix(in srgb, var(--high) 16%, transparent)' }}>
+            <Icon name="flame" size={19} style={{ color: 'var(--high)' }} />
+          </div>
+          <div className="min-w-0">
+            <p className="font-bold text-ink text-[14.5px]">Asistencia en riesgo</p>
+            <p className="text-muted text-[13px] leading-relaxed mt-0.5">
+              {m.puedeFaltar === 0
+                ? `Alcanzaste el máximo de ${m.maxFaltas} inasistencias permitidas. Una falta más podría reprobarte por asistencia.`
+                : `Solo puedes faltar a ${m.puedeFaltar} clase${m.puedeFaltar === 1 ? '' : 's'} más para no bajar del ${m.minimo}% requerido. Si tienes una inasistencia justificada, regístrala en trámites.`}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Métricas */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        {tiles.map((tile) => (
+          <Card key={tile.label} className="text-center sm:text-left">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="grid place-items-center rounded-lg shrink-0" style={{ width: 30, height: 30, background: `color-mix(in srgb, ${tile.color} 14%, transparent)` }}>
+                <Icon name={tile.icon} size={16} style={{ color: tile.color }} />
+              </div>
+              <span className="text-faint text-[12px] font-bold leading-tight">{tile.label}</span>
+            </div>
+            <div className="font-display font-extrabold text-ink tabular-nums leading-none" style={{ fontSize: 30 }}>{tile.val}</div>
+            <p className="text-faint text-[12px] mt-1">{tile.sub}</p>
+          </Card>
+        ))}
+      </div>
+
+      {/* Detalle de clases */}
+      <Card pad={false}>
+        <div className="p-5 border-b border-line flex items-center justify-between flex-wrap gap-2">
+          <h3 className="font-display font-bold text-ink text-[16px]">Detalle de clases</h3>
+          <div className="flex items-center gap-3 text-[12px] font-semibold">
+            <span className="flex items-center gap-1.5 text-muted"><span className="w-2.5 h-2.5 rounded-full" style={{ background: 'var(--ok)' }}></span> Presente</span>
+            <span className="flex items-center gap-1.5 text-muted"><span className="w-2.5 h-2.5 rounded-full" style={{ background: 'var(--high)' }}></span> Ausente</span>
+          </div>
+        </div>
+        <div className="divide-y divide-[var(--border)] max-h-[420px] overflow-y-auto">
+          {sesiones.map((s) => (
+            <div key={s.n} className="flex items-center gap-4 px-5 py-3.5">
+              <div className="grid place-items-center rounded-xl shrink-0" style={{ width: 38, height: 38, background: s.ausente ? 'var(--high-soft)' : 'color-mix(in srgb, var(--ok) 12%, transparent)' }}>
+                <Icon name={s.ausente ? 'close' : 'check'} size={18} strokeWidth={2.4} style={{ color: s.ausente ? 'var(--high)' : 'var(--ok)' }} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-ink font-semibold text-[14px]">Sesión {String(s.n).padStart(2, '0')}</p>
+                <p className="text-faint text-[12px]">{s.fecha} · {course.proxima.split(' · ')[1] || 'Presencial'}</p>
+              </div>
+              <Badge tone={s.ausente ? 'high' : 'ok'}>{s.ausente ? 'Ausente' : 'Presente'}</Badge>
+            </div>
+          ))}
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+window.AttendanceTab = AttendanceTab;
+
+</script>
+  <script type="text/babel" data-from="src/screen-help.jsx">
+// src/screen-help.jsx — Centro de ayuda unificado → window.HelpScreen
+const { useState: useStateHelp } = React;
+
+function HelpScreen({ onNavigate }) {
+  const { Icon, Card, Badge, Button } = window;
+  const { HELP_CATEGORIES, HELP_POPULAR, SERVICE_STATUS } = window.DATA;
+  const [q, setQ] = useStateHelp('');
+  const [active, setActive] = useStateHelp(null);
+
+  const filtered = HELP_POPULAR.filter((p) => p.toLowerCase().includes(q.toLowerCase()));
+  const statusTone = { operativo: 'ok', degradado: 'medium', caido: 'high' };
+  const statusLabel = { operativo: 'Operativo', degradado: 'Intermitente', caido: 'No disponible' };
+  const anyIssue = SERVICE_STATUS.some((s) => s.estado !== 'operativo');
+
+  return (
+    <div className="max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+      {/* Hero ayuda */}
+      <div className="anim-fade-up relative rounded-3xl overflow-hidden p-7 sm:p-10 text-white mb-6" style={{ background: 'linear-gradient(140deg, #232323 0%, #0c0c0c 100%)' }}>
+        <div className="absolute inset-0 opacity-[0.13]" style={{ backgroundImage: 'repeating-linear-gradient(125deg, #fff 0, #fff 1px, transparent 1px, transparent 22px)' }}></div>
+        <div className="absolute -right-12 -top-16 w-64 h-64 rounded-full" style={{ background: 'radial-gradient(circle, var(--accent) 0%, transparent 70%)', opacity: .45 }}></div>
+        <div className="relative z-10 max-w-2xl">
+          <Badge tone="accent"><Icon name="sparkle" size={13} strokeWidth={2.2} /> Centro de ayuda</Badge>
+          <h1 className="font-display font-extrabold text-[clamp(1.7rem,4vw,2.5rem)] leading-tight tracking-tight mt-3">¿En qué te ayudamos hoy?</h1>
+          <p className="text-white/80 text-[15px] mt-2">Guías rápidas, trámites y soporte directo. Todo en un solo lugar.</p>
+          <div className="mt-5 flex items-center gap-3 h-14 px-5 rounded-2xl bg-white shadow-float">
+            <Icon name="search" size={21} className="text-primary" />
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Describe tu problema o busca un trámite…" className="flex-1 bg-transparent outline-none text-ink text-[15px] font-medium placeholder:text-faint" style={{ color: 'var(--text)' }} />
+          </div>
+        </div>
+      </div>
+
+      {/* Resultados de búsqueda */}
+      {q && (
+        <Card className="mb-6 anim-fade-in">
+          <p className="text-[12.5px] font-bold text-faint uppercase tracking-wide mb-2">{filtered.length} resultado{filtered.length !== 1 ? 's' : ''}</p>
+          <div className="space-y-1">
+            {filtered.length === 0 && <p className="text-muted text-[14px] py-2">No encontramos coincidencias. Prueba con otras palabras o contacta al chat de soporte.</p>}
+            {filtered.map((p, i) => (
+              <button key={i} className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-surface-2 text-left transition-colors" style={{ minHeight: 44 }}>
+                <Icon name="file" size={17} className="text-primary shrink-0" />
+                <span className="text-ink font-medium text-[14px] flex-1">{p}</span>
+                <Icon name="arrowRight" size={16} className="text-faint" />
+              </button>
+            ))}
+          </div>
+        </Card>
+      )}
+
+      <div className="grid lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 space-y-6">
+          {/* Categorías */}
+          <section className="anim-fade-up">
+            <h2 className="font-display font-bold text-ink text-[18px] mb-4">Explora por categoría</h2>
+            <div className="grid sm:grid-cols-2 gap-4">
+              {HELP_CATEGORIES.map((cat, i) => (
+                <button key={cat.id} onClick={() => setActive(active === cat.id ? null : cat.id)}
+                  className="text-left bg-surface border border-line rounded-2xl p-4 shadow-card hover:shadow-float hover:-translate-y-0.5 transition-all duration-300 group anim-fade-up" style={{ animationDelay: `${i * .04}s`, minHeight: 44 }}>
+                  <div className="flex items-start gap-3.5">
+                    <div className="grid place-items-center rounded-xl shrink-0 transition-transform group-hover:scale-105" style={{ width: 44, height: 44, background: `color-mix(in srgb, ${cat.color} 13%, transparent)` }}>
+                      <Icon name={cat.icon} size={21} style={{ color: cat.color }} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-display font-bold text-ink text-[15px] group-hover:text-primary transition-colors">{cat.titulo}</h3>
+                      <p className="text-faint text-[12.5px] leading-snug mt-0.5">{cat.desc}</p>
+                      <span className="inline-block text-[11.5px] font-bold text-muted mt-2">{cat.articulos} guías →</span>
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </section>
+
+          {/* Preguntas frecuentes */}
+          <section className="anim-fade-up">
+            <h2 className="font-display font-bold text-ink text-[18px] mb-3">Preguntas frecuentes</h2>
+            <Card pad={false}>
+              <div className="divide-y divide-[var(--border)]">
+                {HELP_POPULAR.map((p, i) => (
+                  <FaqRow key={i} q={p} />
+                ))}
+              </div>
+            </Card>
+          </section>
+        </div>
+
+        {/* Lateral: soporte + estado */}
+        <div className="space-y-6">
+          <Card className="anim-fade-up text-[color:var(--on-primary)] border-transparent" style={{ background: 'var(--primary)' }}>
+            <div className="grid place-items-center rounded-2xl mb-3" style={{ width: 48, height: 48, background: 'color-mix(in srgb, var(--on-primary) 15%, transparent)' }}><Icon name="chat" size={24} /></div>
+            <h3 className="font-display font-extrabold text-[18px]">Chatea con soporte</h3>
+            <p className="text-[13.5px] leading-relaxed mt-1" style={{ color: 'color-mix(in srgb, var(--on-primary) 78%, transparent)' }}>Atención en línea de lunes a viernes, 08:00 a 22:00. Tiempo de respuesta promedio: 4 min.</p>
+            <button className="mt-4 w-full h-12 rounded-xl font-bold text-[14px] flex items-center justify-center gap-2 hover:brightness-95 transition-all active:scale-[.98]" style={{ minHeight: 44, background: 'var(--on-primary)', color: 'var(--primary)' }}>
+              <Icon name="chat" size={18} /> Iniciar conversación
+            </button>
+            <div className="flex items-center gap-2 mt-3 text-[12px] font-medium justify-center" style={{ color: 'color-mix(in srgb, var(--on-primary) 75%, transparent)' }}>
+              <span className="w-2 h-2 rounded-full bg-[var(--accent)]"></span> 3 agentes en línea ahora
+            </div>
+          </Card>
+
+          {/* Estado de servicios */}
+          <Card className="anim-fade-up">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="font-display font-bold text-ink text-[15px]">Estado de servicios</h3>
+              <Badge tone={anyIssue ? 'medium' : 'ok'} icon={anyIssue ? 'alert' : 'checkCircle'}>{anyIssue ? 'Incidencia' : 'Todo OK'}</Badge>
+            </div>
+            <div className="space-y-2.5">
+              {SERVICE_STATUS.map((s) => (
+                <div key={s.servicio} className="flex items-center gap-3">
+                  <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: s.estado === 'operativo' ? 'var(--ok)' : s.estado === 'degradado' ? 'var(--medium)' : 'var(--high)' }}></span>
+                  <span className="text-ink text-[13.5px] font-medium flex-1">{s.servicio}</span>
+                  <span className="text-[11.5px] font-bold" style={{ color: s.estado === 'operativo' ? 'var(--ok)' : s.estado === 'degradado' ? 'var(--medium)' : 'var(--high)' }}>{statusLabel[s.estado]}</span>
+                </div>
+              ))}
+            </div>
+            <p className="text-faint text-[11.5px] mt-3 pt-3 border-t border-line">Actualizado hace 2 min · Notificaremos cualquier cambio.</p>
+          </Card>
+
+          <Card className="anim-fade-up">
+            <h3 className="font-display font-bold text-ink text-[15px] mb-2">Otros canales</h3>
+            <div className="space-y-1">
+              {[{ i: 'mail', t: 'soporte@duocuc.cl' }, { i: 'pin', t: 'Punto estudiantil · Sede' }, { i: 'globe', t: 'Reglamentos y normativa' }].map((c) => (
+                <button key={c.t} className="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-surface-2 transition-colors text-left" style={{ minHeight: 44 }}>
+                  <Icon name={c.i} size={17} className="text-primary" /><span className="text-ink text-[13.5px] font-medium flex-1">{c.t}</span><Icon name="chevronRight" size={15} className="text-faint" />
+                </button>
+              ))}
+            </div>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FaqRow({ q }) {
+  const { Icon } = window;
+  const [open, setOpen] = useStateHelp(false);
+  return (
+    <div>
+      <button onClick={() => setOpen(!open)} className="w-full flex items-center gap-3 p-4 text-left hover:bg-surface-2 transition-colors" style={{ minHeight: 44 }}>
+        <Icon name="support" size={18} className="text-primary shrink-0" />
+        <span className="text-ink font-semibold text-[14px] flex-1">{q}</span>
+        <Icon name="chevronDown" size={17} className={`text-faint shrink-0 transition-transform ${open ? 'rotate-180' : ''}`} />
+      </button>
+      {open && (
+        <div className="px-4 pb-4 pl-[52px] anim-fade-in">
+          <p className="text-muted text-[13.5px] leading-relaxed">Sigue la guía paso a paso desde tu panel. Si el problema persiste, inicia una conversación con el equipo de soporte y te ayudaremos en minutos.</p>
+          <button className="mt-2 text-[12.5px] font-bold text-primary flex items-center gap-1">Ver guía completa <Icon name="arrowRight" size={13} /></button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+window.HelpScreen = HelpScreen;
+
+</script>
+  <script type="text/babel" data-from="src/app.jsx">
+// src/app.jsx — Shell, navegación, búsqueda global, ajustes y Tweaks
+const { useState, useEffect, useRef, useCallback } = React;
+
+const FONT_MAP = {
+  'Editorial': { d: "'Newsreader', Georgia, 'Times New Roman', serif", b: "'Manrope', system-ui, sans-serif" },
+  'Moderno': { d: "'Plus Jakarta Sans', system-ui, sans-serif", b: "'Manrope', system-ui, sans-serif" },
+  'Geométrico': { d: "'Sora', system-ui, sans-serif", b: "'Manrope', system-ui, sans-serif" },
+};
+const PRIMARY_OPTS = ['#1a1a1a', '#0e4fb8', '#7b3ff2'];
+
+function relLum(hex) {
+  const c = (hex || '#1a1a1a').replace('#', '');
+  const n = c.length === 3 ? c.split('').map((x) => x + x).join('') : c;
+  const r = parseInt(n.slice(0, 2), 16) / 255, g = parseInt(n.slice(2, 4), 16) / 255, b = parseInt(n.slice(4, 6), 16) / 255;
+  const f = (v) => (v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4));
+  return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+}
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "theme": "Claro",
+  "font": "Editorial",
+  "primary": "#1a1a1a"
+}/*EDITMODE-END*/;
+
+const NAV = [
+  { id: 'inicio', icon: 'home', label: 'Inicio' },
+  { id: 'cursos', icon: 'book', label: 'Cursos' },
+  { id: 'ayuda', icon: 'support', label: 'Ayuda' },
+];
+
+function App() {
+  const { Logo, Button, IconButton, Icon, Card, Badge, Avatar, CourseGlyph, Progress, Sheet, Tooltip } = window;
+  const { LoginScreen, DashboardScreen, CourseScreen, HelpScreen, OnboardingTour } = window;
+  const { STUDENT, NOTIFICATIONS, SEARCH_INDEX, QUICK_ACTIONS, HELP_POPULAR } = window.DATA;
+
+  const [t, setTweak] = window.useTweaks(TWEAK_DEFAULTS);
+  const [logged, setLogged] = useState(false);
+  const [route, setRoute] = useState('inicio');
+  const [courseId, setCourseId] = useState(null);
+  const [courseTab, setCourseTab] = useState(null);
+  const [tour, setTour] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [helpOpen, setHelpOpen] = useState(false);
+  const [notifOpen, setNotifOpen] = useState(false);
+  const [notifs, setNotifs] = useState(NOTIFICATIONS);
+
+  // Aplicar Tweaks → tokens
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', t.theme === 'Oscuro');
+  }, [t.theme]);
+  useEffect(() => {
+    const f = FONT_MAP[t.font] || FONT_MAP.Editorial;
+    document.documentElement.style.setProperty('--font-display', f.d);
+    document.documentElement.style.setProperty('--font-body', f.b);
+  }, [t.font]);
+  useEffect(() => {
+    const root = document.documentElement;
+    const dark = t.theme === 'Oscuro';
+    const base = t.primary || '#1a1a1a';
+    const lum = relLum(base);
+    // Mantener el primario visible sobre superficies oscuras (si es muy oscuro, se aclara en modo oscuro)
+    const eff = dark && lum < 0.22 ? '#f1f1ef' : (!dark && lum > 0.82 ? '#1a1a1a' : base);
+    const onP = relLum(eff) > 0.55 ? '#1a1a1a' : '#ffffff';
+    root.style.setProperty('--primary', eff);
+    root.style.setProperty('--on-primary', onP);
+    root.style.setProperty('--primary-soft', `color-mix(in srgb, ${eff} ${dark ? 16 : 13}%, var(--surface))`);
+  }, [t.primary, t.theme]);
+
+  // ⌘K búsqueda global
+  useEffect(() => {
+    const onKey = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); if (logged) setSearchOpen(true); }
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [logged]);
+
+  const navigate = (r) => { setRoute(r); setCourseId(null); window.scrollTo({ top: 0 }); };
+  const openCourse = (id, tab = null) => { setCourseId(id); setCourseTab(tab); setRoute('curso'); window.scrollTo({ top: 0 }); };
+  const dismiss = (id) => setNotifs((ns) => ns.filter((n) => n.id !== id));
+
+  const safeGet = (k) => { try { return localStorage.getItem(k); } catch (e) { return null; } };
+  const safeSet = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
+
+  const login = () => {
+    setLogged(true);
+    const onboarded = safeGet('duoc_onboarded');
+    if (!onboarded) setTimeout(() => setTour(true), 700);
+  };
+  const finishTour = () => { setTour(false); safeSet('duoc_onboarded', '1'); };
+  const reactivateTour = () => { setSettingsOpen(false); navigate('inicio'); setTimeout(() => setTour(true), 500); };
+
+  if (!logged) return (<><LoginScreen onLogin={login} /><TweaksUI t={t} setTweak={setTweak} /></>);
+
+  const unread = notifs.filter((n) => n.urgencia === 'alta').length;
+  const titles = { inicio: 'Inicio', cursos: 'Mis cursos', ayuda: 'Centro de ayuda', curso: 'Curso' };
+
+  return (
+    <div className="min-h-screen bg-bg flex">
+      {/* Sidebar desktop */}
+      <aside className="hidden lg:flex flex-col w-[230px] shrink-0 border-r border-line bg-surface sticky top-0 h-screen">
+        <div className="px-5 h-[68px] flex items-center border-b border-line"><Logo size="sm" /></div>
+        <nav className="flex-1 p-3 space-y-1">
+          {NAV.map((n) => {
+            const active = route === n.id || (n.id === 'cursos' && route === 'curso');
+            return (
+              <button key={n.id} onClick={() => navigate(n.id)}
+                className={`w-full flex items-center gap-3 px-3.5 h-12 rounded-xl font-semibold text-[14.5px] transition-all ${active ? 'bg-primary-soft text-primary' : 'text-muted hover:bg-surface-2 hover:text-ink'}`}>
+                <Icon name={n.icon} size={20} /> {n.label}
+              </button>
+            );
+          })}
+          <button onClick={() => setNotifOpen(true)}
+            className={`w-full flex items-center gap-3 px-3.5 h-12 rounded-xl font-semibold text-[14.5px] transition-all ${notifOpen ? 'bg-primary-soft text-primary' : 'text-muted hover:bg-surface-2 hover:text-ink'}`}>
+            <Icon name="bell" size={20} /> Notificaciones
+            {unread > 0 && <span className="ml-auto min-w-[20px] h-5 px-1.5 grid place-items-center rounded-full bg-high text-white text-[11px] font-bold">{unread}</span>}
+          </button>
+          <div className="pt-3 mt-3 border-t border-line">
+            <button onClick={() => setSearchOpen(true)} className="w-full flex items-center gap-3 px-3.5 h-12 rounded-xl font-semibold text-[14.5px] text-muted hover:bg-surface-2 hover:text-ink transition-all">
+              <Icon name="search" size={20} /> Buscar <span className="ml-auto text-[11px] font-bold text-faint px-1.5 py-0.5 rounded bg-surface-2 border border-line">⌘K</span>
+            </button>
+          </div>
+        </nav>
+        {/* Perfil */}
+        <div className="p-3 border-t border-line">
+          <button onClick={() => setSettingsOpen(true)} className="w-full flex items-center gap-3 p-2 rounded-xl hover:bg-surface-2 transition-all text-left">
+            <Avatar iniciales={STUDENT.iniciales} size={40} textColor="var(--on-primary)" />
+            <div className="min-w-0 flex-1">
+              <div className="font-bold text-ink text-[13.5px] truncate">{STUDENT.nombre}</div>
+              <div className="text-faint text-[11.5px] truncate">{STUDENT.carrera}</div>
+            </div>
+            <Icon name="settings" size={18} className="text-faint shrink-0" />
+          </button>
+        </div>
+      </aside>
+
+      {/* Columna principal */}
+      <div className="flex-1 min-w-0 flex flex-col">
+        {/* Topbar */}
+        <header className="sticky top-0 z-40 h-[60px] lg:h-[68px] bg-[color-mix(in_srgb,var(--surface)_88%,transparent)] backdrop-blur-md border-b border-line flex items-center gap-2 px-4 lg:px-6">
+          <div className="lg:hidden"><Logo size="sm" /></div>
+          <h1 className="hidden lg:block font-display font-bold text-ink text-[18px]">{titles[route]}</h1>
+          <div className="flex-1"></div>
+          <div className="lg:hidden"><IconButton name="search" label="Buscar" onClick={() => setSearchOpen(true)} /></div>
+          <IconButton name={t.theme === 'Oscuro' ? 'sun' : 'moon'} label="Cambiar tema" onClick={() => setTweak('theme', t.theme === 'Oscuro' ? 'Claro' : 'Oscuro')} />
+          <span data-tour="tour-notifs" className="inline-flex"><Tooltip label="Notificaciones"><IconButton name="bell" label="Notificaciones" badge={unread} onClick={() => setNotifOpen(true)} /></Tooltip></span>
+          <button onClick={() => setSettingsOpen(true)} className="lg:hidden"><Avatar iniciales={STUDENT.iniciales} size={38} textColor="var(--on-primary)" /></button>
+        </header>
+
+        {/* Vistas */}
+        <main className="flex-1 pb-24 lg:pb-8">
+          {route === 'inicio' && <DashboardScreen student={STUDENT} onNavigate={navigate} onOpenSearch={() => setSearchOpen(true)} onCourse={openCourse} unread={unread} onOpenNotifs={() => setNotifOpen(true)} />}
+          {route === 'cursos' && <CoursesList onCourse={openCourse} />}
+          {route === 'curso' && <CourseScreen courseId={courseId} initialTab={courseTab} onBack={() => navigate('inicio')} onNavigate={navigate} />}
+          {route === 'ayuda' && <HelpScreen onNavigate={navigate} />}
+        </main>
+      </div>
+
+      {/* Bottom nav mobile */}
+      <nav className="lg:hidden fixed bottom-0 inset-x-0 z-40 h-[64px] bg-[color-mix(in_srgb,var(--surface)_92%,transparent)] backdrop-blur-md border-t border-line flex items-center justify-around px-2" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
+        {NAV.map((n) => {
+          const active = route === n.id || (n.id === 'cursos' && route === 'curso');
+          return (
+            <button key={n.id} onClick={() => navigate(n.id)} className={`flex flex-col items-center justify-center gap-0.5 flex-1 h-full rounded-xl transition-colors ${active ? 'text-primary' : 'text-faint'}`} style={{ minHeight: 44 }}>
+              <div className="relative"><Icon name={n.icon} size={23} strokeWidth={active ? 2.2 : 1.7} />{n.id === 'inicio' && unread > 0 && <span className="absolute -top-1 -right-1.5 w-2 h-2 rounded-full bg-high"></span>}</div>
+              <span className="text-[11px] font-bold">{n.label}</span>
+            </button>
+          );
+        })}
+      </nav>
+
+      {/* FAB Ayuda (presente en todas las pantallas) */}
+      <div className="fixed z-40 right-4 lg:right-6 bottom-[80px] lg:bottom-6" data-tour="tour-help">
+        <button onClick={() => setHelpOpen((v) => !v)} aria-label="Ayuda rápida"
+          className="grid place-items-center rounded-full bg-primary text-[color:var(--on-primary)] shadow-float hover:scale-105 active:scale-95 transition-transform" style={{ width: 56, height: 56 }}>
+          <Icon name={helpOpen ? 'close' : 'support'} size={26} />
+        </button>
+      </div>
+      {helpOpen && <HelpPopover onClose={() => setHelpOpen(false)} onOpenCenter={() => { setHelpOpen(false); navigate('ayuda'); }} />}
+
+      {/* Búsqueda global (command palette) */}
+      {searchOpen && <CommandPalette onClose={() => setSearchOpen(false)} onPick={(item) => {
+        setSearchOpen(false);
+        if (item.ruta.startsWith('curso:')) openCourse(item.ruta.split(':')[1]); else navigate(item.ruta);
+      }} />}
+
+      {/* Notificaciones */}
+      <NotificationsPanel open={notifOpen} onClose={() => setNotifOpen(false)} notifs={notifs} onDismiss={dismiss} onCourse={(id, tab) => { setNotifOpen(false); openCourse(id, tab); }} onNavigate={(r) => { setNotifOpen(false); navigate(r); }} />
+
+      {/* Ajustes */}
+      <SettingsSheet open={settingsOpen} onClose={() => setSettingsOpen(false)} t={t} setTweak={setTweak} onReactivateTour={reactivateTour} onLogout={() => { setSettingsOpen(false); setLogged(false); setRoute('inicio'); }} />
+
+      {/* Tour onboarding */}
+      {tour && <OnboardingTour steps={window.DATA.TOUR_STEPS} onFinish={finishTour} onSkip={finishTour} />}
+
+      {/* Tweaks */}
+      <TweaksUI t={t} setTweak={setTweak} />
+    </div>
+  );
+}
+
+// ---- Lista de cursos ----
+function CoursesList({ onCourse }) {
+  const { Card, Badge, Progress, Icon } = window;
+  const { COURSES } = window.DATA;
+  return (
+    <div className="max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+      <h1 className="font-display font-extrabold text-ink text-[clamp(1.6rem,4vw,2.1rem)] tracking-tight mb-1">Mis cursos</h1>
+      <p className="text-faint text-[14px] font-medium mb-6">{COURSES.length} asignaturas · {window.DATA.STUDENT.semestre}</p>
+      <div className="flex flex-col gap-3">
+        {COURSES.map((c, i) => (
+          <Card key={c.id} hover pad={false} onClick={() => onCourse(c.id)} className="p-4 sm:p-5 group anim-fade-up" style={{ animationDelay: `${i * .05}s` }}>
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-[11.5px] font-bold tracking-wide text-faint">{c.sigla} · {c.seccion}</span>
+                  {c.nuevos > 0 && <Badge tone="high">{c.nuevos} nuevo{c.nuevos > 1 ? 's' : ''}</Badge>}
+                  {c.tareasPendientes > 0
+                    ? <Badge tone="medium" icon="clock">{c.tareasPendientes} por entregar</Badge>
+                    : <Badge tone="ok" icon="check">Al día</Badge>}
+                </div>
+                <h3 className="font-display font-bold text-ink text-[16px] sm:text-[17px] leading-snug mt-1 group-hover:text-primary transition-colors">{c.nombre}</h3>
+                <div className="text-faint text-[12.5px] mt-1.5 flex items-center gap-x-4 gap-y-1 flex-wrap">
+                  <span className="flex items-center gap-1.5"><Icon name="user" size={13} /> {c.docente}</span>
+                  <span className="flex items-center gap-1.5"><Icon name="calendar" size={13} /> {c.proxima}</span>
+                </div>
+              </div>
+              <div className="sm:w-[220px] shrink-0">
+                <div className="flex items-center justify-between text-[12px] font-semibold text-muted mb-1.5">
+                  <span>Progreso del curso</span><span style={{ color: 'var(--ok)' }}>{c.progreso}%</span>
+                </div>
+                <Progress value={c.progreso} color="var(--ok)" />
+              </div>
+              <Icon name="chevronRight" size={20} className="text-faint shrink-0 hidden sm:block group-hover:translate-x-0.5 transition-transform" />
+            </div>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ---- Popover de ayuda rápida (FAB) ----
+function HelpPopover({ onClose, onOpenCenter }) {
+  const { Icon, Card, Badge } = window;
+  const { HELP_POPULAR } = window.DATA;
+  return (
+    <div className="fixed z-40 right-4 lg:right-6 bottom-[148px] lg:bottom-[80px] w-[min(92vw,340px)] anim-scale-in" style={{ transformOrigin: 'bottom right' }}>
+      <div className="bg-surface border border-line rounded-2xl shadow-float overflow-hidden">
+        <div className="p-4 text-[color:var(--on-primary)]" style={{ background: 'var(--primary)' }}>
+          <div className="flex items-center justify-between">
+            <h3 className="font-display font-bold text-[16px]">¿Necesitas ayuda?</h3>
+            <button onClick={onClose} aria-label="Cerrar" className="grid place-items-center rounded-lg" style={{ width: 32, height: 32, background: 'color-mix(in srgb, var(--on-primary) 12%, transparent)' }}><Icon name="close" size={17} /></button>
+          </div>
+          <p className="text-[12.5px] mt-0.5" style={{ color: 'color-mix(in srgb, var(--on-primary) 78%, transparent)' }}>Respuestas rápidas y soporte en línea.</p>
+        </div>
+        <div className="p-2">
+          <p className="text-[10.5px] font-bold text-faint uppercase tracking-wide px-2 pt-1.5 pb-1">Preguntas frecuentes</p>
+          {HELP_POPULAR.slice(0, 3).map((p, i) => (
+            <button key={i} className="w-full flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-surface-2 text-left transition-colors" style={{ minHeight: 44 }}>
+              <Icon name="support" size={16} className="text-primary shrink-0" /><span className="text-ink text-[13px] font-medium flex-1 leading-snug">{p}</span>
+            </button>
+          ))}
+          <div className="grid grid-cols-2 gap-2 p-1.5 pt-2">
+            <button onClick={onOpenCenter} className="flex items-center justify-center gap-1.5 h-11 rounded-xl bg-surface-2 text-ink font-bold text-[12.5px] hover:bg-line transition-colors" style={{ minHeight: 44 }}><Icon name="book" size={16} /> Centro</button>
+            <button className="flex items-center justify-center gap-1.5 h-11 rounded-xl bg-primary text-[color:var(--on-primary)] font-bold text-[12.5px] hover:brightness-110 transition-all" style={{ minHeight: 44 }}><Icon name="chat" size={16} /> Chat</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ---- Command palette ----
+function CommandPalette({ onClose, onPick }) {
+  const { Icon } = window;
+  const { SEARCH_INDEX } = window.DATA;
+  const [q, setQ] = useState('');
+  const inputRef = useRef(null);
+  useEffect(() => { inputRef.current && inputRef.current.focus(); }, []);
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [onClose]);
+  const results = SEARCH_INDEX.filter((s) => (s.titulo + s.sub + s.tipo).toLowerCase().includes(q.toLowerCase()));
+  const groups = results.reduce((acc, r) => { (acc[r.tipo] = acc[r.tipo] || []).push(r); return acc; }, {});
+  return (
+    <div className="fixed inset-0 z-[85] flex items-start justify-center pt-[12vh] px-4 anim-fade-in">
+      <div className="absolute inset-0 bg-[rgba(8,15,28,0.5)] backdrop-blur-sm" onClick={onClose}></div>
+      <div className="relative w-full max-w-[600px] bg-surface rounded-2xl shadow-float border border-line overflow-hidden anim-scale-in">
+        <div className="flex items-center gap-3 px-5 h-16 border-b border-line">
+          <Icon name="search" size={22} className="text-primary" />
+          <input ref={inputRef} value={q} onChange={(e) => setQ(e.target.value)} placeholder="Busca cursos, trámites, recursos o personas…" className="flex-1 bg-transparent outline-none text-ink text-[16px] font-medium placeholder:text-faint" />
+          <kbd className="text-[11px] font-bold text-faint px-2 py-1 rounded bg-surface-2 border border-line">Esc</kbd>
+        </div>
+        <div className="max-h-[52vh] overflow-y-auto p-2">
+          {results.length === 0 && <div className="text-center py-10 text-muted text-[14px]">Sin resultados para “{q}”.</div>}
+          {Object.entries(groups).map(([tipo, items]) => (
+            <div key={tipo} className="mb-1">
+              <p className="text-[10.5px] font-bold text-faint uppercase tracking-wide px-3 pt-2 pb-1">{tipo}</p>
+              {items.map((item, i) => (
+                <button key={i} onClick={() => onPick(item)} className="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-surface-2 text-left transition-colors group" style={{ minHeight: 44 }}>
+                  <div className="grid place-items-center rounded-lg bg-primary-soft shrink-0" style={{ width: 38, height: 38 }}><Icon name={item.icon} size={18} className="text-primary" /></div>
+                  <div className="flex-1 min-w-0"><p className="text-ink font-semibold text-[14px] truncate">{item.titulo}</p><p className="text-faint text-[12px] truncate">{item.sub}</p></div>
+                  <Icon name="arrowRight" size={16} className="text-faint opacity-0 group-hover:opacity-100 transition-opacity" />
+                </button>
+              ))}
+            </div>
+          ))}
+        </div>
+        <div className="px-5 h-11 border-t border-line flex items-center gap-4 text-[11.5px] text-faint font-medium">
+          <span className="flex items-center gap-1.5"><kbd className="px-1.5 py-0.5 rounded bg-surface-2 border border-line">↵</kbd> abrir</span>
+          <span className="flex items-center gap-1.5"><kbd className="px-1.5 py-0.5 rounded bg-surface-2 border border-line">esc</kbd> cerrar</span>
+          <span className="ml-auto">Búsqueda unificada</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ---- Hoja de ajustes ----
+function SettingsSheet({ open, onClose, t, setTweak, onReactivateTour, onLogout }) {
+  const { Sheet, Icon, Avatar, Button } = window;
+  const { STUDENT } = window.DATA;
+  return (
+    <Sheet open={open} onClose={onClose} side="right" label="Ajustes">
+      <div className="relative h-screen w-full max-w-[400px] bg-surface border-l border-line shadow-float overflow-y-auto anim-slide-right">
+        <div className="sticky top-0 bg-surface border-b border-line px-5 h-[60px] flex items-center justify-between z-10">
+          <h2 className="font-display font-bold text-ink text-[18px]">Ajustes</h2>
+          <button onClick={onClose} aria-label="Cerrar" className="grid place-items-center rounded-xl hover:bg-surface-2 text-muted" style={{ width: 40, height: 40 }}><Icon name="close" size={20} /></button>
+        </div>
+        <div className="p-5 space-y-6">
+          <div className="flex items-center gap-3.5">
+            <Avatar iniciales={STUDENT.iniciales} size={56} textColor="var(--on-primary)" />
+            <div className="min-w-0">
+              <div className="font-display font-bold text-ink text-[16px]">{STUDENT.nombre}</div>
+              <div className="text-faint text-[12.5px]">{STUDENT.rut} · {STUDENT.jornada}</div>
+              <div className="text-primary text-[12.5px] font-semibold mt-0.5">{STUDENT.carrera}</div>
+            </div>
+          </div>
+
+          <SettingsGroup title="Apariencia">
+            <SettingRow icon={t.theme === 'Oscuro' ? 'moon' : 'sun'} label="Modo oscuro" desc="Ideal para estudiar de noche">
+              <ToggleSwitch on={t.theme === 'Oscuro'} onChange={() => setTweak('theme', t.theme === 'Oscuro' ? 'Claro' : 'Oscuro')} />
+            </SettingRow>
+            <SettingRow icon="globe" label="Idioma" desc="Español (Chile)"><Icon name="chevronRight" size={18} className="text-faint" /></SettingRow>
+          </SettingsGroup>
+
+          <SettingsGroup title="Onboarding y ayuda">
+            <button onClick={onReactivateTour} className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-surface-2 transition-colors text-left" style={{ minHeight: 44 }}>
+              <div className="grid place-items-center rounded-xl bg-primary-soft" style={{ width: 38, height: 38 }}><Icon name="play" size={17} className="text-primary" /></div>
+              <div className="flex-1"><div className="font-semibold text-ink text-[14px]">Reactivar tour guiado</div><div className="text-faint text-[12px]">Vuelve a ver las 5 funciones clave</div></div>
+              <Icon name="chevronRight" size={18} className="text-faint" />
+            </button>
+            <SettingRow icon="support" label="Centro de ayuda" desc="Guías, chat y estado de servicios"><Icon name="chevronRight" size={18} className="text-faint" /></SettingRow>
+          </SettingsGroup>
+
+          <SettingsGroup title="Cuenta">
+            <SettingRow icon="shield" label="Seguridad y acceso" desc="Contraseña, biometría, sesiones"><Icon name="chevronRight" size={18} className="text-faint" /></SettingRow>
+            <SettingRow icon="bell" label="Notificaciones" desc="Preferencias de alertas"><Icon name="chevronRight" size={18} className="text-faint" /></SettingRow>
+          </SettingsGroup>
+
+          <button onClick={onLogout} className="w-full flex items-center justify-center gap-2 h-12 rounded-xl bg-high-soft text-high font-bold text-[14px] hover:brightness-95 transition-all" style={{ minHeight: 44 }}>
+            <Icon name="logout" size={18} /> Cerrar sesión
+          </button>
+          <p className="text-center text-faint text-[11.5px]">Duoc Unifica · v1.0 · Prototipo</p>
+        </div>
+      </div>
+    </Sheet>
+  );
+}
+
+function SettingsGroup({ title, children }) {
+  return (<div><p className="text-[11px] font-bold text-faint uppercase tracking-wide mb-2 ml-1">{title}</p><div className="bg-surface-2 rounded-2xl p-1.5 space-y-0.5">{children}</div></div>);
+}
+function SettingRow({ icon, label, desc, children }) {
+  const { Icon } = window;
+  return (
+    <div className="flex items-center gap-3 p-3 rounded-xl">
+      <div className="grid place-items-center rounded-xl bg-surface" style={{ width: 38, height: 38 }}><Icon name={icon} size={17} className="text-primary" /></div>
+      <div className="flex-1 min-w-0"><div className="font-semibold text-ink text-[14px]">{label}</div>{desc && <div className="text-faint text-[12px]">{desc}</div>}</div>
+      {children}
+    </div>
+  );
+}
+function ToggleSwitch({ on, onChange }) {
+  return (
+    <button onClick={onChange} role="switch" aria-checked={on} className="relative rounded-full transition-colors shrink-0" style={{ width: 46, height: 28, background: on ? 'var(--primary)' : 'var(--border)' }}>
+      <span className="absolute top-1 rounded-full shadow transition-all" style={{ width: 20, height: 20, left: on ? 22 : 4, background: on ? 'var(--on-primary)' : '#fff' }}></span>
+    </button>
+  );
+}
+
+// ---- Panel de notificaciones (slide-over izquierdo) ----
+function NotificationsPanel({ open, onClose, notifs, onDismiss, onCourse, onNavigate }) {
+  const { Sheet, Icon, Badge, URGENCY } = window;
+  const CATS = window.DATA.NOTIF_CATEGORIES;
+  const [filterUrgent, setFilterUrgent] = useState(false);
+  const order = { alta: 0, media: 1, baja: 2 };
+  const list = [...notifs].filter((n) => (filterUrgent ? n.urgencia === 'alta' : true)).sort((a, b) => order[a.urgencia] - order[b.urgencia]);
+  const altas = notifs.filter((n) => n.urgencia === 'alta').length;
+  return (
+    <Sheet open={open} onClose={onClose} side="left" label="Notificaciones">
+      <div className="relative h-screen w-full max-w-[400px] bg-surface border-r border-line shadow-float overflow-y-auto anim-slide-left">
+        <div className="sticky top-0 bg-surface border-b border-line px-5 h-[60px] flex items-center justify-between z-10">
+          <div className="flex items-center gap-2">
+            <h2 className="font-display font-bold text-ink text-[18px] flex items-center gap-2"><Icon name="bell" size={19} className="text-primary" /> Notificaciones</h2>
+            {altas > 0 && <Badge tone="high">{altas}</Badge>}
+          </div>
+          <button onClick={onClose} aria-label="Cerrar" className="grid place-items-center rounded-xl hover:bg-surface-2 text-muted" style={{ width: 40, height: 40 }}><Icon name="close" size={20} /></button>
+        </div>
+
+        <div className="px-4 pt-4 flex items-center justify-between">
+          <div className="flex items-center gap-1 p-1 rounded-xl bg-surface-2">
+            <button onClick={() => setFilterUrgent(false)} className={`px-3 h-8 rounded-lg text-[12.5px] font-bold transition-all ${!filterUrgent ? 'bg-surface text-ink shadow-card' : 'text-faint'}`}>Todas</button>
+            <button onClick={() => setFilterUrgent(true)} className={`px-3 h-8 rounded-lg text-[12.5px] font-bold transition-all ${filterUrgent ? 'bg-high-soft text-high' : 'text-faint'}`}>Urgentes</button>
+          </div>
+          <span className="text-[12px] font-semibold text-faint">{list.length} activa{list.length !== 1 ? 's' : ''}</span>
+        </div>
+
+        {/* Leyenda de categorías por origen */}
+        <div className="px-4 pt-3 flex flex-wrap items-center gap-x-3.5 gap-y-1.5">
+          {Object.values(CATS).map((c) => (
+            <span key={c.label} className="inline-flex items-center gap-1.5 text-[11px] font-bold text-muted">
+              <span className="w-2.5 h-2.5 rounded-full" style={{ background: c.color }}></span>{c.label}
+            </span>
+          ))}
+        </div>
+
+        <div className="p-4 space-y-2.5">
+          {list.length === 0 && (
+            <div className="text-center py-16">
+              <div className="grid place-items-center rounded-2xl bg-surface-2 mx-auto mb-3" style={{ width: 56, height: 56 }}><Icon name="checkCircle" size={28} className="text-[var(--ok)]" /></div>
+              <p className="text-ink font-semibold text-[15px]">¡Todo al día!</p>
+              <p className="text-faint text-[13px] mt-1">No tienes notificaciones pendientes.</p>
+            </div>
+          )}
+          {list.map((n) => {
+            const u = URGENCY[n.urgencia];
+            const cat = CATS[n.categoria] || CATS.general;
+            const color = cat.color;
+            return (
+              <div key={n.id} className="group relative bg-surface border border-line rounded-2xl p-3.5 shadow-card hover:shadow-float transition-all duration-300 overflow-hidden anim-fade-up">
+                <div className="absolute left-0 top-0 bottom-0 w-1" style={{ background: color }}></div>
+                <div className="flex items-start gap-3 pl-1.5">
+                  <div className="grid place-items-center rounded-xl shrink-0 mt-0.5" style={{ width: 34, height: 34, background: `color-mix(in srgb, ${color} 14%, transparent)` }}>
+                    <Icon name={cat.icon} size={16} style={{ color }} />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2 mb-0.5 min-w-0">
+                      <span className="text-[10.5px] font-bold tracking-wide uppercase whitespace-nowrap" style={{ color }}>{cat.label} · {n.tipo}</span>
+                      <span className="text-faint text-[11px] whitespace-nowrap truncate">· {n.tiempo}</span>
+                    </div>
+                    <p className="text-ink font-semibold text-[13.5px] leading-snug">{n.titulo}</p>
+                    <p className="text-muted text-[12.5px] leading-snug mt-1">{n.detalle}</p>
+                    <button onClick={() => n.curso ? onCourse(n.curso, n.tipo === 'Asistencia' ? 'asistencia' : null) : onNavigate('ayuda')} className="mt-2 text-[12.5px] font-bold text-primary inline-flex items-center gap-1 hover:gap-1.5 transition-all whitespace-nowrap">
+                      {n.accion} <Icon name="arrowRight" size={13} />
+                    </button>
+                  </div>
+                  <button onClick={() => onDismiss(n.id)} aria-label="Descartar" className="opacity-0 group-hover:opacity-100 transition-opacity text-faint hover:text-high grid place-items-center rounded-lg hover:bg-high-soft shrink-0" style={{ width: 28, height: 28 }}>
+                    <Icon name="close" size={15} />
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </Sheet>
+  );
+}
+
+// ---- Panel de Tweaks ----
+function TweaksUI({ t, setTweak }) {
+  const { TweaksPanel, TweakSection, TweakRadio, TweakColor } = window;
+  if (!TweaksPanel) return null;
+  return (
+    <TweaksPanel title="Tweaks">
+      <TweakSection label="Tema" />
+      <TweakRadio label="Apariencia" value={t.theme} options={['Claro', 'Oscuro']} onChange={(v) => setTweak('theme', v)} />
+      <TweakColor label="Color primario" value={t.primary} options={PRIMARY_OPTS} onChange={(v) => setTweak('primary', v)} />
+      <TweakSection label="Tipografía" />
+      <TweakRadio label="Estilo" value={t.font} options={['Editorial', 'Moderno', 'Geométrico']} onChange={(v) => setTweak('font', v)} />
+    </TweaksPanel>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+
+</script>
+</body>
+</html>
